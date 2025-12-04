@@ -49,7 +49,8 @@ header{
     .section-spnb{
         background-color: gray;
     }
-    .section-spnb .danhsach-spnb .spnb-item{
+}
+ .section-spnb .danhsach-spnb .spnb-item{
        cursor : pointer;
        font-weight: 600;
        color: #888;
@@ -63,8 +64,6 @@ header{
     .section-spnb .danhsach-spnb .spnb-item:hover{
         color: black;
     }
-
-}
     .spnb-card{
         background-color: white;
         border-radius: 10px;
@@ -97,4 +96,326 @@ header{
             align-items: center;
         }
 
+}
+
+.main-footer{
+        background: $primary-color;
+          padding-top: 60px;
+          border-top: 1px solid #eee;
+          font-size: 0.85rem;
+}
+        .main-footer h5 {
+          font-weight: 700;
+          margin-bottom: 1rem;
+          font-size: 0.9rem;
+        }
+
+        .main-footer ul {
+          list-style: none;
+          padding: 0;
+        }
+
+        .main-footer ul li {
+          margin-bottom: 0.5rem;
+        }
+
+        .main-footer ul li a {
+          color: #666;
+        }
+
+        .main-footer ul li a:hover {
+          text-decoration: underline;
+          color: #000;
+        }
+
+        .main-footer .footer-bottom {
+          margin-top: 40px;
+          padding: 20px 0;
+          border-top: 1px solid #f0f0f0;
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-end;
+        }
+
+        @media(max-width: 768px) {
+          .main-footer .footer-bottom {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 20px;
+          }
+        }
+
+        .main-footer .footer-bottom .copyright {
+          color: #888;
+        }
+
+        .main-footer .footer-bottom .copyright p {
+          margin: 0;
+        }
+
+        .main-footer .footer-bottom .badges {
+          display: flex;
+          gap: 10px;
+        }
+
+        .main-footer .footer-bottom .badges .badge-item {
+          font-size: 0.6rem;
+          font-weight: 800;
+          text-align: center;
+          padding: 5px;
+          border-radius: 4px;
+          color: white;
+          width: 80px;
+        }
+
+        .main-footer .footer-bottom .badges .badge-item.orange {
+          background: #fff;
+          color: orange;
+          border: 1px solid orange;
+        }
+
+        .main-footer .footer-bottom .badges .badge-item.blue {
+          background: #1976d2;
+        }
+        /*-----------------------------------------------------------*/
+       .highlight-section {
+          background-image: url('../src/assets/images/s25.jpg');
+          min-height: 700px;
+          padding: 60px 0 80px 0;
+          overflow: hidden;
+          position: relative;
+          
+        }
+        .section-title{
+            color:white;
+        }
+
+        .highlight-section .sub-nav {
+            margin-bottom: 3rem;
+        }
+
+        .highlight-section .sub-link {
+          cursor: pointer;
+          font-weight: 500;
+          color: #333;
+          padding: 0 10px;
+          font-size: 0.95rem;
+        }
+
+        .highlight-section .sub-link.active {
+          color:white;
+          font-weight: 700;
+        }
+
+        .highlight-section .highlight-content {
+            z-index: 10;
+            position: relative;
+        }
+
+        .highlight-section .highlight-content .product-name {
+          font-size: 3.5rem;
+          font-weight: 800;
+          margin-bottom: 0.5rem;
+          line-height: 1.2;
+          color: white;
+        }
+
+        .highlight-section .highlight-content .ai-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 2rem;
+          font-weight: 400;
+          color: #333;
+          margin-bottom: 2rem;
+        }
+
+
+        .highlight-section .highlight-content .tech-spec {
+          font-weight: 900;
+          font-size: 1.8rem;
+          margin-top: 1rem;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          color:white;
+        }
+        
+        .highlight-section .highlight-content .spec-desc {
+             font-size: 1rem;
+             color:white;
+             margin-bottom: 2rem;
+             margin-top: 0.5rem;
+        }
+
+        .highlight-section .highlight-content .action-links {
+          display: flex;
+          gap: 20px;
+          align-items: center;
+          margin-top: 20px;
+        }
+
+        .highlight-section .highlight-content .action-links .link-underlined {
+          text-decoration: underline;
+          font-weight: 600;
+          color:white;
+          text-underline-offset: 4px;
+        }
+
+        .highlight-section .highlight-content .btn-buy-round {
+          background: rgba(255,255,255,0.4);
+          color: #000;
+          border: none;
+          border-radius: 50px;
+          padding: 12px 30px;
+          font-weight: 600;
+          transition: background 0.3s;
+        }
+
+        .highlight-section .highlight-content .btn-buy-round:hover {
+          background: rgba(255,255,255,0.6);
+          
+        }
+
+     
+        .highlight-visuals {
+            position: relative;
+            height: 450px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+     
+ /* --- VISION BANNER --- */
+        .vision-banner {
+          background: linear-gradient(90deg, #8966eb, #e3f2fd);
+          padding: 120px 0;
+        }
+
+        .vision-banner .vision-content h2 {
+          font-size: 3rem;
+          font-weight: 800;
+          margin-bottom: 1rem;
+        }
+
+        .vision-banner .vision-content .vision-badge {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          font-weight: 600;
+          margin-bottom: 2rem;
+          color: #444;
+        }
+
+        .vision-banner .vision-content .vision-badge svg {
+          color: orange;
+        }
+
+        .vision-banner .vision-content .vision-buttons {
+          display: flex;
+          gap: 15px;
+        }
+
+        .vision-banner .vision-content .vision-buttons .btn {
+          font-weight: 600;
+          padding: 8px 24px;
+          border-color: #000;
+          color: #000;
+        }
+
+        .vision-banner .vision-content .vision-buttons .btn:hover {
+          background: #000;
+          color: #fff;
+        }
+    /* --- PRODUCT CAROUSEL --- */
+        .product-carousel-section {
+          background-color: #fff;
+          padding: 4rem 0;
+          min-height: 500px;
+          min-width: 400px;
+        }
+
+        .custom-carousel .carousel-item {
+          min-height: 450px;
+        }
+        
+        .custom-carousel .carousel-content-wrapper {
+          background-color: #f8f9fa;
+          border-radius: 24px;
+          overflow: hidden;
+          height: 400px;
+          display: flex;
+          align-items: center;
+        }
+
+        /* Customizing Carousel Controls */
+        .custom-carousel .carousel-control-prev,
+        .custom-carousel .carousel-control-next {
+          width: 5%;
+        }
+
+        .custom-carousel .carousel-control-prev-icon,
+        .custom-carousel .carousel-control-next-icon {
+          background-color: rgba(0,0,0,0.2);
+          border-radius: 50%;
+          padding: 20px;
+          background-size: 50%;
+        }
+
+        .custom-carousel .carousel-control-prev-icon:hover,
+        .custom-carousel .carousel-control-next-icon:hover {
+          background-color: rgba(0,0,0,0.4);
+        }
+
+        /* Carousel Item Styles */
+        .carousel-product-info {
+          padding: 3rem;
+        }
+        
+        .carousel-product-info h3 {
+          font-size: 2rem;
+          font-weight: 800;
+          margin-bottom: 1rem;
+        }
+        
+        .carousel-product-info p {
+           color: #666;
+           margin-bottom: 2rem;
+           font-size: 1.1rem;
+        }
+
+        .carousel-visual {
+           height: 100%;
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           position: relative;
+        }
+
+        .carousel-shape-circle {
+           width: 300px;
+           height: 300px;
+           background: #e0e0e0;
+           border-radius: 50%;
+           display: flex;
+           align-items: center;
+           justify-content: center;
+        }
+
+        .carousel-shape-rect {
+           width: 250px;
+           height: 350px;
+           background: #e0e0e0;
+           border-radius: 20px;
+           border: 4px solid #ccc;
+           display: flex;
+           align-items: center;
+           justify-content: center;
+        }
+.section-titlecr{
+            color:black;
+         font-size: 3rem;
+          font-weight: 800;
+          margin-bottom: 1rem;
 }
