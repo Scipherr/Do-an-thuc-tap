@@ -14,13 +14,11 @@ const Home = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Fetch Top Rated (Highlight Products)
                 const topRes = await axios.get('http://127.0.0.1:8000/api/products/top-rated');
                 if (topRes.data.status === 200) {
                     setTopRated(topRes.data.products);
                 }
 
-                // Fetch New Arrivals (New Products)
                 const newRes = await axios.get('http://127.0.0.1:8000/api/products/new-arrivals');
                 if (newRes.data.status === 200) {
                     setNewArrivals(newRes.data.products);
@@ -35,21 +33,14 @@ const Home = () => {
         fetchData();
     }, []);
 
-    // Helper to format currency
+   
     const formatPrice = (price) => {
         return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
     };
-
-    // Helper to check image path (handles full URLs vs relative paths)
     const getImageUrl = (imagePath) => {
-        // 1. Handle null/undefined/empty
+     
         if (!imagePath) return 'https://placehold.co/300x300?text=No+Image';
-        
-        // 2. Handle absolute URLs (e.g. from external CDN)
         if (imagePath.startsWith('http')) return imagePath;
-        
-        // 3. Handle local paths (Served from frontend/public folder)
-        // Ensure it starts with /
         return imagePath.startsWith('/') ? imagePath : `/${imagePath}`; 
     };
 
@@ -67,10 +58,10 @@ const Home = () => {
                 </ul>
             </div>
 
-            {/* HERO SECTION */}
+       
             <section className="hero-section">
                 <div className="hero-bg">
-                    {/* These images must also be in frontend/public/images/ */}
+                   
                     <img src="/images/zfold6.jpg" alt="Galaxy Banner" onError={(e) => e.target.src = 'https://placehold.co/1920x800?text=Banner+Image+Missing'} />
                 </div>
                 <div className="hero-content">
@@ -84,7 +75,6 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* NEW ARRIVALS GRID (Khám phá sản phẩm mới) */}
             <section className="products" id="new-arrivals">
                 <h2 className="section-heading">Khám phá sản phẩm mới</h2>
                 <div className="grid-container">
@@ -117,13 +107,13 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* FEATURE VIDEO 1 */}
+      
             <section className="feature-section">
                 <div className="feature-container">
                     <div className="feature-image">
                         <video width="100%" autoPlay loop muted playsInline className="rounded-4 shadow">
                             <source src="/images/videos25.webm" type="video/mp4" />
-                            {/* Fallback image if video is missing */}
+                        
                             <img src="/images/s25.jpg" alt="Video Fallback" onError={(e) => e.target.src='https://placehold.co/600x400?text=Video+Placeholder'} />
                         </video>
                     </div>
@@ -138,7 +128,7 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* SUB BANNER */}
+         
             <section className="sub-banner-section">
                 <img src="/images/bannerphu.jpeg" alt="TV Banner" className="sub-banner-img" onError={(e) => e.target.style.display = 'none'}/>
                 <div className="sub-banner-content">
@@ -148,7 +138,7 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* HIGHLIGHT PRODUCTS (Sản phẩm nổi bật - Top Rated) */}
+          
             <section className="highlight-products">
                 <h3 className="highlight-heading">Sản phẩm được yêu thích nhất</h3>
                 <div className="grid-container">
@@ -180,7 +170,7 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* STORIES SECTION */}
+         
             <section className="stories-section">
                 <h2 className="section-heading" style={{ textAlign: 'left', marginBottom: '30px' }}>Khám phá những câu chuyện</h2>
                 <div className="stories-grid">

@@ -1,4 +1,4 @@
-/* === FILE: src/components/frontend/common/Footer.jsx === */
+
 import { Container, Row, Col } from 'react-bootstrap';
 
 const Footer = () => {

@@ -11,7 +11,7 @@ class AuthenticateController extends Controller
 {
     public function authenticate(Request $request)
     {
-        // 1. Validate 'email' and 'mat_khau'
+       
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'mat_khau' => 'required',
@@ -24,14 +24,14 @@ class AuthenticateController extends Controller
             ], 422);
         }
 
-        // 2. Manual check for plain text password
+       
         $user = User::where('email', $request->email)->first();
 
        if ($user && $user->mat_khau == $request->mat_khau) {
-            // Log the user in manually
+            
             Auth::login($user);
             
-            // Create Sanctum token
+           
             $token = $user->createToken('auth_token')->plainTextToken;
 
             return response()->json([
@@ -43,7 +43,7 @@ class AuthenticateController extends Controller
                     'name' => $user->ho_ten,
                     'email' => $user->email,
                     'role' => $user->vai_tro,
-                    'image' => $user->hinh_anh, // <--- Add this line
+                    'image' => $user->hinh_anh, 
                 ]
             ], 200);
         } else {
@@ -58,7 +58,7 @@ class AuthenticateController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'ho_ten' => 'required|string|max:255',
-            'email' => 'required|email|unique:NguoiDung,email', // Note table name
+            'email' => 'required|email|unique:NguoiDung,email', 
             'mat_khau' => 'required|min:6',
         ]);
 
@@ -69,11 +69,11 @@ class AuthenticateController extends Controller
             ], 422);
         }
 
-        // Create user with PLAIN TEXT password
+        
         $user = User::create([
             'ho_ten' => $request->ho_ten,
             'email' => $request->email,
-            'mat_khau' => $request->mat_khau, // No Hash::make()
+            'mat_khau' => $request->mat_khau, 
             'vai_tro' => 'customer', 
         ]);
 
@@ -88,7 +88,7 @@ class AuthenticateController extends Controller
                 'name' => $user->ho_ten,
                 'email' => $user->email,
                 'role' => $user->vai_tro,
-                'image' => $user->hinh_anh, // <--- Add this line
+                'image' => $user->hinh_anh, 
             ]
         ], 201);
     }

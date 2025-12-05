@@ -1,17 +1,22 @@
 <?php
 
 namespace Database\Seeders;
-use App\Models\User;
+Use App\Models\User;
+
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    
-    public function run():void
+    /**
+     * Seed the application's database.
+     *
+     * @return void
+     */
+    public function run()
     {
-     User::factory()-> create([
-        'name'=> 'Lum',
-        'email'=> 'lummy@gmail.com',
-     ]);
+         User::factory(10)->create([
+            'name' => 'Test User',
+            'email' => 'zombieatmeat@gmail.com',
+         ]);
     }
 }

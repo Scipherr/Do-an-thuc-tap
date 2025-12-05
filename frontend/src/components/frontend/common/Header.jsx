@@ -31,7 +31,7 @@ const isLoggedIn = localStorage.getItem('auth_token');
             window.location.reload(); 
         }
     }).catch(err => {
-        // Even if API fails, clear local storage to force logout on frontend
+        
         localStorage.clear();
         navigate('/loginad');
     });
@@ -46,7 +46,7 @@ const isLoggedIn = localStorage.getItem('auth_token');
             
             <nav className="main-nav">
                 <a href="/" className="nav-item active">Cửa Hàng</a>
-                {/* ... (Keep your existing menu items here: Di động, TV & AV, etc.) ... */}
+               
                 <div className="nav-item-group">
                     <a href="#" className="nav-item">Di động</a>
                     <div className="mega-menu">
@@ -67,7 +67,7 @@ const isLoggedIn = localStorage.getItem('auth_token');
                                     <img src="/images/zfold6.jpg" alt="Flip7"/>
                                     <p>Galaxy Z Fold 6</p>
                                 </div>
-                                {/* Đã sửa đường dẫn lỗi dấu \ thành / */}
+                                
                                 <div className="mega-product">
                                     <img src="/images/vn-galaxy-s25-s938-sm-s938bzbcxxv-thumb-544711528.png" alt="Flip7"/>
                                     <p>Galaxy Z Fold 6</p>
@@ -212,7 +212,7 @@ const isLoggedIn = localStorage.getItem('auth_token');
                 <a href="#" className="icon-link">Tìm kiếm <i className="fa-solid fa-magnifying-glass"></i></a>
                 <a href="#" className="icon-link"><i className="fa-solid fa-cart-shopping"></i></a>
                 
-                {/* CONDITIONAL RENDERING */}
+              
                 {isLoggedIn ? (
                     <Dropdown>
                         <Dropdown.Toggle variant="link" id="dropdown-basic" className="icon-link p-0 text-decoration-none border-0">
