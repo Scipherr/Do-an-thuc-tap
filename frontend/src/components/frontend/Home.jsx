@@ -1,8 +1,25 @@
 import React from 'react';
 import { Search, ShoppingCart, User, Menu, Star, Smartphone, Monitor, Watch } from 'lucide-react';
-import '../../assets/css/style.scss';
-import Header from './common/Header';
-import Footer from './common/Footer';
+// Styles are already imported in App.jsx, so we don't strictly need them here, 
+// but if needed, use absolute path:
+// import '/src/assets/css/style.scss'; 
+
+import Header from '/src/components/frontend/common/Header.jsx';
+import Footer from '/src/components/frontend/common/Footer.jsx';
+
+// Importing Images using absolute paths from /src to avoid relative path resolution errors
+import HeroBannerImg from '/src/assets/images/Galaxy-Z-Fold7_Home_Hero_PC_1920x1080_LTR.jpeg';
+import S25UltraCardImg from '/src/assets/images/s25xin.webp';
+import ZFlip7CardImg from '/src/assets/images/Galaxy-Z-Flip7.avif';
+import WatchCardImg from '/src/assets/images/dongho.jpg';
+import TVCardImg from '/src/assets/images/TV2.avif';
+import S25FeatureImg from '/src/assets/images/Galaxy-S25-Ultra_Home_Feature_KV_PC_1440x810_LTR.jpeg';
+import SubBannerImg from '/src/assets/images/neoQled.jpg';
+import TVFeatureImg from '/src/assets/images/TV.jpg';
+import NeoItemImg from '/src/assets/images/TV2.avif';
+import OledItemImg from '/src/assets/images/tv55inch.avif';
+import LoaItemImg from '/src/assets/images/loa.webp';
+import FrameItemImg from '/src/assets/images/frame.avif';
 
 const Home = () => {
 return (
@@ -22,7 +39,7 @@ return (
     {/* HERO SECTION */}
     <section className="hero-section">
         <div className="hero-bg">
-            <img src="/images/zflip7.jpg" alt="Galaxy Banner"/>
+            <img src={HeroBannerImg} alt="Galaxy Z Fold7 Banner"/>
         </div>
         <div className="hero-content">
             <h2 className="animate-text">Galaxy Z Fold7</h2>
@@ -41,7 +58,7 @@ return (
         <div className="grid-container">
             <div className="card dark-card">
                 <span className="badge">Siêu phẩm</span>
-                <img src="/images/s25untral.png" alt="S25 Ultra"/>
+                <img src={S25UltraCardImg} alt="Galaxy S25 Ultra"/>
                 <h3>Galaxy S25 Ultra</h3>
                 <div className="color-options">
                     <span className="dot black"></span><span className="dot grey"></span>
@@ -52,7 +69,7 @@ return (
 
             <div className="card dark-card">
                 <span className="badge">Bán chạy</span>
-                <img src="/images/7banner.png" alt="Z Flip7"/>
+                <img src={ZFlip7CardImg} alt="Galaxy Z Flip7"/>
                 <h3>Galaxy Z Flip7</h3>
                 <div className="color-options">
                     <span className="dot blue"></span><span className="dot mint"></span>
@@ -62,7 +79,7 @@ return (
             </div>
 
             <div className="card dark-card">
-                <img src="/images/watch8.avif" alt="Watch8"/>
+                <img src={WatchCardImg} alt="Galaxy Watch8"/>
                 <h3>Galaxy Watch8</h3>
                 <div className="color-options">
                     <span className="dot black"></span>
@@ -72,8 +89,8 @@ return (
             </div>
 
             <div className="card dark-card">
-                <img src="/images/tvbanner.avif" alt="TV"/>
-                <h3>Galaxy Watch8</h3>
+                <img src={TVCardImg} alt="Neo QLED TV"/>
+                <h3>Neo QLED 8K</h3>
                 <div className="color-options">
                     <span className="dot black"></span>
                 </div>
@@ -83,19 +100,17 @@ return (
         </div>
     </section>
 
-    {/* FEATURE VIDEO 1 */}
+    {/* FEATURE SECTION 1 (S25 Ultra) */}
     <section className="feature-section">
         <div className="feature-container">
             <div className="feature-image">
-                 <video width="100%" autoPlay loop muted playsInline className="rounded-4 shadow">
-                    <source src="/images/videos25.webm" type="video/mp4" />
-                </video>
+                 <img src={S25FeatureImg} alt="Galaxy S25 Ultra Feature" className="rounded-4 shadow" style={{width: '100%', height: 'auto', borderRadius: '30px'}} />
             </div>
             <div className="feature-text">
                 <h2>Galaxy S25 Ultra</h2>
                 <h3>Trợ lý quyền năng Galaxy AI</h3>
                 <p>Khai phóng tiềm năng sáng tạo và hiệu suất làm việc với sức mạnh AI đỉnh cao ngay trên thiết bị của bạn.</p>
-                <a href="#" className="btn btn-black">Khám phá ngay</a>
+                <a href="#" className="btn btn-black">Khám phá ngay</a> &nbsp;
                 <a href="#" className="btn btn-black">Mua ngay</a>
             </div>
         </div>  
@@ -103,7 +118,7 @@ return (
 
     {/* SUB BANNER */}
     <section className="sub-banner-section">
-        <img src="/images/bannerphu.jpeg" alt="TV Banner" className="sub-banner-img"/>
+        <img src={SubBannerImg} alt="Neo QLED Banner" className="sub-banner-img"/>
         <div className="sub-banner-content">
             <h2>Kỷ nguyên màn hình AI</h2>
             <p>Trải nghiệm hình ảnh chân thực đến từng chi tiết với Neo QLED 8K</p>
@@ -111,19 +126,17 @@ return (
         </div>
     </section>
 
-    {/* FEATURE VIDEO 2 */}
+    {/* FEATURE SECTION 2 (TV AI) */}
      <section className="feature-section">
         <div className="feature-container">
             <div className="feature-image">
-                 <video width="100%" autoPlay loop muted playsInline className="rounded-4 shadow">
-                    <source src="/images/videoplayback.mp4" type="video/mp4" />
-                </video>
+                 <img src={TVFeatureImg} alt="Samsung Vision AI" className="rounded-4 shadow" style={{width: '100%', height: 'auto', borderRadius: '30px'}} />
             </div>
             <div className="feature-text">
                 <h2>Kỷ nguyên màn hình AI</h2>
                 <h3>Trợ lý quyền năng Galaxy AI</h3>
                 <p>Trải nghiệm hình ảnh chân thực đến từng chi tiết với Neo QLED 8K.</p>
-                <a href="#" className="btn btn-black">Khám phá ngay</a>
+                <a href="#" className="btn btn-black">Khám phá ngay</a> &nbsp;
                 <a href="#" className="btn btn-black">Mua ngay</a>
             </div>
         </div>
@@ -134,25 +147,25 @@ return (
         <h3 className="highlight-heading">Sản phẩm nổi bật</h3>
         <div className="grid-container">
             <div className="card">
-                <img src="/images/neoitem.avif" alt="TV 1"/>
+                <img src={NeoItemImg} alt="Neo QLED 8K"/>
                 <h3>Neo QLED 8K</h3>
                 <p className="price">49.900.000 ₫</p>
                 <button className="buy-btn">Mua ngay</button>
             </div>
             <div className="card">
-                <img src="/images/s95ditem.jpg" alt="TV 2"/>
+                <img src={OledItemImg} alt="OLED 4K S95D"/>
                 <h3>OLED 4K S95D</h3>
                 <p className="price">39.900.000 ₫</p>
                 <button className="buy-btn">Mua ngay</button>
             </div>
             <div className="card">
-                <img src="/images/loaQseries.jpg" alt="Loa"/>
+                <img src={LoaItemImg} alt="Loa Q-Series"/>
                 <h3>Loa Q-Series</h3>
                 <p className="price">14.990.000 ₫</p>
                 <button className="buy-btn">Mua ngay</button>
             </div>
             <div className="card">
-                <img src="/images/loatranh.avif" alt="Frame"/>
+                <img src={FrameItemImg} alt="Music Frame"/>
                 <h3>Music Frame</h3>
                 <p className="price">7.990.000 ₫</p>
                 <button className="buy-btn">Mua ngay</button>
