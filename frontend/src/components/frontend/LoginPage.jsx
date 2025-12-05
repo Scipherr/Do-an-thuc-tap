@@ -42,6 +42,8 @@ export const LoginPage = () => {
                         // Store token and user info
                         localStorage.setItem('auth_token', res.data.token);
                         localStorage.setItem('auth_name', res.data.user.name);
+                        // Add this line to store the image
+                        localStorage.setItem('auth_image', res.data.user.image); 
                         
                         // Navigate to home or dashboard
                         navigate('/'); 

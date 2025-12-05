@@ -27,7 +27,7 @@ class AuthenticateController extends Controller
         // 2. Manual check for plain text password
         $user = User::where('email', $request->email)->first();
 
-        if ($user && $user->mat_khau == $request->mat_khau) {
+       if ($user && $user->mat_khau == $request->mat_khau) {
             // Log the user in manually
             Auth::login($user);
             
@@ -42,7 +42,8 @@ class AuthenticateController extends Controller
                     'id' => $user->ma_nguoi_dung,
                     'name' => $user->ho_ten,
                     'email' => $user->email,
-                    'role' => $user->vai_tro
+                    'role' => $user->vai_tro,
+                    'image' => $user->hinh_anh, // <--- Add this line
                 ]
             ], 200);
         } else {
@@ -76,7 +77,7 @@ class AuthenticateController extends Controller
             'vai_tro' => 'customer', 
         ]);
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+       $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
             'status' => true,
@@ -86,7 +87,8 @@ class AuthenticateController extends Controller
                 'id' => $user->ma_nguoi_dung,
                 'name' => $user->ho_ten,
                 'email' => $user->email,
-                'role' => $user->vai_tro
+                'role' => $user->vai_tro,
+                'image' => $user->hinh_anh, // <--- Add this line
             ]
         ], 201);
     }

@@ -1,19 +1,52 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { Nav } from 'react-bootstrap';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { Nav, Dropdown } from 'react-bootstrap';
+import axios from 'axios';
 
 export const Header = () => {
+  const navigate = useNavigate();
+  
+  // Check login status from localStorage
+const isLoggedIn = localStorage.getItem('auth_token');
+  const userImage = localStorage.getItem('auth_image');
+  
+  // Construct image URL (assuming backend is at localhost:8000)
+  // If userImage is null or "null" string, use a placeholder
+  const imageUrl = (userImage && userImage !== 'null' && userImage !== 'undefined') 
+      ? `http://127.0.0.1:8000/${userImage}` // Adjust if your images are stored differently
+      : 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
+
+  const logoutSubmit = (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem('auth_token');
+    
+    axios.post(`http://127.0.0.1:8000/api/logout`, {}, {
+        headers: { "Authorization": `Bearer ${token}` }
+    }).then(res => {
+        if(res.data.status === true) {
+            localStorage.removeItem('auth_token');
+            localStorage.removeItem('auth_name');
+            localStorage.removeItem('auth_image');
+            navigate('/loginad');
+            window.location.reload(); 
+        }
+    }).catch(err => {
+        // Even if API fails, clear local storage to force logout on frontend
+        localStorage.clear();
+        navigate('/loginad');
+    });
+  }
+
   return (
     <header>
-        <div className="header-inner">
+       <div className="header-inner">
             <div className="logo">
-                 {/* Đoạn logo này đại ca có thể thay bằng đoạn logo màu mè đệ gửi lúc nãy nếu thích */}
                  <span style={{fontWeight:'900', fontSize:'24px'}}>TNT STORE</span>
             </div>
             
             <nav className="main-nav">
                 <a href="#" className="nav-item active">Cửa Hàng</a>
-
+                {/* ... (Keep your existing menu items here: Di động, TV & AV, etc.) ... */}
                 <div className="nav-item-group">
                     <a href="#" className="nav-item">Di động</a>
                     <div className="mega-menu">
@@ -139,7 +172,7 @@ export const Header = () => {
                                     <img src="/images/tainghe.webp" alt="Buds"/>
                                     <p>Galaxy Buds FE</p>
                                 </div>
-                                <div class="mega-product">
+                                <div className="mega-product">
                                     <img src="/images/cucsac.avif" alt="Charger"/>
                                     <p>Bộ sạc nhanh 65W</p>
                                 </div>
@@ -175,10 +208,39 @@ export const Header = () => {
 
             </nav>
 
-            <div className="header-icons">
+           <div className="header-icons">
                 <a href="#" className="icon-link">Tìm kiếm <i className="fa-solid fa-magnifying-glass"></i></a>
                 <a href="#" className="icon-link"><i className="fa-solid fa-cart-shopping"></i></a>
-                <Nav.Link as={NavLink} to="/loginad" className="icon-link">Đăng nhập <i className="fa-solid fa-user"></i></Nav.Link>
+                
+                {/* CONDITIONAL RENDERING */}
+                {isLoggedIn ? (
+                    <Dropdown>
+                        <Dropdown.Toggle variant="link" id="dropdown-basic" className="icon-link p-0 text-decoration-none border-0">
+                             <img 
+                                src={imageUrl} 
+                                alt="Profile" 
+                                style={{
+                                    width: '32px', 
+                                    height: '32px', 
+                                    borderRadius: '50%', 
+                                    objectFit: 'cover',
+                                    border: '2px solid #ddd'
+                                }} 
+                             />
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu align="end">
+                            <Dropdown.Item as={NavLink} to="/my-account">My Account</Dropdown.Item>
+                            <Dropdown.Item as={NavLink} to="/cart">My Cart</Dropdown.Item>
+                            <Dropdown.Divider />
+                            <Dropdown.Item onClick={logoutSubmit} className="text-danger">Log out</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                ) : (
+                    <Nav.Link as={NavLink} to="/loginad" className="icon-link">
+                        Đăng nhập <i className="fa-solid fa-user"></i>
+                    </Nav.Link>
+                )}
             </div>
         </div>
     </header>
