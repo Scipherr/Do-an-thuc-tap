@@ -7,7 +7,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import  './assets/css/style.scss';
 import Home from './components/frontend/Home.jsx';
 import  DT  from './components/frontend/DT.jsx';
-import Login from './components/frontend/LoginPage.jsx';
+import LoginPage from './components/frontend/LoginPage.jsx';
+import RegisterPage from './components/frontend/RegisterPage.jsx';
 
 
 function App() {
@@ -17,7 +18,8 @@ function App() {
      <Routes>
         <Route path='/' element={<Home/>} />
         <Route path='/dt' element={<DT/>} />
-        <Route path='/loginad' element={<Login/>} />
+        <Route path='/loginad' element ={<LoginPage/>}/>
+        <Route path='/register' element ={<RegisterPage/>}/>
      </Routes>
      </BrowserRouter>
         

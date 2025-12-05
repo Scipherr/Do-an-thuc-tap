@@ -5,56 +5,57 @@ import { useNavigate } from 'react-router-dom';
 import Footer from './common/Footer';
 import Header from './common/Header';
 
-export const LoginPage = () => {
+export const RegisterPage = () => {
     const navigate = useNavigate();
     
     // State for inputs
-    const [loginInput, setLoginInput] = useState({
+    const [registerInput, setRegisterInput] = useState({
+        ho_ten: '',
         email: '',
         mat_khau: '',
+        confirm_mat_khau: ''
     });
 
-    // State for UI feedback
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
 
     const handleInput = (e) => {
         e.persist();
-        setLoginInput({ ...loginInput, [e.target.name]: e.target.value });
-        // Clear error when user types
+        setRegisterInput({ ...registerInput, [e.target.name]: e.target.value });
         if (error) setError('');
     };
 
-    const handleLogin = (e) => {
+    const handleRegister = (e) => {
         e.preventDefault();
+        
+        if (registerInput.mat_khau !== registerInput.confirm_mat_khau) {
+            setError('Mật khẩu nhập lại không khớp');
+            return;
+        }
+
         setIsLoading(true);
 
         const data = {
-            email: loginInput.email,
-            mat_khau: loginInput.mat_khau,
+            ho_ten: registerInput.ho_ten,
+            email: registerInput.email,
+            mat_khau: registerInput.mat_khau,
         };
 
-        // Note: Replace with your actual API URL from .env or config
         axios.get('/sanctum/csrf-cookie').then(response => {
-            axios.post('http://127.0.0.1:8000/api/authenticate', data)
+            axios.post('http://127.0.0.1:8000/api/register', data)
                 .then(res => {
                     if (res.data.status === true) {
-                        // Store token and user info
                         localStorage.setItem('auth_token', res.data.token);
                         localStorage.setItem('auth_name', res.data.user.name);
-                        
-                        // Navigate to home or dashboard
                         navigate('/'); 
                     } else {
-                        setError(res.data.message || 'Login failed');
+                        setError(res.data.message || 'Registration failed');
                     }
                     setIsLoading(false);
                 })
                 .catch(err => {
-                    console.error(err);
                     if (err.response && err.response.data) {
                         if(err.response.data.errors) {
-                             // Handle validation errors from backend
                              setError(Object.values(err.response.data.errors).flat()[0]);
                         } else {
                              setError(err.response.data.message);
@@ -69,7 +70,6 @@ export const LoginPage = () => {
 
     return (
         <>
-            {/* Header is optional on login page, remove if not needed */}
             <Header /> 
 
             <div className="login-wrapper">
@@ -79,17 +79,30 @@ export const LoginPage = () => {
                 </div>
 
                 <div className="login-container">
-                    <div className="login-card">
-                        <h1 className="login-title">Đăng Nhập</h1>
+                    <div className="login-card" style={{maxWidth: '500px'}}>
+                        <h1 className="login-title">Đăng Ký</h1>
 
-                        <form onSubmit={handleLogin}>
+                        <form onSubmit={handleRegister}>
+                            <div className="custom-input-group">
+                                <input 
+                                    type="text" 
+                                    name="ho_ten" 
+                                    className="custom-input" 
+                                    placeholder=" " 
+                                    value={registerInput.ho_ten} 
+                                    onChange={handleInput} 
+                                    required 
+                                />
+                                <label className="input-label">Họ và Tên</label>
+                            </div>
+
                             <div className="custom-input-group">
                                 <input 
                                     type="email" 
                                     name="email" 
                                     className="custom-input" 
                                     placeholder=" " 
-                                    value={loginInput.email} 
+                                    value={registerInput.email} 
                                     onChange={handleInput} 
                                     required 
                                 />
@@ -102,27 +115,40 @@ export const LoginPage = () => {
                                     name="mat_khau" 
                                     className="custom-input" 
                                     placeholder=" " 
-                                    value={loginInput.mat_khau} 
+                                    value={registerInput.mat_khau} 
                                     onChange={handleInput} 
                                     required 
                                 />
                                 <label className="input-label">Mật khẩu</label>
                             </div>
 
-                            {error && <div className="error-msg text-danger mb-3">{error}</div>}
+                            <div className="custom-input-group">
+                                <input 
+                                    type="password" 
+                                    name="confirm_mat_khau" 
+                                    className="custom-input" 
+                                    placeholder=" " 
+                                    value={registerInput.confirm_mat_khau} 
+                                    onChange={handleInput} 
+                                    required 
+                                />
+                                <label className="input-label">Nhập lại mật khẩu</label>
+                            </div>
+
+                            {error && <div className="error-msg text-danger mb-3 text-start">{error}</div>}
 
                             <button 
                                 type="submit" 
                                 className="btn-continue" 
                                 disabled={isLoading}
                             >
-                                {isLoading ? 'Đang xử lý...' : 'Tiếp tục'}
+                                {isLoading ? 'Đang xử lý...' : 'Đăng Ký'}
                             </button>
                         </form>
 
                         <div className="mt-3">
-                            <span className="text-secondary">Chưa có tài khoản? </span>
-                            <span className="create-account-link" onClick={() => navigate('/register')}>Tạo tài khoản</span>
+                            <span className="text-secondary">Đã có tài khoản? </span>
+                            <span className="create-account-link" onClick={() => navigate('/loginu')}>Đăng nhập</span>
                         </div>
                     </div>
                 </div>
@@ -133,4 +159,4 @@ export const LoginPage = () => {
     );
 };
 
-export default LoginPage;
+export default RegisterPage;

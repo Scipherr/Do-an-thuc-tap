@@ -3,7 +3,7 @@
 use App\Http\Controllers\admin\DasboardController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthenticateController; // <-- Import your controller here
+use App\Http\Controllers\AuthenticateController;
 
 // ... existing code ...
 
@@ -12,7 +12,7 @@ use App\Http\Controllers\AuthenticateController; // <-- Import your controller h
 //});
 
 Route::post('/authenticate', [AuthenticateController::class, 'authenticate']);
-
+Route::post('/register', [AuthenticateController::class, 'register']);
 
 
 Route :: group (['middleware' => ['auth:sanctum']], function(){
@@ -20,4 +20,3 @@ Route :: group (['middleware' => ['auth:sanctum']], function(){
 Route::get('dashboard', [DasboardController::class,'index']);
 Route::get('logout', [AuthenticateController::class, 'logout']);
 });
-
