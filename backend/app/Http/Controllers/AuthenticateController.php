@@ -24,7 +24,7 @@ public function authenticate(Request $request)
         } else {
             $credentials = [
                 'email' => $request->email,
-                'password' => $request->password,
+                'password' => $request->mat_khau,
             ];
 
             if (Auth::attempt($credentials)) {
@@ -47,7 +47,7 @@ public function authenticate(Request $request)
         $user = User::find(Auth::user()->id);
         $user -> tokens()-> delete();
         return response()->json([
-                    'status' => true,
+                    'status' => false,
                     'errors' => 'Logged out successfully'
                 ]);
     }

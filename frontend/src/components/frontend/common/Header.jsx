@@ -1,4 +1,6 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
+import { Nav } from 'react-bootstrap';
 
 export const Header = () => {
   return (
@@ -176,7 +178,7 @@ export const Header = () => {
             <div className="header-icons">
                 <a href="#" className="icon-link">Tìm kiếm <i className="fa-solid fa-magnifying-glass"></i></a>
                 <a href="#" className="icon-link"><i className="fa-solid fa-cart-shopping"></i></a>
-                <a href="#" className="icon-link"><i className="fa-regular fa-user"></i></a>
+                <Nav.Link as={NavLink} to="/loginad" className="icon-link">Đăng nhập <i className="fa-solid fa-user"></i></Nav.Link>
             </div>
         </div>
     </header>
