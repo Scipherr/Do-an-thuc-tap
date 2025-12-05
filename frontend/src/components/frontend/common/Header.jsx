@@ -45,7 +45,7 @@ const isLoggedIn = localStorage.getItem('auth_token');
             </div>
             
             <nav className="main-nav">
-                <a href="#" className="nav-item active">Cửa Hàng</a>
+                <a href="/" className="nav-item active">Cửa Hàng</a>
                 {/* ... (Keep your existing menu items here: Di động, TV & AV, etc.) ... */}
                 <div className="nav-item-group">
                     <a href="#" className="nav-item">Di động</a>
