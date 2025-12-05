@@ -1,537 +1,396 @@
-$primary-color: #fe538d;
-$secondary-color: #4a90e2;
-header{
-    nav{
-        .nav-link{
-            font-size: 1 px;
-            text-transform: uppercase;
-            font-weight: 600;
-            margin-right: 10px;
-            }
-
-        .logo{
-            font-size: 18px;
-            font-weight: bold;
-            color: $primary-color;
-            text-transform: uppercase;
-        }
-        .search-input{
-            border: none;
-            padding: 5px 10px;
-            border-radius: 20px;
-            outline: none;
-            margin-left: 15px;
-            width: 200px;
-        }
-    }
-
-
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
 }
 
-.section-1{
-    .bannerbig{
-        background-image: url('../images/s25.jpg');
-        min-height: 700px;
-
-        color:white;
-        span{
-            font-size: 50px;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-    }
+body {
+    color: #000;
+    background-color: #fff;
+    overflow-x: hidden;
 }
 
-.section-spnb{
-    background-color: #f5f5f5;
-    padding: 50px 0;
+a { text-decoration: none; color: inherit; transition: 0.3s; }
+ul { list-style: none; }
 
-    .section-spnb{
-        background-color: gray;
-    }
-}
- .section-spnb .danhsach-spnb .spnb-item{
-       cursor : pointer;
-       font-weight: 600;
-       color: #888;
-       padding-bottom: 5px;
-       transition: all 0.3s ease;
-    }
-    .section-spnb .danhsach-spnb .spnb-item.active{
-        border-bottom: 2px solid $primary-color;
-        color: $primary-color;
-    }
-    .section-spnb .danhsach-spnb .spnb-item:hover{
-        color: black;
-    }
-    .spnb-card{
-        background-color: white;
-        border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        overflow: hidden;
-        transition: all 0.3s ease;
-
-        &:hover{
-            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-            transform: translateY(-5px);
-        }
-
-        .spnb-card-img{
-            position: relative;
-            height: 250px;
-            background-color: #f9f9f9;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            img{
-                max-width: 100%;
-                max-height: 100%;
-            }
-        }
-        .spnb-card-title{
-            font-size: 18px;
-            font-weight: 600;
-            margin: 15px;
-            align-items: center;
-        }
-
+/* === HEADER === */
+header {
+    height: 60px;
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
-.main-footer{
-        background: $primary-color;
-          padding-top: 60px;
-          border-top: 1px solid #eee;
-          font-size: 0.85rem;
-}
-        .main-footer h5 {
-          font-weight: 700;
-          margin-bottom: 1rem;
-          font-size: 0.9rem;
-        }
-
-        .main-footer ul {
-          list-style: none;
-          padding: 0;
-        }
-
-        .main-footer ul li {
-          margin-bottom: 0.5rem;
-        }
-
-        .main-footer ul li a {
-          color: #666;
-        }
-
-        .main-footer ul li a:hover {
-          text-decoration: underline;
-          color: #000;
-        }
-
-        .main-footer .footer-bottom {
-          margin-top: 40px;
-          padding: 20px 0;
-          border-top: 1px solid #f0f0f0;
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-end;
-        }
-
-        @media(max-width: 768px) {
-          .main-footer .footer-bottom {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 20px;
-          }
-        }
-
-        .main-footer .footer-bottom .copyright {
-          color: #888;
-        }
-
-        .main-footer .footer-bottom .copyright p {
-          margin: 0;
-        }
-
-        .main-footer .footer-bottom .badges {
-          display: flex;
-          gap: 10px;
-        }
-
-        .main-footer .footer-bottom .badges .badge-item {
-          font-size: 0.6rem;
-          font-weight: 800;
-          text-align: center;
-          padding: 5px;
-          border-radius: 4px;
-          color: white;
-          width: 80px;
-        }
-
-        .main-footer .footer-bottom .badges .badge-item.orange {
-          background: #fff;
-          color: orange;
-          border: 1px solid orange;
-        }
-
-        .main-footer .footer-bottom .badges .badge-item.blue {
-          background: #1976d2;
-        }
-        /*-----------------------------------------------------------*/
-       .highlight-section {
-          background-image: url('../src/assets/images/s25.jpg');
-          min-height: 700px;
-          padding: 60px 0 80px 0;
-          overflow: hidden;
-          position: relative;
-          
-        }
-        .section-title{
-            color:white;
-        }
-
-        .highlight-section .sub-nav {
-            margin-bottom: 3rem;
-        }
-
-        .highlight-section .sub-link {
-          cursor: pointer;
-          font-weight: 500;
-          color: #333;
-          padding: 0 10px;
-          font-size: 0.95rem;
-        }
-
-        .highlight-section .sub-link.active {
-          color:white;
-          font-weight: 700;
-        }
-
-        .highlight-section .highlight-content {
-            z-index: 10;
-            position: relative;
-        }
-
-        .highlight-section .highlight-content .product-name {
-          font-size: 3.5rem;
-          font-weight: 800;
-          margin-bottom: 0.5rem;
-          line-height: 1.2;
-          color: white;
-        }
-
-        .highlight-section .highlight-content .ai-badge {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          font-size: 2rem;
-          font-weight: 400;
-          color: #333;
-          margin-bottom: 2rem;
-        }
-
-
-        .highlight-section .highlight-content .tech-spec {
-          font-weight: 900;
-          font-size: 1.8rem;
-          margin-top: 1rem;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-          color:white;
-        }
-        
-        .highlight-section .highlight-content .spec-desc {
-             font-size: 1rem;
-             color:white;
-             margin-bottom: 2rem;
-             margin-top: 0.5rem;
-        }
-
-        .highlight-section .highlight-content .action-links {
-          display: flex;
-          gap: 20px;
-          align-items: center;
-          margin-top: 20px;
-        }
-
-        .highlight-section .highlight-content .action-links .link-underlined {
-          text-decoration: underline;
-          font-weight: 600;
-          color:white;
-          text-underline-offset: 4px;
-        }
-
-        .highlight-section .highlight-content .btn-buy-round {
-          background: rgba(255,255,255,0.4);
-          color: #000;
-          border: none;
-          border-radius: 50px;
-          padding: 12px 30px;
-          font-weight: 600;
-          transition: background 0.3s;
-        }
-
-        .highlight-section .highlight-content .btn-buy-round:hover {
-          background: rgba(255,255,255,0.6);
-          
-        }
-
-     
-        .highlight-visuals {
-            position: relative;
-            height: 450px;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-     
- /* --- VISION BANNER --- */
-        .vision-banner {
-          background: linear-gradient(90deg, #8966eb, #e3f2fd);
-          padding: 120px 0;
-        }
-
-        .vision-banner .vision-content h2 {
-          font-size: 3rem;
-          font-weight: 800;
-          margin-bottom: 1rem;
-        }
-
-        .vision-banner .vision-content .vision-badge {
-          display: flex;
-          align-items: center;
-          gap: 5px;
-          font-weight: 600;
-          margin-bottom: 2rem;
-          color: #444;
-        }
-
-        .vision-banner .vision-content .vision-badge svg {
-          color: orange;
-        }
-
-        .vision-banner .vision-content .vision-buttons {
-          display: flex;
-          gap: 15px;
-        }
-
-        .vision-banner .vision-content .vision-buttons .btn {
-          font-weight: 600;
-          padding: 8px 24px;
-          border-color: #000;
-          color: #000;
-        }
-
-        .vision-banner .vision-content .vision-buttons .btn:hover {
-          background: #000;
-          color: #fff;
-        }
-    /* --- PRODUCT CAROUSEL --- */
-        .product-carousel-section {
-          background-color: #fff;
-          padding: 4rem 0;
-          min-height: 500px;
-          min-width: 400px;
-        }
-
-        .custom-carousel .carousel-item {
-          min-height: 450px;
-        }
-        
-        .custom-carousel .carousel-content-wrapper {
-          background-color: #f8f9fa;
-          border-radius: 24px;
-          overflow: hidden;
-          height: 400px;
-          display: flex;
-          align-items: center;
-        }
-
-        /* Customizing Carousel Controls */
-        .custom-carousel .carousel-control-prev,
-        .custom-carousel .carousel-control-next {
-          width: 5%;
-        }
-
-        .custom-carousel .carousel-control-prev-icon,
-        .custom-carousel .carousel-control-next-icon {
-          background-color: rgba(0,0,0,0.2);
-          border-radius: 50%;
-          padding: 20px;
-          background-size: 50%;
-        }
-
-        .custom-carousel .carousel-control-prev-icon:hover,
-        .custom-carousel .carousel-control-next-icon:hover {
-          background-color: rgba(0,0,0,0.4);
-        }
-
-        /* Carousel Item Styles */
-        .carousel-product-info {
-          padding: 3rem;
-        }
-        
-        .carousel-product-info h3 {
-          font-size: 2rem;
-          font-weight: 800;
-          margin-bottom: 1rem;
-        }
-        
-        .carousel-product-info p {
-           color: #666;
-           margin-bottom: 2rem;
-           font-size: 1.1rem;
-        }
-
-        .carousel-visual {
-           height: 100%;
-           display: flex;
-           align-items: center;
-           justify-content: center;
-           position: relative;
-        }
-
-        .carousel-shape-circle {
-           width: 300px;
-           height: 300px;
-           background: #e0e0e0;
-           border-radius: 50%;
-           display: flex;
-           align-items: center;
-           justify-content: center;
-        }
-
-        .carousel-shape-rect {
-           width: 250px;
-           height: 350px;
-           background: #e0e0e0;
-           border-radius: 20px;
-           border: 4px solid #ccc;
-           display: flex;
-           align-items: center;
-           justify-content: center;
-        }
-.section-titlecr{
-            color:black;
-         font-size: 3rem;
-          font-weight: 800;
-          margin-bottom: 1rem;
+.header-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 24px;
 }
 
-/*----------------------------------------------*/
-.login-wrapper {
-          background-color: #000000;
-          min-height: 100vh;
-          color: white;
-          font-family: 'Inter', sans-serif;
-          display: flex;
-          flex-direction: column;
-        }
-        .login-header {
-          padding: 20px 40px;
-          font-size: 14px;
-          font-weight: 600;
-          letter-spacing: 1px;
-          color: #cccccc;
-          text-transform: uppercase;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-        }
-        .login-container {
-          flex: 1;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 20px;
-        }
-        .login-card {
-          background-color: #181818;
-          width: 100%;
-          max-width: 450px;
-          border-radius: 40px;
-          padding: 60px 40px;
-          text-align: center;
-          box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        .login-title {
-          font-size: 24px;
-          font-weight: 700;
-          margin-bottom: 60px;
-          line-height: 1.4;
-        }
-        .custom-input-group {
-          position: relative;
-          margin-bottom: 30px;
-          text-align: left;
-        }
-        .custom-input {
-          width: 100%;
-          background: transparent;
-          border: none;
-          border-bottom: 1px solid #555;
-          padding: 10px 0;
-          color: white;
-          font-size: 16px;
-          outline: none;
-          transition: border-color 0.3s;
-        }
-        .custom-input:focus {
-          border-bottom-color: #fff;
-        }
-        .input-label {
-          position: absolute;
-          top: 10px;
-          left: 0;
-          color: #888;
-          pointer-events: none;
-          transition: 0.3s ease all;
-        }
-        .custom-input:focus ~ .input-label,
-        .custom-input:not(:placeholder-shown) ~ .input-label {
-          top: -20px;
-          font-size: 12px;
-          color: #ccc;
-        }
-        .btn-continue {
-          width: 100%;
-          background-color: #00609c;
-          color: white;
-          border: none;
-          padding: 12px;
-          border-radius: 25px;
-          font-weight: 600;
-          font-size: 16px;
-          margin-bottom: 20px;
-          transition: background 0.3s;
-          margin-top: 20px;
-        }
-        .btn-continue:hover {
-          background-color: #004c7a;
-        }
-        .btn-continue:disabled {
-          background-color: #333;
-          color: #666;
-        }
-        .create-account-link {
-          color: #fff;
-          font-size: 14px;
-          text-decoration: underline;
-          cursor: pointer;
-          margin-top: 10px;
-          display: inline-block;
-        }
-        .back-btn {
-          cursor: pointer;
-          opacity: 0.7;
-          transition: opacity 0.3s;
-        }
-        .back-btn:hover { opacity: 1; }
-        .error-msg {
-          color: #ff6b6b;
-          font-size: 14px;
-          margin-top: 10px;
-        }
+.logo { font-weight: 800; font-size: 20px; letter-spacing: 2px; }
 
+.main-nav { display: flex; gap: 15px; }
+.nav-item { font-size: 14px; font-weight: 600; padding: 8px 15px; border-radius: 20px; }
+.nav-item:hover { background-color: #f5f5f5; }
+.nav-item.active { background-color: #000; color: #fff; }
+
+.header-icons { display: flex; gap: 20px; font-size: 14px; }
+
+/* === MEGA MENU === */
+.nav-item-group { position: static; height: 100%; display: flex; align-items: center; }
+.mega-menu {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    border-top: 1px solid #eee;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    opacity: 0; visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 999;
+}
+.nav-item-group:hover .mega-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+.mega-content { max-width: 1200px; margin: 0 auto; padding: 40px 20px; display: flex; gap: 50px; }
+.mega-column { display: flex; flex-direction: column; gap: 12px; min-width: 200px; border-right: 1px solid #eee; }
+.mega-column h4 { font-weight: bold; margin-bottom: 5px; }
+.mega-product-list { display: flex; gap: 40px; }
+.mega-product { text-align: center; cursor: pointer; }
+.mega-product img { width: 80px; height: 80px; object-fit: contain; margin-bottom: 10px; transition: 0.3s; }
+.mega-product:hover img { transform: scale(1.1); }
+
+/* === SUB NAV === */
+.sub-nav-container { border-bottom: 1px solid #e0e0e0; }
+.sub-nav { display: flex; justify-content: center; gap: 30px; padding: 15px 0; }
+.sub-nav a { font-size: 13px; font-weight: 500; color: #555; }
+
+/* === HERO SECTION (BANNER TRÊN) === */
+.hero-section {
+    position: relative;
+    width: 100%;
+    height: 90vh; /* Chiều cao lớn */
+    min-height: 600px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+.hero-bg img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.05); /* Kính mờ siêu trong */
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 50px 70px;
+    border-radius: 30px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    animation: slideUp 1s ease-out;
+}
+.hero-content h2 { font-size: 4rem; font-weight: 800; margin-bottom: 10px; }
+.gradient-text {
+    font-size: 2rem; font-weight: 700;
+    background: linear-gradient(45deg, #2196F3, #9C27B0);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
+}
+.btn-group { margin-top: 30px; display: flex; gap: 15px; justify-content: center; }
+.btn { padding: 12px 35px; border-radius: 50px; font-weight: 600; cursor: pointer; }
+.btn-dark { background: #000; color: #fff; border: 2px solid #000; }
+.btn-light { border: 2px solid #000; }
+
+/* === PRODUCT GRID (LƯỚI SẢN PHẨM) === */
+.products { max-width: 1440px; margin: 80px auto; padding: 0 24px; }
+.section-heading { text-align: center; font-size: 32px; font-weight: 700; margin-bottom: 50px; }
+
+.grid-container {
+    display: grid;
+    /* Tự động chia cột, không bao giờ bị méo thẻ */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.card {
+    background: #f7f7f7;
+    border-radius: 24px;
+    padding: 25px;
+    text-align: center;
+    position: relative;
+    transition: 0.3s;
+    height: 100%;
+}
+.card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+
+/* Ảnh mặc định cho thẻ trắng (TV, Flip, Watch) */
+.card img {
+    width: 100%;
+    height: 220px; /* Chiều cao cố định cho đều */
+    object-fit: contain; /* Ảnh không bị méo */
+    margin-bottom: 20px;
+    mix-blend-mode: multiply; /* Xóa nền trắng */
+    filter: contrast(1.05);
+}
+
+/* --- ĐẶC BIỆT: THẺ DARK MODE CHO S25 ULTRA --- */
+.dark-card {
+    background-color: #1a1a1a !important;
+    color: #fff;
+    border: 1px solid #333;
+}
+.dark-card img {
+    mix-blend-mode: normal !important; /* Không xóa nền */
+    object-fit: cover !important; /* Phủ kín khung */
+    background: transparent;
+    border-radius: 15px;
+}
+.dark-card h3 { color: #fff !important; }
+.dark-card .price { color: #ccc !important; }
+.dark-card:hover { background-color: #000 !important; }
+
+.badge {
+    position: absolute; top: 20px; left: 20px;
+    background: #2196F3; color: white;
+    font-size: 11px; padding: 5px 10px; border-radius: 5px;
+    font-weight: 700; z-index: 10;
+}
+.buy-btn {
+    background: #000; color: white; border: none;
+    padding: 8px 20px; border-radius: 20px;
+    font-weight: 600; cursor: pointer; margin-top: 15px;
+}
+.color-options { display: flex; gap: 5px; justify-content: center; margin: 10px 0; }
+.dot { width: 10px; height: 10px; border-radius: 50%; border: 1px solid #999; }
+.black { background: #000; } .grey { background: #666; } .blue { background: #3498db; } .mint { background: #2ecc71; }
+
+/* === FEATURE SECTION === */
+.feature-section { padding: 80px 24px; }
+/* Tìm đoạn .feature-container */
+.feature-container {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    /* Thêm dòng này để khi màn hình nhỏ nó tự xuống dòng */
+    flex-wrap: wrap; 
+}
+
+/* Quan trọng: Chia đôi màn hình (Ảnh/Video 1 nửa - Chữ 1 nửa) */
+.feature-image {
+    flex: 1; /* Chiếm 1 phần */
+    min-width: 300px; /* Không được bé quá */
+}
+
+.feature-text {
+    flex: 1; /* Chiếm 1 phần */
+    min-width: 300px;
+}
+
+/* Đảm bảo video nằm gọn trong khung */
+.feature-image video {
+    width: 100%;
+    border-radius: 30px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+.feature-image img { width: 100%; border-radius: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+.feature-text h2 { font-size: 40px; font-weight: 800; margin-bottom: 10px; }
+.feature-text p { font-size: 16px; color: #666; line-height: 1.6; margin-bottom: 30px; }
+
+/* === SUB BANNER (VIDEO + MINI CARDS) === */
+
+.sub-banner-img {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover; z-index: -2;
+}
+
+.sub-banner-inner {
+    width: 100%; max-width: 1200px; padding: 0 20px;
+    display: flex; flex-direction: column; align-items: center; gap: 60px;
+}
+.sub-text-content { text-align: center; max-width: 800px; }
+.sub-text-content h2 { font-size: 3.5rem; font-weight: 800; margin-bottom: 20px; }
+.btn-white { background: #fff; color: #000; padding: 12px 30px; border-radius: 30px; font-weight: bold; }
+
+
+.mini-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px; padding: 20px; text-align: center;
+    transition: 0.3s;
+}
+.mini-card:hover { background: rgba(255, 255, 255, 0.25); transform: translateY(-5px); }
+.mini-card img { width: 100%; height: 100px; object-fit: contain; margin-bottom: 10px; mix-blend-mode: screen; }
+.mini-info h4 { font-size: 16px; margin-bottom: 5px; color: #fff; }
+.mini-info p { font-size: 13px; color: #ddd; margin-bottom: 10px; }
+.mini-info a { font-size: 12px; font-weight: bold; text-decoration: underline; }
+
+/* === FOOTER === */
+footer { background: #f4f4f4; padding: 60px 24px 20px; border-top: 1px solid #ddd; }
+.footer-content { max-width: 1440px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; }
+.footer-column h4 { font-size: 14px; font-weight: bold; margin-bottom: 20px; }
+.footer-column a { display: block; margin-bottom: 10px; font-size: 13px; color: #555; }
+.footer-bottom { text-align: center; margin-top: 40px; font-size: 12px; color: #888; }
+
+/* ANIMATION */
+@keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .grid-container, .sub-products-row { grid-template-columns: repeat(2, 1fr); }
+    .hero-content h2 { font-size: 2.5rem; }
+    .feature-container { flex-direction: column; }
+    .footer-content { grid-template-columns: repeat(2, 1fr); }
+}
+/* === BANNER PHỤ MỚI (CHỈ CÓ ẢNH) === */
+.sub-banner-section {
+    position: relative;
+    height: 850px; /* Giảm chiều cao xuống vì không còn chứa sản phẩm nữa */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Căn chữ sang trái */
+    padding-left: 10%;
+    color: #fff;
+    overflow: hidden;
+}
+
+.sub-banner-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    filter: brightness(0.8); /* Làm tối ảnh một xíu cho chữ nổi */
+}
+
+.sub-banner-content h2 {
+    font-family: 'Roboto', 'Arial', sans-serif; 
+    
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    /* Giảm cái bóng đi một tí cho đỡ bị nhòe */
+    text-shadow: 0 2px 5px rgba(0,0,0,0.6);
+}
+
+.sub-banner-content p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    max-width: 600px;
+}
+
+/* === KHỐI SẢN PHẨM BÊN DƯỚI (NỀN TRẮNG) === */
+.highlight-products {
+    padding: 60px 24px;
+    background-color: #fff;
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
+.highlight-heading {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 40px;
+}
+html {
+    scroll-behavior: smooth;
+}
+/* Thêm hiệu ứng cho nút */
+.btn, .buy-btn {
+    transition: all 0.3s ease; /* Mượt mà trong 0.3s */
+}
+
+.btn:hover, .buy-btn:hover {
+    transform: translateY(-3px); /* Nổi lên một chút */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2); /* Đổ bóng */
+}
+
+/* Riêng nút đen thì khi hover đổi màu xám chút cho dễ nhìn */
+.btn-dark:hover {
+    background-color: #333;
+    border-color: #333;
+}
+
+/* Lưu ý: .grid-container và .card chúng ta đã có sẵn ở trên rồi nên nó sẽ tự ăn theo style đẹp sẵn có, không cần viết lại! */
+/* === SECTION KHÁM PHÁ CÂU CHUYỆN === */
+.stories-section {
+    padding: 60px 24px;
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
+.stories-grid {
+    display: grid;
+    /* Tự động chia 5 cột đều nhau, responsive luôn */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+    gap: 20px;
+}
+
+.story-item {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+.story-item:hover {
+    transform: translateY(-5px); /* Hover thì nhấc lên tí */
+}
+
+.story-card {
+    width: 100%;
+    aspect-ratio: 1/1; /* Luôn vuông vức */
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Tô màu gradient cho từng ô giống ảnh mẫu */
+.card-tv {
+    background: linear-gradient(135deg, #748be8 0%, #3b5bdb 100%);
+}
+.card-bespoke {
+    background: linear-gradient(135deg, #66a6ff 0%, #89f7fe 100%);
+}
+.card-smartthings {
+    background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
+}
+.card-galaxy {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+.card-shop {
+    background: linear-gradient(135deg, #434343 0%, #000000 100%);
+}
+
+/* Chữ ở giữa ô (Bespoke AI, Galaxy AI) */
+.story-text-center {
+    font-size: 24px;
+    font-weight: 700;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Chữ tiêu đề bên dưới ô */
+.story-item p {
+    font-weight: 600;
+    font-size: 16px;
+    color: #000;
+    margin-top: 10px;
+}

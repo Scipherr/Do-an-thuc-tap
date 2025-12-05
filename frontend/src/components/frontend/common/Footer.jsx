@@ -1,10 +1,9 @@
-import React from 'react'
-import { Container, Navbar, Nav, Row, Col, Button, Offcanvas } from 'react-bootstrap';
-import { Search, ShoppingCart, User, Menu, X, Star } from 'lucide-react';
+/* === FILE: src/components/frontend/common/Footer.jsx === */
+import { Container, Row, Col } from 'react-bootstrap';
 
-export const Footer = () => {
+const Footer = () => {
   return (
-    <footer className='main-footer' >
+    <footer className='main-footer'>
         <Container>
           <Row className="footer-links-grid">
             <Col md={2} xs={6}>
@@ -15,6 +14,7 @@ export const Footer = () => {
                 <li><a href="#">SmartThings</a></li>
               </ul>
             </Col>
+            
             <Col md={2} xs={6}>
               <h5>Sản Phẩm</h5>
               <ul>
@@ -23,6 +23,7 @@ export const Footer = () => {
                 <li><a href="#">Galaxy Watch</a></li>
               </ul>
             </Col>
+            
             <Col md={2} xs={6}>
               <h5>Hỗ Trợ</h5>
               <ul>
@@ -30,14 +31,16 @@ export const Footer = () => {
                 <li><a href="#">Bảo hành</a></li>
               </ul>
             </Col>
-             <Col md={2} xs={6}>
+            
+            <Col md={2} xs={6}>
               <h5>Tài khoản</h5>
               <ul>
                 <li><a href="#">Samsung Account</a></li>
                 <li><a href="#">Đơn hàng của tôi</a></li>
               </ul>
             </Col>
-             <Col md={2} xs={6}>
+            
+            <Col md={2} xs={6}>
               <h5>Sự bền vững</h5>
               <ul>
                 <li><a href="#">Môi trường</a></li>
@@ -45,16 +48,16 @@ export const Footer = () => {
               </ul>
             </Col>
           </Row>
-            <div className="footer-bottom">
+
+          <div className="footer-bottom">
              <div className="copyright">
-               <p>© 2025 TnT. All rights reserved.</p>
-               <p>Công ty TNHH Điện Tử TnT</p>
+               <p>© 2025 TNT Store. All rights reserved.</p>
+               <p>Công ty TNHH TNT STORE</p>
              </div>
-             
           </div>
         </Container>
     </footer>
   )
 }
 
-export default Footer
+export default Footer;
