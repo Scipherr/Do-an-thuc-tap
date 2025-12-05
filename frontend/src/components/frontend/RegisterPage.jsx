@@ -148,7 +148,7 @@ export const RegisterPage = () => {
 
                         <div className="mt-3">
                             <span className="text-secondary">Đã có tài khoản? </span>
-                            <span className="create-account-link" onClick={() => navigate('/loginu')}>Đăng nhập</span>
+                            <span className="create-account-link" onClick={() => navigate('/loginad')}>Đăng nhập</span>
                         </div>
                     </div>
                 </div>
