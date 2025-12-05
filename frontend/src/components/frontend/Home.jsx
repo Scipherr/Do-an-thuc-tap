@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { Monitor, Star, ShoppingCart } from 'lucide-react';
 import axios from 'axios';
 import '../../assets/css/style.scss';
-import Header from './common/Header';
-import Footer from './common/Footer';
+import Header from './common/Header.jsx';
+import Footer from './common/Footer.jsx';
 
 const Home = () => {
     const [topRated, setTopRated] = useState([]);
@@ -42,9 +42,14 @@ const Home = () => {
 
     // Helper to check image path (handles full URLs vs relative paths)
     const getImageUrl = (imagePath) => {
-        if (!imagePath) return '/images/placeholder.jpg'; // Fallback
+        // 1. Handle null/undefined/empty
+        if (!imagePath) return 'https://placehold.co/300x300?text=No+Image';
+        
+        // 2. Handle absolute URLs (e.g. from external CDN)
         if (imagePath.startsWith('http')) return imagePath;
-        // Ensure it doesn't have double slash if DB has slash prefix
+        
+        // 3. Handle local paths (Served from frontend/public folder)
+        // Ensure it starts with /
         return imagePath.startsWith('/') ? imagePath : `/${imagePath}`; 
     };
 
@@ -62,11 +67,11 @@ const Home = () => {
                 </ul>
             </div>
 
-            {/* HERO SECTION - Keeping this static for visual impact, or you can fetch banner from DB later */}
+            {/* HERO SECTION */}
             <section className="hero-section">
                 <div className="hero-bg">
-                    {/* Ensure this image exists in public/images/ */}
-                    <img src="/images/zflip7.jpg" alt="Galaxy Banner" onError={(e) => e.target.src = 'https://placehold.co/1920x800?text=Banner'} />
+                    {/* These images must also be in frontend/public/images/ */}
+                    <img src="/images/zfold6.jpg" alt="Galaxy Banner" onError={(e) => e.target.src = 'https://placehold.co/1920x800?text=Banner+Image+Missing'} />
                 </div>
                 <div className="hero-content">
                     <h2 className="animate-text">Galaxy Z Fold7</h2>
@@ -93,13 +98,12 @@ const Home = () => {
                                     <img 
                                         src={getImageUrl(item.hinh_anh)} 
                                         alt={item.ten_san_pham} 
-                                        onError={(e) => e.target.src = 'https://placehold.co/300x300?text=No+Image'}
+                                        onError={(e) => e.target.src = 'https://placehold.co/300x300?text=Image+Not+Found'}
                                     />
                                 </Link>
                                 <h3>
                                     <Link to={`/product/${item.ma_san_pham}`}>{item.ten_san_pham}</Link>
                                 </h3>
-                                {/* Color dots simulation - DB doesn't have colors yet, keeping static for UI */}
                                 <div className="color-options">
                                     <span className="dot black"></span><span className="dot grey"></span>
                                 </div>
@@ -119,8 +123,8 @@ const Home = () => {
                     <div className="feature-image">
                         <video width="100%" autoPlay loop muted playsInline className="rounded-4 shadow">
                             <source src="/images/videos25.webm" type="video/mp4" />
-                            {/* Fallback if video missing */}
-                            <img src="/images/s25.jpg" alt="Video Fallback" />
+                            {/* Fallback image if video is missing */}
+                            <img src="/images/s25.jpg" alt="Video Fallback" onError={(e) => e.target.src='https://placehold.co/600x400?text=Video+Placeholder'} />
                         </video>
                     </div>
                     <div className="feature-text">
@@ -136,7 +140,7 @@ const Home = () => {
 
             {/* SUB BANNER */}
             <section className="sub-banner-section">
-                <img src="/images/bannerphu.jpeg" alt="TV Banner" className="sub-banner-img" onError={(e) => e.target.style.backgroundColor = '#000'}/>
+                <img src="/images/bannerphu.jpeg" alt="TV Banner" className="sub-banner-img" onError={(e) => e.target.style.display = 'none'}/>
                 <div className="sub-banner-content">
                     <h2>Kỷ nguyên màn hình AI</h2>
                     <p>Trải nghiệm hình ảnh chân thực đến từng chi tiết với Neo QLED 8K</p>
