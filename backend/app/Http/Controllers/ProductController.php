@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
-    // Get Top Rated Products (Sản phẩm nổi bật / Best Rated)
+    
     public function getTopRated()
     {
         $products = DB::table('sanpham')
@@ -21,11 +21,11 @@ class ProductController extends Controller
         ]);
     }
 
-    // Get New Arrivals (Sản phẩm mới / Newest)
+   
     public function getNewArrivals()
     {
         $products = DB::table('sanpham')
-            ->orderByDesc('ngay_tao') // Assuming 'ngay_tao' is created_at
+            ->orderByDesc('ngay_tao') 
             ->limit(8)
             ->get();
 
@@ -35,7 +35,7 @@ class ProductController extends Controller
         ]);
     }
 
-    // Get Product Detail
+
     public function getDetail($id)
     {
         $product = DB::table('sanpham')->where('ma_san_pham', $id)->first();
