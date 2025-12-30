@@ -1,0 +1,311 @@
+/* =========================================
+   MINIMALIST PRODUCT DETAIL STYLES
+   ========================================= */
+
+.product-minimal-page {
+    font-family: 'Inter', sans-serif;
+    color: #111;
+    padding-top: 20px;
+    background-color: #fff;
+
+    /* --- 1. Breadcrumb --- */
+    .breadcrumb {
+        background: transparent;
+        padding: 0;
+        margin-bottom: 2rem;
+        
+        a { 
+            color: #888; 
+            text-decoration: none;
+            transition: color 0.2s;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+            
+            &:hover { color: #000; }
+        }
+        
+        .breadcrumb-item.active {
+            color: #111;
+            font-weight: 600;
+        }
+        
+        /* Custom separator */
+        .breadcrumb-item + .breadcrumb-item::before {
+            content: "›";
+            color: #ccc;
+            font-size: 1.1rem;
+            line-height: 1;
+            vertical-align: middle;
+        }
+    }
+
+    /* --- 2. Image Gallery (Left Side) --- */
+    .main-image-minimal {
+        background: #f9f9f9; 
+        padding: 60px 40px;
+        border-radius: 4px; 
+        text-align: center;
+        margin-bottom: 20px;
+        position: relative;
+        overflow: hidden;
+        
+        img {
+            width: 100%;
+            max-height: 550px;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+            transition: transform 0.5s ease;
+        }
+
+        &:hover img {
+            transform: scale(1.03);
+        }
+    }
+
+    .gallery-grid {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+
+        .gallery-thumb {
+            width: 90px;
+            height: 90px;
+            padding: 10px;
+            cursor: pointer;
+            border: 1px solid transparent; 
+            transition: all 0.2s;
+            background: #f9f9f9;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            img {
+                width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply;
+            }
+
+            &.active { 
+                border-color: #000; 
+                background: #fff; 
+            }
+            &:hover { 
+                border-color: #ccc; 
+            }
+        }
+    }
+
+    /* --- 3. Product Info (Right Side) --- */
+    .product-info-minimal {
+        padding-left: 40px;
+    }
+
+    .brand-title {
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: #666;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+
+    .product-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        line-height: 1.1;
+        letter-spacing: -0.5px;
+    }
+
+    .rating-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 2rem;
+        font-size: 0.9rem;
+        
+        .star-icon { color: #000; fill: #000; }
+        .review-count { 
+            text-decoration: underline; 
+            color: #555; 
+            cursor: pointer;
+            transition: color 0.2s;
+            &:hover { color: #000; }
+        }
+    }
+
+    .price-minimal {
+        font-family: 'Inter', sans-serif;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: baseline;
+        
+        .current { font-size: 2.2rem; font-weight: 700; color: #000; letter-spacing: -1px; }
+        .original { font-size: 1.2rem; color: #999; text-decoration: line-through; margin-left: 15px; font-weight: 400; }
+        .discount-tag {
+            background: #000;
+            color: #fff;
+            padding: 4px 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border-radius: 4px;
+            margin-left: 15px;
+            transform: translateY(-4px);
+        }
+    }
+
+    .desc-text {
+        color: #444;
+        line-height: 1.7;
+        font-size: 1rem;
+        margin-bottom: 2.5rem;
+    }
+
+    /* --- 4. Specs Grid --- */
+    .specs-minimal {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-bottom: 2.5rem;
+        padding: 25px;
+        background: #fbfbfb;
+        border-radius: 8px;
+        
+        .spec-item {
+            display: flex;
+            flex-direction: column;
+
+            .label { 
+                font-size: 0.7rem; 
+                text-transform: uppercase; 
+                color: #999; 
+                margin-bottom: 5px; 
+                font-weight: 700; 
+                letter-spacing: 0.5px;
+            }
+            .value { 
+                font-size: 1rem; 
+                font-weight: 600; 
+                color: #222; 
+            }
+        }
+    }
+
+    /* --- 5. Action Buttons --- */
+    .actions-minimal {
+        display: flex;
+        gap: 15px;
+        height: 60px;
+        margin-bottom: 2.5rem;
+    }
+
+    .qty-minimal {
+        display: flex;
+        align-items: center;
+        border: 1px solid #e0e0e0;
+        padding: 0 15px;
+        gap: 15px;
+        min-width: 140px;
+        justify-content: space-between;
+        border-radius: 8px;
+        transition: border-color 0.2s;
+
+        &:hover { border-color: #000; }
+
+        button { 
+            background: none; border: none; padding: 5px; cursor: pointer; color: #555; 
+            display: flex; align-items: center; justify-content: center;
+            transition: color 0.2s;
+        }
+        button:hover { color: #000; }
+        span { 
+            font-weight: 600; font-size: 1.2rem; 
+            min-width: 20px; text-align: center;
+        }
+    }
+
+    .btn-add-minimal {
+        flex-grow: 1;
+        background: #000;
+        color: #fff;
+        border: none;
+        font-weight: 700;
+        font-size: 1.1rem;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+        letter-spacing: 0.5px;
+        
+        &:hover { 
+            background: #333; 
+            transform: translateY(-2px); 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        &:active { transform: translateY(0); }
+    }
+
+    .btn-wishlist {
+        width: 60px;
+        border: 1px solid #e0e0e0;
+        background: #fff;
+        cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        border-radius: 8px;
+        transition: all 0.2s;
+        &:hover { border-color: #000; color: #e74c3c; }
+    }
+
+    /* --- 6. Trust Badges --- */
+    .trust-badges {
+        display: flex;
+        gap: 40px;
+        border-top: 1px solid #f0f0f0;
+        padding-top: 25px;
+        
+        .badge-item {
+            display: flex; align-items: center; gap: 12px;
+            font-size: 0.9rem; font-weight: 600; color: #333;
+            
+            svg { color: #000; }
+        }
+    }
+
+    /* --- 7. Bottom Table --- */
+    .table-minimal {
+        width: 100%;
+        margin-top: 1rem;
+        
+        tr { border-bottom: 1px solid #f0f0f0; }
+        td { padding: 20px 0; }
+        
+        td:first-child { 
+            color: #666; 
+            font-weight: 500; 
+            width: 40%;
+        }
+        td:last-child { 
+            color: #000; 
+            font-weight: 600; 
+            text-align: right; 
+        }
+        
+        tr:last-child { border-bottom: none; }
+    }
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 991px) {
+    .product-minimal-page {
+        .product-info-minimal { padding-left: 0; margin-top: 40px; }
+        .main-image-minimal { padding: 20px; }
+        
+        .actions-minimal { flex-wrap: wrap; height: auto; gap: 15px; }
+        .btn-add-minimal { width: 100%; padding: 18px; }
+        .qty-minimal { width: 100%; height: 50px; }
+        .btn-wishlist { width: 100%; height: 50px; }
+        
+        .trust-badges { flex-direction: column; gap: 15px; }
+    }
+}

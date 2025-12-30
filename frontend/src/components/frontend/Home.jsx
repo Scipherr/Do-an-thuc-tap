@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Monitor, Star, ShoppingCart } from 'lucide-react';
+import { Monitor, Star, ShoppingCart, ArrowRight, ChevronLeft, ChevronRight, Zap } from 'lucide-react';
 import axios from 'axios';
 import '../../assets/css/style.scss';
 import Header from './common/Header.jsx';
@@ -10,204 +10,262 @@ const Home = () => {
     const [topRated, setTopRated] = useState([]);
     const [newArrivals, setNewArrivals] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [currentSlide, setCurrentSlide] = useState(0);
 
+    // Hero Slider Data using your uploaded images
+    const slides = [
+        {
+            id: 1,
+            image: "/images/Galaxy-Z-Fold7_Home_Hero_PC_1920x1080_LTR.jpeg",
+            title: "Galaxy Z Fold7",
+            subtitle: "Quyền năng AI trong tay bạn",
+            link: "/category/fold",
+            color: "white"
+        },
+        {
+            id: 2,
+            image: "/images/7B69EB838C3346F-S25-Ultra-Banner1.jpg",
+            title: "Galaxy S25 Ultra",
+            subtitle: "Titanium đẳng cấp. Hiệu năng vô cực.",
+            link: "/category/s25",
+            color: "white"
+        },
+        {
+            id: 3,
+            image: "/images/Galaxy-S25-Ultra_Home_Feature_KV_PC_1440x810_LTR.jpeg",
+            title: "Trải nghiệm AI",
+            subtitle: "Kỷ nguyên mới của công nghệ di động",
+            link: "/category/s25",
+            color: "black"
+        }
+    ];
+
+    // Auto-play slider
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
+        }, 5000);
+        return () => clearInterval(timer);
+    }, [slides.length]);
+
+    // Fetch Data
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const topRes = await axios.get('http://127.0.0.1:8000/api/products/top-rated');
-                if (topRes.data.status === 200) {
-                    setTopRated(topRes.data.products);
-                }
+                if (topRes.data.status === 200) setTopRated(topRes.data.products);
 
                 const newRes = await axios.get('http://127.0.0.1:8000/api/products/new-arrivals');
-                if (newRes.data.status === 200) {
-                    setNewArrivals(newRes.data.products);
-                }
+                if (newRes.data.status === 200) setNewArrivals(newRes.data.products);
+                
                 setLoading(false);
             } catch (error) {
                 console.error("Error fetching products:", error);
                 setLoading(false);
             }
         };
-
         fetchData();
     }, []);
 
-   
-    const formatPrice = (price) => {
-        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+    // Scroll Reveal Hook
+    const useOnScreen = (options) => {
+        const ref = useRef(null);
+        const [isVisible, setIsVisible] = useState(false);
+
+        useEffect(() => {
+            const observer = new IntersectionObserver(([entry]) => {
+                if (entry.isIntersecting) setIsVisible(true);
+            }, options);
+            if (ref.current) observer.observe(ref.current);
+            return () => {
+                if (ref.current) observer.unobserve(ref.current);
+            };
+        }, [ref, options]);
+        return [ref, isVisible];
     };
+
+    const [refSection1, isVisibleSection1] = useOnScreen({ threshold: 0.1 });
+    const [refSection2, isVisibleSection2] = useOnScreen({ threshold: 0.1 });
+
+    const formatPrice = (price) => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+    
     const getImageUrl = (imagePath) => {
-     
         if (!imagePath) return 'https://placehold.co/300x300?text=No+Image';
         if (imagePath.startsWith('http')) return imagePath;
         return imagePath.startsWith('/') ? imagePath : `/${imagePath}`; 
     };
 
+    const nextSlide = () => setCurrentSlide(currentSlide === slides.length - 1 ? 0 : currentSlide + 1);
+    const prevSlide = () => setCurrentSlide(currentSlide === 0 ? slides.length - 1 : currentSlide - 1);
+
     return (
         <>
             <Header />
 
-            <div className="sub-nav-container">
+            {/* Sub Nav */}
+            <div className="sub-nav-container sticky-sub-nav">
                 <ul className="sub-nav">
-                    <li><Link to="/category/fold">Galaxy Z Fold7</Link></li>
-                    <li><Link to="/category/flip">Galaxy Z Flip7</Link></li>
-                    <li><Link to="/category/s25">Galaxy S25 Ultra</Link></li>
-                    <li><Link to="/category/watch">Galaxy Watch8</Link></li>
-                    <li><Link to="/category/tab">Galaxy Tab S11</Link></li>
+                    {['Galaxy Z Fold7', 'Galaxy Z Flip7', 'Galaxy S25 Ultra', 'Galaxy Watch8', 'Galaxy Tab S11'].map((item, index) => (
+                        <li key={index}><Link to={`/category/${item.toLowerCase().replace(/ /g, '-')}`}>{item}</Link></li>
+                    ))}
                 </ul>
             </div>
 
-       
-            <section className="hero-section">
-                <div className="hero-bg">
-                   
-                    <img src="/images/zfold6.jpg" alt="Galaxy Banner" onError={(e) => e.target.src = 'https://placehold.co/1920x800?text=Banner+Image+Missing'} />
-                </div>
-                <div className="hero-content">
-                    <h2 className="animate-text">Galaxy Z Fold7</h2>
-                    <h3 className="gradient-text">Galaxy AI ✨</h3>
-                    <p>Quyền năng AI trong tay bạn</p>
-                    <div className="btn-group">
-                        <Link to="/product/2" className="btn btn-dark">Mua ngay</Link>
-                        <a href="#new-arrivals" className="btn btn-light">Tìm hiểu thêm</a>
+            {/* === 1. HERO SLIDER === */}
+            <section className="hero-slider">
+                {slides.map((slide, index) => (
+                    <div className={`slide ${index === currentSlide ? 'active' : ''}`} key={slide.id}>
+                        <div className="slide-bg">
+                            <img src={slide.image} alt={slide.title} />
+                        </div>
+                        <div className={`slide-content text-${slide.color}`}>
+                            <h2 className="animate-reveal delay-1">{slide.title}</h2>
+                            <p className="animate-reveal delay-2">{slide.subtitle}</p>
+                            <Link to={slide.link} className={`btn btn-hero animate-reveal delay-3 ${slide.color === 'white' ? 'btn-white' : 'btn-black'}`}>
+                                Mua ngay
+                            </Link>
+                        </div>
                     </div>
+                ))}
+                
+                <button className="slider-btn prev" onClick={prevSlide}><ChevronLeft /></button>
+                <button className="slider-btn next" onClick={nextSlide}><ChevronRight /></button>
+                
+                <div className="slider-dots">
+                    {slides.map((_, idx) => (
+                        <div 
+                            key={idx} 
+                            className={`dot ${idx === currentSlide ? 'active' : ''}`}
+                            onClick={() => setCurrentSlide(idx)}
+                        ></div>
+                    ))}
                 </div>
             </section>
 
-            <section className="products" id="new-arrivals">
-                <h2 className="section-heading">Khám phá sản phẩm mới</h2>
+            {/* === 2. NEW ARRIVALS (Reveal Animation) === */}
+            <section className={`products section-padding fade-in-section ${isVisibleSection1 ? 'is-visible' : ''}`} ref={refSection1} id="new-arrivals">
+                <div className="section-header">
+                    <h2 className="section-heading">Mới ra mắt</h2>
+                    <Link to="/category/all" className="view-all-link">Xem tất cả <ArrowRight size={16}/></Link>
+                </div>
+                
                 <div className="grid-container">
                     {loading ? (
-                        <p className="text-center">Đang tải sản phẩm...</p>
+                        [1,2,3,4].map(n => <div key={n} className="skeleton-card"></div>)
                     ) : (
                         newArrivals.slice(0, 4).map((item) => (
-                            <div className="card dark-card" key={item.ma_san_pham}>
-                                <span className="badge">Mới</span>
-                                <Link to={`/product/${item.ma_san_pham}`}>
-                                    <img 
-                                        src={getImageUrl(item.hinh_anh)} 
-                                        alt={item.ten_san_pham} 
-                                        onError={(e) => e.target.src = 'https://placehold.co/300x300?text=Image+Not+Found'}
-                                    />
-                                </Link>
-                                <h3>
-                                    <Link to={`/product/${item.ma_san_pham}`}>{item.ten_san_pham}</Link>
-                                </h3>
-                                <div className="color-options">
-                                    <span className="dot black"></span><span className="dot grey"></span>
+                            <div className="card product-card-hover" key={item.ma_san_pham}>
+                                <div className="card-image-wrapper">
+                                    <span className="badge-new">New</span>
+                                    <Link to={`/product/${item.ma_san_pham}`}>
+                                        <img 
+                                            src={getImageUrl(item.hinh_anh)} 
+                                            alt={item.ten_san_pham} 
+                                        />
+                                    </Link>
                                 </div>
-                                <p className="price">{formatPrice(item.gia)}</p>
-                                <Link to={`/product/${item.ma_san_pham}`} className="buy-btn btn-white-text">
-                                    Mua ngay
-                                </Link>
+                                <div className="card-info">
+                                    <h3><Link to={`/product/${item.ma_san_pham}`}>{item.ten_san_pham}</Link></h3>
+                                    <p className="price">{formatPrice(item.gia)}</p>
+                                    <div className="color-dots">
+                                        <span className="dot black"></span>
+                                        <span className="dot grey"></span>
+                                        <span className="dot titanium"></span>
+                                    </div>
+                                    <button className="btn-add-cart">Thêm vào giỏ</button>
+                                </div>
                             </div>
                         ))
                     )}
                 </div>
             </section>
 
-      
-            <section className="feature-section">
-                <div className="feature-container">
-                    <div className="feature-image">
-                        <video width="100%" autoPlay loop muted playsInline className="rounded-4 shadow">
-                            <source src="/images/videos25.webm" type="video/mp4" />
-                        
-                            <img src="/images/s25.jpg" alt="Video Fallback" onError={(e) => e.target.src='https://placehold.co/600x400?text=Video+Placeholder'} />
-                        </video>
-                    </div>
-                    <div className="feature-text">
+            {/* === 3. CINEMATIC FEATURE VIDEO === */}
+            <section className="feature-section-cinematic">
+                <div className="video-container">
+                    <video autoPlay loop muted playsInline>
+                        <source src="/images/videos25.webm" type="video/mp4" />
+                        <img src="/images/s25.jpg" alt="Video Fallback" />
+                    </video>
+                    <div className="video-overlay">
                         <h2>Galaxy S25 Ultra</h2>
                         <h3>Trợ lý quyền năng Galaxy AI</h3>
-                        <p>Khai phóng tiềm năng sáng tạo và hiệu suất làm việc với sức mạnh AI đỉnh cao ngay trên thiết bị của bạn.</p>
-                        <div className="btn-group" style={{justifyContent: 'flex-start'}}>
-                            <Link to="/product/1" className="btn btn-black">Mua ngay</Link>
+                        <Link to="/product/1" className="btn btn-outline-white">Khám phá ngay</Link>
+                    </div>
+                </div>
+            </section>
+
+            {/* === 4. BENTO GRID STORIES (Apple/Samsung Style) === */}
+            <section className={`stories-section section-padding fade-in-section ${isVisibleSection2 ? 'is-visible' : ''}`} ref={refSection2}>
+                <h2 className="section-heading text-left">Hệ sinh thái Galaxy</h2>
+                <div className="bento-grid">
+                    {/* Large Item */}
+                    <div className="bento-item large-item" style={{backgroundImage: "url('/images/switchtogalaxy.avif')"}}>
+                        <div className="bento-content">
+                            <h3>Switch to Galaxy</h3>
+                            <p>Chuyển đổi dữ liệu dễ dàng</p>
+                        </div>
+                    </div>
+
+                    {/* Medium Item */}
+                    <div className="bento-item medium-item" style={{backgroundColor: '#000'}}>
+                        <div className="bento-content center">
+                            <Monitor size={48} color="white" />
+                            <h3>Smart TV</h3>
+                            <p>Nâng tầm giải trí tại gia</p>
+                        </div>
+                    </div>
+
+                    {/* Medium Item with Gradient */}
+                    <div className="bento-item medium-item gradient-blue">
+                        <div className="bento-content center">
+                            <h3>Galaxy AI ✨</h3>
+                            <p>Quyền năng mới</p>
+                        </div>
+                    </div>
+
+                    {/* Wide Item */}
+                    <div className="bento-item wide-item" style={{backgroundImage: "url('/images/samsunghealth.avif')"}}>
+                        <div className="bento-content dark-overlay">
+                            <h3>Samsung Health</h3>
+                            <p>Theo dõi sức khỏe toàn diện cùng Galaxy Watch</p>
                         </div>
                     </div>
                 </div>
             </section>
 
-         
-            <section className="sub-banner-section">
-                <img src="/images/bannerphu.jpeg" alt="TV Banner" className="sub-banner-img" onError={(e) => e.target.style.display = 'none'}/>
-                <div className="sub-banner-content">
-                    <h2>Kỷ nguyên màn hình AI</h2>
-                    <p>Trải nghiệm hình ảnh chân thực đến từng chi tiết với Neo QLED 8K</p>
-                    <Link to="/category/tv" className="btn btn-white">Khám phá ngay</Link>
-                </div>
-            </section>
-
-          
-            <section className="highlight-products">
+            {/* === 5. TOP RATED === */}
+            <section className="highlight-products section-padding bg-light">
                 <h3 className="highlight-heading">Sản phẩm được yêu thích nhất</h3>
                 <div className="grid-container">
                     {loading ? (
                         <p>Đang tải...</p>
                     ) : (
-                        topRated.map((item) => (
-                            <div className="card" key={item.ma_san_pham}>
-                                <div className="rating-badge">
-                                    {item.diem_danh_gia} <Star size={12} fill="white" strokeWidth={0} />
+                        topRated.slice(0, 4).map((item) => (
+                            <div className="card clean-card" key={item.ma_san_pham}>
+                                <div className="rating-pill">
+                                    {item.diem_danh_gia} <Star size={10} fill="#FFD700" strokeWidth={0} />
                                 </div>
                                 <Link to={`/product/${item.ma_san_pham}`}>
-                                    <img 
-                                        src={getImageUrl(item.hinh_anh)} 
-                                        alt={item.ten_san_pham} 
-                                        onError={(e) => e.target.src = 'https://placehold.co/300x300?text=No+Image'}
-                                    />
+                                    <img src={getImageUrl(item.hinh_anh)} alt={item.ten_san_pham} />
                                 </Link>
-                                <h3>
-                                    <Link to={`/product/${item.ma_san_pham}`}>{item.ten_san_pham}</Link>
-                                </h3>
-                                <p className="price">{formatPrice(item.gia)}</p>
-                                <Link to={`/product/${item.ma_san_pham}`} className="buy-btn">
-                                    Xem chi tiết
-                                </Link>
+                                <div className="clean-info">
+                                    <h3>{item.ten_san_pham}</h3>
+                                    <p className="price-bold">{formatPrice(item.gia)}</p>
+                                </div>
                             </div>
                         ))
                     )}
                 </div>
             </section>
 
-         
-            <section className="stories-section">
-                <h2 className="section-heading" style={{ textAlign: 'left', marginBottom: '30px' }}>Khám phá những câu chuyện</h2>
-                <div className="stories-grid">
-                    <div className="story-item">
-                        <div className="story-card card-tv">
-                            <Monitor size={60} color="white" strokeWidth={1.5} />
-                        </div>
-                        <p>Why Samsung Smart TV</p>
-                    </div>
-                    <div className="story-item">
-                        <div className="story-card card-bespoke">
-                            <span className="story-text-center">Bespoke AI <Star size={20} fill="white" /></span>
-                        </div>
-                        <p>Bespoke AI</p>
-                    </div>
-                    <div className="story-item">
-                        <div className="story-card card-smartthings">
-                            <div style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
-                                <div style={{ width: '15px', height: '15px', border: '2px solid white', borderRadius: '50%' }}></div>
-                                <div style={{ width: '30px', height: '30px', border: '2px solid white', borderRadius: '50%' }}></div>
-                                <div style={{ width: '15px', height: '15px', border: '2px solid white', borderRadius: '50%' }}></div>
-                            </div>
-                        </div>
-                        <p>SmartThings</p>
-                    </div>
-                    <div className="story-item">
-                        <div className="story-card card-galaxy">
-                            <span className="story-text-center">Galaxy AI <Star size={20} fill="white" /></span>
-                        </div>
-                        <p>Galaxy AI</p>
-                    </div>
-                    <div className="story-item">
-                        <div className="story-card card-shop">
-                            <ShoppingCart size={60} color="white" strokeWidth={1.5} />
-                        </div>
-                        <p>Buy Direct Get More</p>
-                    </div>
+            {/* === 6. SUB BANNER === */}
+            <section className="sub-banner-section">
+                <img src="/images/bannerphu.jpeg" alt="TV Banner" className="sub-banner-img" />
+                <div className="sub-banner-content animate-up">
+                    <h2>Kỷ nguyên màn hình AI</h2>
+                    <p>Trải nghiệm hình ảnh chân thực đến từng chi tiết</p>
+                    <Link to="/category/tv" className="btn btn-white-glass">Tìm hiểu thêm</Link>
                 </div>
             </section>
 
