@@ -4,10 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use App\Models\Product;
 class ProductController extends Controller
 {
-    
+    public function index()
+    {
+        // Fetch all products, sorted by latest
+        // You can add pagination using ->paginate(10) instead of ->get() if you have many products
+        $products = Product::orderBy('ma_san_pham', 'desc')->get();
+
+        return response()->json([
+            'status' => 200,
+            'products' => $products
+        ]);
+    }
     public function getTopRated()
     {
         $products = DB::table('sanpham')

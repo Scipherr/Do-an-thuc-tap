@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthenticateController;
 
+
 // ROUT CHO PUBLIC 
 Route::post('/authenticate', [AuthenticateController::class, 'authenticate']);
 Route::post('/register', [AuthenticateController::class, 'register']);
@@ -16,5 +17,15 @@ Route::get('products/new-arrivals', [ProductController::class, 'getNewArrivals']
 Route::get('product/{id}', [ProductController::class, 'getDetail']);
 Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('dashboard', [DasboardController::class,'index']);
+    Route::get('logout', [AuthenticateController::class, 'logout']);
+});
+
+Route::group(['middleware' => ['auth:sanctum']], function(){
+    
+    Route::get('dashboard', [DasboardController::class,'index']);
+    
+    // ADD THIS LINE:
+    Route::get('view-product', [ProductController::class, 'index']);
+    
     Route::get('logout', [AuthenticateController::class, 'logout']);
 });

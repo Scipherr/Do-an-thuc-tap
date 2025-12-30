@@ -7,6 +7,8 @@ import  DT  from './components/frontend/DT.jsx';
 import LoginPage from './components/frontend/LoginPage.jsx';
 import RegisterPage from './components/frontend/RegisterPage.jsx';
 import ProductDetail from './components/frontend/ProductDetail.jsx'; // Import the new component
+import AdminDashboard from './components/frontend/admin/Dashboard'; // Example path
+import AdminProducts from './components/frontend/admin/AdminProducts.jsx';
 
 function App() {
   return (
@@ -15,10 +17,15 @@ function App() {
      <Routes>
         <Route path='/' element={<Home/>} />
         <Route path='/dt' element={<DT/>} />
+        {/* This is your Admin Login Page */}
         <Route path='/loginad' element ={<LoginPage/>}/>
         <Route path='/register' element ={<RegisterPage/>}/>
-        {/* Add the Detail Route */}
         <Route path='/product/:id' element={<ProductDetail/>} />
+
+        {/* ADD THIS ROUTE for the Admin Dashboard */}
+        <Route path='/admin/dashboard' element={<AdminDashboard/>} /> 
+        {/* Admin Product Route */}
+        <Route path='/admin/products' element={<AdminProducts/>} />
      </Routes>
      </BrowserRouter>
     </>

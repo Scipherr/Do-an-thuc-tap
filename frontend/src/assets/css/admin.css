@@ -1,0 +1,46 @@
+.admin-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+.admin-sidebar {
+    width: 250px;
+    background: #343a40;
+    color: white;
+    min-height: 100vh;
+    padding-top: 20px;
+    flex-shrink: 0;
+}
+
+.admin-sidebar .nav-link {
+    color: rgba(255, 255, 255, 0.8);
+    padding: 15px 20px;
+    font-size: 16px;
+}
+
+.admin-sidebar .nav-link:hover, .admin-sidebar .nav-link.active {
+    color: white;
+    background: #495057;
+}
+
+.admin-content {
+    flex-grow: 1;
+    background-color: #f4f6f9;
+    padding: 20px;
+}
+
+.stat-card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.icon-box {
+    font-size: 2rem;
+    opacity: 0.7;
+}

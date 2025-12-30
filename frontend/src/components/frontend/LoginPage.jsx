@@ -35,38 +35,27 @@ export const LoginPage = () => {
         };
 
         // Note: Replace with your actual API URL from .env or config
-        axios.get('/sanctum/csrf-cookie').then(response => {
-            axios.post('http://127.0.0.1:8000/api/authenticate', data)
-                .then(res => {
-                    if (res.data.status === true) {
-                        // Store token and user info
-                        localStorage.setItem('auth_token', res.data.token);
-                        localStorage.setItem('auth_name', res.data.user.name);
-                        // Add this line to store the image
-                        localStorage.setItem('auth_image', res.data.user.image); 
-                        
-                        // Navigate to home or dashboard
-                        navigate('/'); 
-                    } else {
-                        setError(res.data.message || 'Login failed');
-                    }
-                    setIsLoading(false);
-                })
-                .catch(err => {
-                    console.error(err);
-                    if (err.response && err.response.data) {
-                        if(err.response.data.errors) {
-                             // Handle validation errors from backend
-                             setError(Object.values(err.response.data.errors).flat()[0]);
-                        } else {
-                             setError(err.response.data.message);
-                        }
-                    } else {
-                        setError('Something went wrong. Please try again.');
-                    }
-                    setIsLoading(false);
-                });
-        });
+       axios.post('http://127.0.0.1:8000/api/authenticate', data)
+    .then(res => {
+        if (res.data.status === true) {
+            // Store token and user info
+            localStorage.setItem('auth_token', res.data.token);
+            localStorage.setItem('auth_name', res.data.user.name);
+            localStorage.setItem('auth_image', res.data.user.image); 
+            localStorage.setItem('auth_role', res.data.user.role); // Optional: Store role if needed later
+
+            // CHECK ROLE AND REDIRECT
+            if (res.data.user.role === 'admin') { // Check your DB value for admin
+                navigate('/admin/dashboard');
+            } else {
+                navigate('/');
+            }
+
+        } else {
+            setError(res.data.message || 'Login failed');
+        }
+        setIsLoading(false);
+    })
     };
 
     return (
