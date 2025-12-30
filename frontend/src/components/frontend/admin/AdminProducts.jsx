@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import '../../../assets/css/admin.css'; // Ensure you have the CSS from the previous step
+import '../../../assets/css/admin.css'; 
+import AdminSidebar from './admin components/AdminSidebar';
 
 const ViewProduct = () => {
     const [loading, setLoading] = useState(true);
@@ -48,17 +49,7 @@ const ViewProduct = () => {
     return (
         <div className="admin-wrapper">
              {/* Sidebar (You should probably move this to a separate component to avoid repeating code) */}
-             <nav className="admin-sidebar d-flex flex-column">
-                <div className="text-center mb-4">
-                    <h4 className="fw-bold">Admin Panel</h4>
-                </div>
-                <ul className="nav flex-column">
-                    <li className="nav-item"><Link to="/admin/dashboard" className="nav-link">Dashboard</Link></li>
-                    <li className="nav-item"><Link to="/admin/products" className="nav-link active">Products</Link></li>
-                    <li className="nav-item"><Link to="/admin/orders" className="nav-link">Orders</Link></li>
-                    <li className="nav-item"><Link to="/admin/users" className="nav-link">Users</Link></li>
-                </ul>
-            </nav>
+            <AdminSidebar />
 
             <div className="admin-content">
                 <div className="card shadow mb-4">

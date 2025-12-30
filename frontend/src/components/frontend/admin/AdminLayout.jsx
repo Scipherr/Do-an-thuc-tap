@@ -25,7 +25,7 @@ const AdminLayout = () => {
 
     return (
         <div className="d-flex" style={{ minHeight: '100vh' }}>
-            {/* SIDEBAR MÀU TỐI */}
+          
             <div className="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style={{ width: '280px' }}>
                 <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                     <span className="fs-4 fw-bold">TNT ADMIN</span>
@@ -54,7 +54,7 @@ const AdminLayout = () => {
                 </button>
             </div>
 
-            {/* NỘI DUNG CHÍNH (THAY ĐỔI THEO ROUTE) */}
+        
             <div className="flex-grow-1 bg-light p-4" style={{ overflowY: 'auto' }}>
                 <Outlet />
             </div>
