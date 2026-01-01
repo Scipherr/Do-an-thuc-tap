@@ -33,7 +33,7 @@ const AdminSidebar = () => {
             
             <ul className="nav flex-column gap-2">
                 <li className="nav-item">
-                    <Link to="/" className="nav-link px-0 text-secondary d-flex align-items-center">
+                    <Link to="/" className="nav-item">
                         <i className="bi bi-arrow-left-circle me-2"></i> View Homepage
                     </Link>
                 </li>

@@ -29,26 +29,33 @@ const Dashboard = () => {
         .then(res => {
             if(res.data.status === 200) {
                 setStats(res.data);
-                setLoading(false);
             }
         })
         .catch(err => {
-            console.error(err);
-            if (err.response && err.response.status === 401) {
-                navigate('/loginad');
+            console.error("Dashboard Error:", err);
+            // Handle unauthorized or forbidden access
+            if (err.response) {
+                if (err.response.status === 401 || err.response.status === 403) {
+                    navigate('/loginad');
+                }
             }
+        })
+        .finally(() => {
+            // FIX: Always turn off loading, even if there is an error
+            setLoading(false);
         });
+
     }, [navigate]);
 
-    // Helper to format status - TEXT ONLY (No Box)
+    // Helper to format status - PLAIN TEXT
     const renderStatus = (status) => {
         switch (parseInt(status)) {
-            case 0: return <span className="fw-bold">Chờ xử lý</span>;       // Grey
-            case 1: return <span className="fw-bold">Đã xác nhận</span>;     // Blue
-            case 2: return <span className="fw-bold">Đang giao</span>;          // Cyan
-            case 3: return <span className="fw-bold">Hoàn thành</span>;      // Green
-            case 4: return <span className="fw-bold">Đã hủy</span>;           // Red
-            default: return <span className="text-secondary">Không rõ</span>;
+            case 0: return "Chờ xử lý";
+            case 1: return "Đã xác nhận";
+            case 2: return "Đang giao";
+            case 3: return "Hoàn thành";
+            case 4: return "Đã hủy";
+            default: return "Không rõ";
         }
     };
 
@@ -66,12 +73,12 @@ const Dashboard = () => {
                 <div className="container-fluid p-0">
                     <h3 className="fw-light mb-4">Overview</h3>
 
-                    {/* Minimal Stats Row */}
+                    {/* Stats Row */}
                     <div className="row g-4 mb-5">
                         <div className="col-md-3">
                             <div className="p-4 bg-white border rounded-0 h-100">
                                 <small className="text-uppercase text-muted fw-bold" style={{fontSize: '0.75rem'}}>Total Orders</small>
-                                <div className="mt-2 d-flex justify-content-between align-items-end">
+                                <div className="mt-2">
                                     <h2 className="mb-0 fw-light">{stats.total_orders}</h2>
                                 </div>
                             </div>
@@ -102,7 +109,7 @@ const Dashboard = () => {
                         </div>
                     </div>
 
-                    {/* Minimal Table - Recent Orders */}
+                    {/* Recent Orders Table */}
                     <div className="bg-white border p-4">
                         <div className="d-flex justify-content-between align-items-center mb-3">
                             <h5 className="mb-0 fw-normal">Đơn hàng gần đây</h5>
@@ -130,7 +137,7 @@ const Dashboard = () => {
                                                     {new Date(item.ngay_tao).toLocaleDateString('vi-VN')}
                                                 </td>
                                                 
-                                                {/* Status (Text Only) */}
+                                                {/* Status (Plain Text) */}
                                                 <td className="py-3">
                                                     {renderStatus(item.trang_thai)}
                                                 </td>

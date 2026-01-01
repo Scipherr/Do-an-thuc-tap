@@ -5,6 +5,7 @@ use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthenticateController;
+use App\Http\Controllers\admin\OrderController;
 
 
 // ROUT CHO PUBLIC 
@@ -19,13 +20,15 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('dashboard', [DasboardController::class,'index']);
     Route::get('logout', [AuthenticateController::class, 'logout']);
 });
-
+//DASH
 Route::group(['middleware' => ['auth:sanctum']], function(){
     
     Route::get('dashboard', [DasboardController::class,'index']);
     
-    // ADD THIS LINE:
+    
     Route::get('view-product', [ProductController::class, 'index']);
     
     Route::get('logout', [AuthenticateController::class, 'logout']);
+    Route::get('admin/orders', [OrderController::class, 'index']);
 });
+

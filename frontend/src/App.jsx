@@ -6,26 +6,27 @@ import Home from './components/frontend/Home.jsx';
 import  DT  from './components/frontend/DT.jsx';
 import LoginPage from './components/frontend/LoginPage.jsx';
 import RegisterPage from './components/frontend/RegisterPage.jsx';
-import ProductDetail from './components/frontend/ProductDetail.jsx'; // Import the new component
-import AdminDashboard from './components/frontend/admin/Dashboard'; // Example path
+import ProductDetail from './components/frontend/ProductDetail.jsx'; 
+import AdminDashboard from './components/frontend/admin/Dashboard'; 
 import AdminProducts from './components/frontend/admin/AdminProducts.jsx';
-
+import OrderManager from './components/frontend/admin/OrderManager.jsx';
 function App() {
   return (
     <>
      <BrowserRouter>
      <Routes>
+      {/* User  */}
         <Route path='/' element={<Home/>} />
         <Route path='/dt' element={<DT/>} />
-        {/* This is your Admin Login Page */}
         <Route path='/loginad' element ={<LoginPage/>}/>
         <Route path='/register' element ={<RegisterPage/>}/>
         <Route path='/product/:id' element={<ProductDetail/>} />
 
-        {/* ADD THIS ROUTE for the Admin Dashboard */}
+        {/* Admin  */}
         <Route path='/admin/dashboard' element={<AdminDashboard/>} /> 
-        {/* Admin Product Route */}
         <Route path='/admin/products' element={<AdminProducts/>} />
+        <Route path='/admin/orders' element={<OrderManager/>} />
+
      </Routes>
      </BrowserRouter>
     </>
