@@ -103,6 +103,14 @@ const OrderManager = () => {
                                             >
                                                 Xem chi tiết
                                             </Link>
+                                            <Link 
+                                                to={`/admin/order/${item.ma_don_hang}`} 
+                                                className="btn btn-primary text-white"
+                                                style={{ fontSize: '0.85rem' }}
+                                            >
+                                                Xóa
+                                            </Link>
+                                            
                                         </td>
                                     </tr>
                                 ))

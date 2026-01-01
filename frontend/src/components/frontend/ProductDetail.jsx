@@ -7,12 +7,16 @@ import { Star, ShoppingCart, Heart, Minus, Plus, Truck, ShieldCheck } from 'luci
 import '../../assets/css/style.scss';
 import '../../assets/css/productdetail.scss';
 
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom'; 
+
 const ProductDetail = () => {
     const { id } = useParams();
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [mainImage, setMainImage] = useState('');
     const [quantity, setQuantity] = useState(1);
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios.get(`http://127.0.0.1:8000/api/product/${id}`).then(res => {
@@ -24,7 +28,30 @@ const ProductDetail = () => {
             setLoading(false);
         }).catch(err => setLoading(false));
     }, [id]);
+const handleAddToCart = (e) => {
+    e.preventDefault();
+    
+    // Payload to send
+    const data = {
+        product_id: product.ma_san_pham,
+        product_qty: quantity,
+    }
 
+    axios.post(`http://127.0.0.1:8000/api/add-to-cart`, data, {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}` }
+    }).then(res => {
+        if(res.data.status === 201) {
+            Swal.fire('Thành công', res.data.message, 'success');
+        } else if(res.data.status === 409) {
+            Swal.fire('Thông báo', res.data.message, 'warning'); // Already in cart
+        } else if(res.data.status === 401) {
+            Swal.fire('Lỗi', res.data.message, 'error');
+            navigate('/loginad');
+        } else if(res.data.status === 404) {
+            Swal.fire('Lỗi', res.data.message, 'error');
+        }
+    });
+}
     const getImageUrl = (path) => {
         if (!path) return 'https://placehold.co/500x500?text=No+Image';
         return path.startsWith('http') || path.startsWith('/') ? path : `/${path}`;
@@ -123,7 +150,7 @@ const ProductDetail = () => {
                                         <span>{quantity}</span>
                                         <button onClick={() => setQuantity(q => q + 1)}><Plus size={16}/></button>
                                     </div>
-                                    <button className="btn-add-minimal">
+                                   <button className="btn-add-minimal" onClick={handleAddToCart}>
                                         Thêm vào giỏ - {formatPrice(product.gia * quantity)}
                                     </button>
                                     <button className="btn-wishlist"><Heart size={20}/></button>

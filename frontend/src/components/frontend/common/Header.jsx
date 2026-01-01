@@ -1,20 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { Nav, Dropdown } from 'react-bootstrap';
+import { Nav, Dropdown, Badge } from 'react-bootstrap'; // Added Badge
 import axios from 'axios';
 
 export const Header = () => {
   const navigate = useNavigate();
+  const [cartCount, setCartCount] = useState(0); // State for cart count
   
-  // Check login status from localStorage
-const isLoggedIn = localStorage.getItem('auth_token');
+  // Auth Check
+  const isLoggedIn = localStorage.getItem('auth_token');
   const userImage = localStorage.getItem('auth_image');
+  const userRole = localStorage.getItem('auth_role');
   
-  // Construct image URL (assuming backend is at localhost:8000)
-  // If userImage is null or "null" string, use a placeholder
   const imageUrl = (userImage && userImage !== 'null' && userImage !== 'undefined') 
-      ? `http://127.0.0.1:8000/${userImage}` // Adjust if your images are stored differently
+      ? `http://127.0.0.1:8000/${userImage}` 
       : 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
+
+  // --- CART COUNT LOGIC ---
+  const updateCartCount = () => {
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      // Count total items (sum of quantities)
+      const count = cart.reduce((acc, item) => acc + item.quantity, 0);
+      setCartCount(count);
+  };
+
+  useEffect(() => {
+      // 1. Initial count check
+      updateCartCount();
+
+      // 2. Listen for custom event 'cart-updated'
+      window.addEventListener('cart-updated', updateCartCount);
+
+      // Cleanup
+      return () => {
+          window.removeEventListener('cart-updated', updateCartCount);
+      };
+  }, []);
+  // ------------------------
 
   const logoutSubmit = (e) => {
     e.preventDefault();
@@ -27,11 +49,11 @@ const isLoggedIn = localStorage.getItem('auth_token');
             localStorage.removeItem('auth_token');
             localStorage.removeItem('auth_name');
             localStorage.removeItem('auth_image');
+            localStorage.removeItem('auth_role');
             navigate('/loginad');
             window.location.reload(); 
         }
     }).catch(err => {
-        
         localStorage.clear();
         navigate('/loginad');
     });
@@ -41,11 +63,13 @@ const isLoggedIn = localStorage.getItem('auth_token');
     <header>
        <div className="header-inner">
             <div className="logo">
-                 <span style={{fontWeight:'900', fontSize:'24px'}}>TNT STORE</span>
+                 <Nav.Link as={NavLink} to="/" className="p-0 text-dark text-decoration-none">
+                    <span style={{fontWeight:'900', fontSize:'24px'}}>TNT STORE</span>
+                 </Nav.Link>
             </div>
             
             <nav className="main-nav">
-                <a href="/" className="nav-item active">Cửa Hàng</a>
+                <Nav.Link as={NavLink} to="/" className="nav-item">Cửa Hàng</Nav.Link>
                
                 <div className="nav-item-group">
                     <a href="#" className="nav-item">Di động</a>
@@ -65,15 +89,6 @@ const isLoggedIn = localStorage.getItem('auth_token');
                                 </div>
                                 <div className="mega-product">
                                     <img src="/images/zfold6.jpg" alt="Flip7"/>
-                                    <p>Galaxy Z Fold 6</p>
-                                </div>
-                                
-                                <div className="mega-product">
-                                    <img src="/images/vn-galaxy-s25-s938-sm-s938bzbcxxv-thumb-544711528.png" alt="Flip7"/>
-                                    <p>Galaxy Z Fold 6</p>
-                                </div>
-                                <div className="mega-product">
-                                    <img src="/images/vn-galaxy-s25-s938-sm-s938bzbcxxv-thumb-544711538.png" alt="Flip7"/>
                                     <p>Galaxy Z Fold 6</p>
                                 </div>
                             </div>
@@ -130,89 +145,21 @@ const isLoggedIn = localStorage.getItem('auth_token');
                         </div>
                     </div>
                 </div>
-
-                <div className="nav-item-group">
-                    <a href="#" className="nav-item">Màn hình</a>
-                    <div className="mega-menu">
-                        <div className="mega-content">
-                            <div className="mega-column">
-                                <h4>Màn hình máy tính</h4>
-                                <a href="#">Odyssey Gaming</a>
-                                <a href="#">ViewFinity</a>
-                                <a href="#">Smart Monitor</a>
-                                <a href="#">Màn hình độ phân giải cao</a>
-                            </div>
-                            <div className="mega-product-list">
-                                <div className="mega-product">
-                                    <img src="/images/oledG8.jpg" alt="Odyssey"/>
-                                    <p>Odyssey OLED G9</p>
-                                </div>
-                                <div className="mega-product">
-                                    <img src="/images/TVM8.webp" alt="SmartMonitor"/>
-                                    <p>Smart Monitor M8</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="nav-item-group">
-                    <a href="#" className="nav-item">Phụ kiện</a>
-                    <div className="mega-menu">
-                        <div className="mega-content">
-                            <div className="mega-column">
-                                <h4>Tìm kiếm nhanh</h4>
-                                <a href="#">Ốp lưng & Bao da</a>
-                                <a href="#">Sạc & Cáp</a>
-                                <a href="#">Galaxy Buds</a>
-                                <a href="#">Dây đeo đồng hồ</a>
-                            </div>
-                            <div className="mega-product-list">
-                                <div className="mega-product">
-                                    <img src="/images/tainghe.webp" alt="Buds"/>
-                                    <p>Galaxy Buds FE</p>
-                                </div>
-                                <div className="mega-product">
-                                    <img src="/images/cucsac.avif" alt="Charger"/>
-                                    <p>Bộ sạc nhanh 65W</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="nav-item-group">
-                    <a href="#" className="nav-item">SmartThings</a>
-                    <div className="mega-menu">
-                        <div className="mega-content">
-                            <div className="mega-column">
-                                <h4>Sống thông minh</h4>
-                                <a href="#">Ứng dụng SmartThings</a>
-                                <a href="#">Trung tâm điều khiển</a>
-                                <a href="#">SmartThings Find</a>
-                                <a href="#">Tiết kiệm năng lượng</a>
-                            </div>
-                            <div className="mega-product-list">
-                                <div className="mega-product">
-                                    <img src="/images/tag2.avif" alt="Tag"/>
-                                    <p>Galaxy SmartTag2</p>
-                                </div>
-                                <div className="mega-product">
-                                    <img src="/images/hub.jpg" alt="Hub"/>
-                                    <p>SmartThings Hub</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </nav>
 
            <div className="header-icons">
                 <a href="#" className="icon-link">Tìm kiếm <i className="fa-solid fa-magnifying-glass"></i></a>
-                <a href="#" className="icon-link"><i className="fa-solid fa-cart-shopping"></i></a>
                 
-              
+                {/* --- CART ICON WITH BADGE --- */}
+                <Nav.Link as={NavLink} to="/cart" className="icon-link position-relative">
+                    <i className="fa-solid fa-cart-shopping"></i>
+                    {cartCount > 0 && (
+                        <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style={{fontSize: '10px'}}>
+                            {cartCount}
+                        </span>
+                    )}
+                </Nav.Link>
+
                 {isLoggedIn ? (
                     <Dropdown>
                         <Dropdown.Toggle variant="link" id="dropdown-basic" className="icon-link p-0 text-decoration-none border-0">
@@ -230,6 +177,14 @@ const isLoggedIn = localStorage.getItem('auth_token');
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu align="end">
+                            {userRole === 'admin' && (
+                                <>
+                                    <Dropdown.Item as={NavLink} to="/admin/dashboard" className="fw-bold text-primary">
+                                        <i className="fa-solid fa-gauge me-2"></i> Admin Dashboard
+                                    </Dropdown.Item>
+                                    <Dropdown.Divider />
+                                </>
+                            )}
                             <Dropdown.Item as={NavLink} to="/my-account">My Account</Dropdown.Item>
                             <Dropdown.Item as={NavLink} to="/cart">My Cart</Dropdown.Item>
                             <Dropdown.Divider />

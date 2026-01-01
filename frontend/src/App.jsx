@@ -10,6 +10,7 @@ import ProductDetail from './components/frontend/ProductDetail.jsx';
 import AdminDashboard from './components/frontend/admin/Dashboard'; 
 import AdminProducts from './components/frontend/admin/AdminProducts.jsx';
 import OrderManager from './components/frontend/admin/OrderManager.jsx';
+import Cart from './components/frontend/Cart.jsx';
 function App() {
   return (
     <>
@@ -21,6 +22,7 @@ function App() {
         <Route path='/loginad' element ={<LoginPage/>}/>
         <Route path='/register' element ={<RegisterPage/>}/>
         <Route path='/product/:id' element={<ProductDetail/>} />
+        <Route path='/cart' element={<Cart/>} />
 
         {/* Admin  */}
         <Route path='/admin/dashboard' element={<AdminDashboard/>} /> 
