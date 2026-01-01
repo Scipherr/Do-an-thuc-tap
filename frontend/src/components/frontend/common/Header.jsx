@@ -2,13 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { Nav, Dropdown } from 'react-bootstrap';
 import axios from 'axios';
-import { ShoppingCart } from 'lucide-react'; 
 
 export const Header = () => {
   const navigate = useNavigate();
   const [cartCount, setCartCount] = useState(0);
-  const [cartItems, setCartItems] = useState([]); 
-  const [totalPrice, setTotalPrice] = useState(0);
 
   // Auth Check
   const isLoggedIn = !!localStorage.getItem('auth_token'); 
@@ -19,11 +16,10 @@ export const Header = () => {
       ? `http://127.0.0.1:8000/${userImage}` 
       : 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
 
-  // --- CART FETCH LOGIC ---
- const fetchCartData = () => {
+  // --- CART FETCH LOGIC (Fixed & Simplified) ---
+  const fetchCartData = () => {
       if (!isLoggedIn) {
           setCartCount(0);
-          setCartItems([]);
           return;
       }
 
@@ -32,20 +28,12 @@ export const Header = () => {
           headers: { "Authorization": `Bearer ${token}` }
       }).then(res => {
           if (res.data.status === 200) {
-              // 1. Filter valid items
+              // 1. Filter valid items (CRASH FIX)
               const validItems = res.data.cart.filter(item => item.product != null);
-              setCartItems(validItems);
               
-              // 2. Safe Reduce for Count
+              // 2. Calculate Count Only (We don't need price/items list for a static header)
               const count = validItems.reduce((acc, item) => acc + item.product_qty, 0); 
               setCartCount(count);
-
-              // 3. Safe Reduce for Price (This is where it was crashing)
-              const total = validItems.reduce((acc, item) => {
-                  if(!item.product) return acc; // Extra safety
-                  return acc + (item.product.gia * item.product_qty);
-              }, 0);
-              setTotalPrice(total);
           }
       }).catch(err => {
           console.error("Cart fetch error", err);
@@ -53,13 +41,8 @@ export const Header = () => {
   };
 
   useEffect(() => {
-      // 1. Initial fetch when page loads
       fetchCartData();
-
-      // 2. Listen for custom event 'cart-updated' from ProductDetail
       window.addEventListener('cart-updated', fetchCartData);
-
-      // Cleanup listener
       return () => {
           window.removeEventListener('cart-updated', fetchCartData);
       };
@@ -83,8 +66,6 @@ export const Header = () => {
     });
   }
 
-  const formatPrice = (price) => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
-
   return (
     <header>
        <div className="header-inner">
@@ -94,10 +75,10 @@ export const Header = () => {
                  </Nav.Link>
             </div>
             
+            {/* --- ORIGINAL MEGA MENUS RESTORED --- */}
             <nav className="main-nav">
                 <Nav.Link as={NavLink} to="/" className="nav-item">Cửa Hàng</Nav.Link>
                
-                {/* --- MEGA MENUS --- */}
                 <div className="nav-item-group">
                     <a href="#" className="nav-item">Di động</a>
                     <div className="mega-menu">
@@ -117,6 +98,7 @@ export const Header = () => {
                         </div>
                     </div>
                 </div>
+
                 <div className="nav-item-group">
                     <a href="#" className="nav-item">TV & AV</a>
                     <div className="mega-menu">
@@ -166,7 +148,6 @@ export const Header = () => {
                         </div>
                     </div>
                 </div>
-
             </nav>
 
            <div className="header-icons d-flex align-items-center gap-3">
@@ -174,68 +155,20 @@ export const Header = () => {
                     <i className="fa-solid fa-magnifying-glass"></i>
                 </a>
                 
-                {/* --- MINI CART DROPDOWN --- */}
-                <Dropdown align="end">
-                    <Dropdown.Toggle variant="link" className="icon-link position-relative text-dark p-0 border-0 after-none text-decoration-none">
-                        <i className="fa-solid fa-cart-shopping"></i>
-                        {cartCount > 0 && (
-                            <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style={{fontSize: '10px'}}>
-                                {cartCount}
-                            </span>
-                        )}
-                    </Dropdown.Toggle>
+                {/* --- STATIC CART LINK (No Hover/Dropdown) --- */}
+                <NavLink to="/cart" className="icon-link position-relative text-dark p-0 border-0 text-decoration-none">
+                    <i className="fa-solid fa-cart-shopping"></i>
+                    {cartCount > 0 && (
+                        <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style={{fontSize: '10px'}}>
+                            {cartCount}
+                        </span>
+                    )}
+                </NavLink>
 
-                    <Dropdown.Menu style={{ minWidth: '320px', padding: '0', border: 'none', boxShadow: '0 4px 20px rgba(0,0,0,0.1)' }}>
-                        <div className="p-3 border-bottom bg-light">
-                            <h6 className="m-0 fw-bold">Giỏ hàng ({cartCount})</h6>
-                        </div>
-                        
-                        <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
-                            {cartItems.length > 0 ? (
-                                cartItems.map((item, idx) => (
-                                    <div key={idx} className="d-flex gap-3 p-3 border-bottom align-items-center bg-white">
-                                        {/* Added safety check just in case item.product is still somehow null */}
-                                        {item.product && (
-                                            <>
-                                                <img 
-                                                    src={`http://127.0.0.1:8000/${item.product.hinh_anh}`} 
-                                                    alt={item.product.ten_san_pham} 
-                                                    style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '4px' }}
-                                                />
-                                                <div className="flex-grow-1">
-                                                    <p className="mb-0 small fw-bold text-truncate" style={{maxWidth: '180px'}}>{item.product.ten_san_pham}</p>
-                                                    <small className="text-muted">{item.product_qty} x {formatPrice(item.product.gia)}</small>
-                                                </div>
-                                            </>
-                                        )}
-                                    </div>
-                                ))
-                            ) : (
-                                <div className="p-4 text-center text-muted bg-white">
-                                    <ShoppingCart size={32} className="mb-2 opacity-50"/>
-                                    <p className="mb-0 small">Giỏ hàng trống</p>
-                                </div>
-                            )}
-                        </div>
-
-                        {cartItems.length > 0 && (
-                            <div className="p-3 bg-white">
-                                <div className="d-flex justify-content-between mb-3">
-                                    <span className="fw-bold">Tổng cộng:</span>
-                                    <span className="fw-bold text-danger">{formatPrice(totalPrice)}</span>
-                                </div>
-                                <div className="d-grid gap-2">
-                                    <NavLink to="/cart" className="btn btn-dark btn-sm rounded-pill fw-bold">Xem giỏ hàng</NavLink>
-                                </div>
-                            </div>
-                        )}
-                    </Dropdown.Menu>
-                </Dropdown>
-
-                {/* --- USER DROPDOWN --- */}
+                {/* --- USER DROPDOWN (Kept Standard) --- */}
                 {isLoggedIn ? (
                     <Dropdown>
-                        <Dropdown.Toggle variant="link" id="dropdown-basic" className="icon-link p-0 text-decoration-none border-0">
+                        <Dropdown.Toggle variant="link" id="dropdown-basic" className="icon-link p-0 text-decoration-none border-0 after-none">
                              <img 
                                 src={imageUrl} 
                                 alt="Profile" 

@@ -182,7 +182,7 @@ const ProductDetail = () => {
 
                         {/* RIGHT: Product Info */}
                         <div className="col-lg-5">
-                            <div className="product-info-minimal sticky-top" style={{top: '100px'}}>
+                            <div className="product-info-minimal" style={{top: '100px'}}>
                                 <h6 className="text-muted text-uppercase small ls-2 mb-2">{product.thuong_hieu}</h6>
                                 <h1 className="display-6 fw-bold mb-3">{product.ten_san_pham}</h1>
                                 
