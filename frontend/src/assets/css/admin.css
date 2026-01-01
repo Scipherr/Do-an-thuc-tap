@@ -44,3 +44,8 @@
     font-size: 2rem;
     opacity: 0.7;
 }
+.nav-item .badge, .notification-icon .badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+}

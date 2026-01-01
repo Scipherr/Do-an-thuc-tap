@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Product;
 use App\Models\Order;
 use App\Models\Category;
+use Carbon\Carbon;
 
 class DasboardController extends Controller
 {
@@ -19,8 +20,8 @@ class DasboardController extends Controller
         $totalCategories = Category::count();
 
         // 2. Get the 5 most recent orders (latest first)
-        $recentOrders = Order::orderBy('ngay_tao', 'desc')
-                             ->take(5)
+        $recentOrders = Order::where('ngay_tao', '>=', Carbon::now()->subWeeks(2)) // Filter: Last 14 days
+                             ->orderBy('ngay_tao', 'desc')
                              ->get();
 
         return response()->json([
