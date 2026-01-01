@@ -33,14 +33,17 @@ export const Header = () => {
           headers: { "Authorization": `Bearer ${token}` }
       }).then(res => {
           if (res.data.status === 200) {
-              setCartItems(res.data.cart);
+              // FIX: Filter out items where product is null (orphaned cart items)
+              const validItems = res.data.cart.filter(item => item.product !== null);
+
+              setCartItems(validItems);
               
               // Calculate total items (sum of quantities)
-              const count = res.data.cart.reduce((acc, item) => acc + item.product_qty, 0); 
+              const count = validItems.reduce((acc, item) => acc + item.product_qty, 0); 
               setCartCount(count);
 
-              // Calculate total price
-              const total = res.data.cart.reduce((acc, item) => acc + (item.product.gia * item.product_qty), 0);
+              // Calculate total price safely
+              const total = validItems.reduce((acc, item) => acc + (item.product.gia * item.product_qty), 0);
               setTotalPrice(total);
           }
       }).catch(err => {
@@ -93,7 +96,7 @@ export const Header = () => {
             <nav className="main-nav">
                 <Nav.Link as={NavLink} to="/" className="nav-item">Cửa Hàng</Nav.Link>
                
-                {/* --- MEGA MENUS (Keep your existing menus here) --- */}
+                {/* --- MEGA MENUS --- */}
                 <div className="nav-item-group">
                     <a href="#" className="nav-item">Di động</a>
                     <div className="mega-menu">
@@ -190,15 +193,20 @@ export const Header = () => {
                             {cartItems.length > 0 ? (
                                 cartItems.map((item, idx) => (
                                     <div key={idx} className="d-flex gap-3 p-3 border-bottom align-items-center bg-white">
-                                        <img 
-                                            src={`http://127.0.0.1:8000/${item.product.hinh_anh}`} 
-                                            alt={item.product.ten_san_pham} 
-                                            style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '4px' }}
-                                        />
-                                        <div className="flex-grow-1">
-                                            <p className="mb-0 small fw-bold text-truncate" style={{maxWidth: '180px'}}>{item.product.ten_san_pham}</p>
-                                            <small className="text-muted">{item.product_qty} x {formatPrice(item.product.gia)}</small>
-                                        </div>
+                                        {/* Added safety check just in case item.product is still somehow null */}
+                                        {item.product && (
+                                            <>
+                                                <img 
+                                                    src={`http://127.0.0.1:8000/${item.product.hinh_anh}`} 
+                                                    alt={item.product.ten_san_pham} 
+                                                    style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '4px' }}
+                                                />
+                                                <div className="flex-grow-1">
+                                                    <p className="mb-0 small fw-bold text-truncate" style={{maxWidth: '180px'}}>{item.product.ten_san_pham}</p>
+                                                    <small className="text-muted">{item.product_qty} x {formatPrice(item.product.gia)}</small>
+                                                </div>
+                                            </>
+                                        )}
                                     </div>
                                 ))
                             ) : (
