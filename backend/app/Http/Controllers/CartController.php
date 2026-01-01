@@ -49,11 +49,15 @@ class CartController extends Controller
         }
     }
 
-    public function viewCart()
+   public function viewCart()
     {
         if (Auth::check()) {
             $user_id = Auth::user()->ma_nguoi_dung;
-            $cartItems = Cart::where('ma_nguoi_dung', $user_id)->get();
+            
+            // FIX: Use whereHas('product') to only get cart items with valid products
+            $cartItems = Cart::where('ma_nguoi_dung', $user_id)
+                             ->whereHas('product') 
+                             ->get();
             
             return response()->json([
                 'status' => 200,

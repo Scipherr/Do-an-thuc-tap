@@ -5,7 +5,6 @@ import Header from './common/Header';
 import Footer from './common/Footer';
 import { Trash2, Minus, Plus, ShoppingBag, ArrowRight } from 'lucide-react';
 import Swal from 'sweetalert2'; 
-// Make sure to install sweetalert2: npm install sweetalert2
 
 const Cart = () => {
     const navigate = useNavigate();
@@ -31,8 +30,12 @@ const Cart = () => {
             headers: { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}` }
         }).then(res => {
             if (res.data.status === 200) {
-                setCart(res.data.cart);
-                setTotalPrice(res.data.total_price); // Assuming backend calculates this, or we calculate below
+                // FIX 1: Filter out items where product is null (orphaned cart items)
+                const validCartItems = res.data.cart.filter(item => item.product !== null);
+                setCart(validCartItems);
+                
+                // Optional: Recalculate total immediately based on valid items
+                // setTotalPrice(res.data.total_price); 
             }
             setLoading(false);
         }).catch(err => {
@@ -78,9 +81,12 @@ const Cart = () => {
         });
     };
 
-    // Calculate total purely on frontend if backend doesn't send it
+    // FIX 2: Calculate total safely by checking if item.product exists
     const calculateTotal = () => {
-        return cart.reduce((sum, item) => sum + (item.product.gia * item.product_qty), 0);
+        return cart.reduce((sum, item) => {
+            if (!item.product) return sum;
+            return sum + (item.product.gia * item.product_qty);
+        }, 0);
     };
 
     if (loading) {
@@ -123,61 +129,66 @@ const Cart = () => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {cart.map((item) => (
-                                                    <tr key={item.id}>
-                                                        <td className="p-3 ps-4">
-                                                            <div className="d-flex align-items-center gap-3">
-                                                                <img 
-                                                                    src={`http://127.0.0.1:8000/${item.product.hinh_anh}`} 
-                                                                    alt={item.product.ten_san_pham} 
-                                                                    className="rounded-3"
-                                                                    style={{width: '60px', height: '60px', objectFit: 'cover'}}
-                                                                />
-                                                                <div>
-                                                                    <h6 className="mb-0 fw-bold text-dark text-decoration-none">
-                                                                        {item.product.ten_san_pham}
-                                                                    </h6>
-                                                                    <small className="text-muted">Mã: {item.product.ma_san_pham}</small>
+                                                {cart.map((item) => {
+                                                    // FIX 3: Don't render if product is null to prevent crash
+                                                    if (!item.product) return null;
+
+                                                    return (
+                                                        <tr key={item.id}>
+                                                            <td className="p-3 ps-4">
+                                                                <div className="d-flex align-items-center gap-3">
+                                                                    <img 
+                                                                        src={`http://127.0.0.1:8000/${item.product.hinh_anh}`} 
+                                                                        alt={item.product.ten_san_pham} 
+                                                                        className="rounded-3"
+                                                                        style={{width: '60px', height: '60px', objectFit: 'cover'}}
+                                                                    />
+                                                                    <div>
+                                                                        <h6 className="mb-0 fw-bold text-dark text-decoration-none">
+                                                                            {item.product.ten_san_pham}
+                                                                        </h6>
+                                                                        <small className="text-muted">Mã: {item.product.ma_san_pham}</small>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </td>
-                                                        <td className="text-center p-3 text-muted">
-                                                            {formatPrice(item.product.gia)}
-                                                        </td>
-                                                        <td className="p-3">
-                                                            <div className="d-flex justify-content-center align-items-center gap-2">
+                                                            </td>
+                                                            <td className="text-center p-3 text-muted">
+                                                                {formatPrice(item.product.gia)}
+                                                            </td>
+                                                            <td className="p-3">
+                                                                <div className="d-flex justify-content-center align-items-center gap-2">
+                                                                    <button 
+                                                                        className="btn btn-sm btn-outline-dark rounded-circle p-0 d-flex align-items-center justify-content-center"
+                                                                        style={{width: '28px', height: '28px'}}
+                                                                        onClick={() => updateQuantity(item.id, 'dec')}
+                                                                    >
+                                                                        <Minus size={14} />
+                                                                    </button>
+                                                                    <span className="fw-bold" style={{minWidth: '20px', textAlign: 'center'}}>
+                                                                        {item.product_qty}
+                                                                    </span>
+                                                                    <button 
+                                                                        className="btn btn-sm btn-outline-dark rounded-circle p-0 d-flex align-items-center justify-content-center"
+                                                                        style={{width: '28px', height: '28px'}}
+                                                                        onClick={() => updateQuantity(item.id, 'inc')}
+                                                                    >
+                                                                        <Plus size={14} />
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                            <td className="text-end p-3 fw-bold">
+                                                                {formatPrice(item.product.gia * item.product_qty)}
+                                                            </td>
+                                                            <td className="p-3 text-end pe-4">
                                                                 <button 
-                                                                    className="btn btn-sm btn-outline-dark rounded-circle p-0 d-flex align-items-center justify-content-center"
-                                                                    style={{width: '28px', height: '28px'}}
-                                                                    onClick={() => updateQuantity(item.id, 'dec')}
+                                                                    onClick={() => deleteCartItem(item.id)} 
+                                                                    className="btn btn-link text-danger p-0"
                                                                 >
-                                                                    <Minus size={14} />
+                                                                    <Trash2 size={18} />
                                                                 </button>
-                                                                <span className="fw-bold" style={{minWidth: '20px', textAlign: 'center'}}>
-                                                                    {item.product_qty}
-                                                                </span>
-                                                                <button 
-                                                                    className="btn btn-sm btn-outline-dark rounded-circle p-0 d-flex align-items-center justify-content-center"
-                                                                    style={{width: '28px', height: '28px'}}
-                                                                    onClick={() => updateQuantity(item.id, 'inc')}
-                                                                >
-                                                                    <Plus size={14} />
-                                                                </button>
-                                                            </div>
-                                                        </td>
-                                                        <td className="text-end p-3 fw-bold">
-                                                            {formatPrice(item.product.gia * item.product_qty)}
-                                                        </td>
-                                                        <td className="p-3 text-end pe-4">
-                                                            <button 
-                                                                onClick={() => deleteCartItem(item.id)} 
-                                                                className="btn btn-link text-danger p-0"
-                                                            >
-                                                                <Trash2 size={18} />
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                ))}
+                                                            </td>
+                                                        </tr>
+                                                    );
+                                                })}
                                             </tbody>
                                         </table>
                                     </div>

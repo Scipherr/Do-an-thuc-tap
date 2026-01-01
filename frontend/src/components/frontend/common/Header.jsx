@@ -20,8 +20,7 @@ export const Header = () => {
       : 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
 
   // --- CART FETCH LOGIC ---
-  const fetchCartData = () => {
-      // If not logged in, we can't fetch the server cart
+ const fetchCartData = () => {
       if (!isLoggedIn) {
           setCartCount(0);
           setCartItems([]);
@@ -33,17 +32,19 @@ export const Header = () => {
           headers: { "Authorization": `Bearer ${token}` }
       }).then(res => {
           if (res.data.status === 200) {
-              // FIX: Filter out items where product is null (orphaned cart items)
-              const validItems = res.data.cart.filter(item => item.product !== null);
-
+              // 1. Filter valid items
+              const validItems = res.data.cart.filter(item => item.product != null);
               setCartItems(validItems);
               
-              // Calculate total items (sum of quantities)
+              // 2. Safe Reduce for Count
               const count = validItems.reduce((acc, item) => acc + item.product_qty, 0); 
               setCartCount(count);
 
-              // Calculate total price safely
-              const total = validItems.reduce((acc, item) => acc + (item.product.gia * item.product_qty), 0);
+              // 3. Safe Reduce for Price (This is where it was crashing)
+              const total = validItems.reduce((acc, item) => {
+                  if(!item.product) return acc; // Extra safety
+                  return acc + (item.product.gia * item.product_qty);
+              }, 0);
               setTotalPrice(total);
           }
       }).catch(err => {
