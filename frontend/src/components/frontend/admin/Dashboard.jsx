@@ -15,7 +15,7 @@ const Dashboard = () => {
         recent_orders: []
     });
 
-    // --- DATA FETCHING ---
+    
     useEffect(() => {
         const token = localStorage.getItem('auth_token');
         if (!token) {
@@ -41,13 +41,13 @@ const Dashboard = () => {
             }
         })
         .finally(() => {
-            // FIX: Always turn off loading, even if there is an error
+            
             setLoading(false);
         });
 
     }, [navigate]);
 
-    // Helper to format status - PLAIN TEXT
+    
     const renderStatus = (status) => {
         switch (parseInt(status)) {
             case 0: return "Chờ xử lý";
@@ -68,16 +68,16 @@ const Dashboard = () => {
             
           <AdminSidebar />
 
-            {/* --- MAIN CONTENT --- */}
+           
             <div className="flex-grow-1 p-5">
                 <div className="container-fluid p-0">
-                    <h3 className="fw-light mb-4">Overview</h3>
+                    <h3 className="fw-light mb-4">Tổng quan</h3>
 
-                    {/* Stats Row */}
+                    
                     <div className="row g-4 mb-5">
                         <div className="col-md-3">
                             <div className="p-4 bg-white border rounded-0 h-100">
-                                <small className="text-uppercase text-muted fw-bold" style={{fontSize: '0.75rem'}}>Total Orders</small>
+                                <small className="text-uppercase text-muted fw-bold" style={{fontSize: '0.75rem'}}>Tổng đơn hàng</small>
                                 <div className="mt-2">
                                     <h2 className="mb-0 fw-light">{stats.total_orders}</h2>
                                 </div>
@@ -85,7 +85,7 @@ const Dashboard = () => {
                         </div>
                         <div className="col-md-3">
                             <div className="p-4 bg-white border rounded-0 h-100">
-                                <small className="text-uppercase text-muted fw-bold" style={{fontSize: '0.75rem'}}>Products</small>
+                                <small className="text-uppercase text-muted fw-bold" style={{fontSize: '0.75rem'}}>Sản phẩm</small>
                                 <div className="mt-2">
                                     <h2 className="mb-0 fw-light">{stats.total_products}</h2>
                                 </div>
@@ -93,7 +93,7 @@ const Dashboard = () => {
                         </div>
                         <div className="col-md-3">
                             <div className="p-4 bg-white border rounded-0 h-100">
-                                <small className="text-uppercase text-muted fw-bold" style={{fontSize: '0.75rem'}}>Users</small>
+                                <small className="text-uppercase text-muted fw-bold" style={{fontSize: '0.75rem'}}>Người dùng</small>
                                 <div className="mt-2">
                                     <h2 className="mb-0 fw-light">{stats.total_users}</h2>
                                 </div>
@@ -101,7 +101,7 @@ const Dashboard = () => {
                         </div>
                         <div className="col-md-3">
                             <div className="p-4 bg-white border rounded-0 h-100">
-                                <small className="text-uppercase text-muted fw-bold" style={{fontSize: '0.75rem'}}>Categories</small>
+                                <small className="text-uppercase text-muted fw-bold" style={{fontSize: '0.75rem'}}>Danh mục</small>
                                 <div className="mt-2">
                                     <h2 className="mb-0 fw-light">{stats.total_categories}</h2>
                                 </div>

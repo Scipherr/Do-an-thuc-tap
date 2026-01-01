@@ -38,8 +38,8 @@ const ViewProduct = () => {
                         <img src={`http://127.0.0.1:8000${item.hinh_anh}`} width="50px" alt={item.ten_san_pham} />
                     </td>
                     <td>
-                        <Link to={`/admin/edit-product/${item.ma_san_pham}`} className="btn btn-success btn-sm me-2">Edit</Link>
-                        <button type="button" className="btn btn-danger btn-sm">Delete</button>
+                        <Link to={`/admin/edit-product/${item.ma_san_pham}`} className="btn btn-success btn-sm me-2">Sửa</Link>
+                        <button type="button" className="btn btn-danger btn-sm">Xóa</button>
                     </td>
                 </tr>
             )
@@ -54,20 +54,20 @@ const ViewProduct = () => {
             <div className="admin-content">
                 <div className="card shadow mb-4">
                     <div className="card-header py-3 d-flex justify-content-between">
-                        <h6 className="m-0 font-weight-bold text-primary">Product List</h6>
-                        <Link to="/admin/add-product" className="btn btn-primary btn-sm">Add Product</Link>
+                        <h6 className="m-0 font-weight-bold text-primary">Danh sách sản phẩm</h6>
+                        <Link to="/admin/add-product" className="btn btn-primary btn-sm">Thêm sản phẩm</Link>
                     </div>
                     <div className="card-body">
                         <div className="table-responsive">
                             <table className="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Category ID</th>
-                                        <th>Name</th>
-                                        <th>Price</th>
-                                        <th>Image</th>
-                                        <th>Action</th>
+                                        <th>Mã sản phẩm</th>
+                                        <th>Mã danh mục</th>
+                                        <th>Tên sản phẩm</th>
+                                        <th>Giá</th>
+                                        <th>Hình ảnh</th>
+                                        <th>Hành động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
