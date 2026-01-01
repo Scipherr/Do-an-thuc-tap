@@ -1,57 +1,110 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import { Star, Heart, Minus, Plus, Truck, ShieldCheck } from 'lucide-react';
+
 import Header from './common/Header';
 import Footer from './common/Footer';
-import axios from 'axios';
-import { Star, ShoppingCart, Heart, Minus, Plus, Truck, ShieldCheck } from 'lucide-react';
+
+
 import '../../assets/css/style.scss';
 import '../../assets/css/productdetail.scss';
 
-import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom'; 
-
 const ProductDetail = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
+    
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [mainImage, setMainImage] = useState('');
     const [quantity, setQuantity] = useState(1);
-    const navigate = useNavigate();
 
-    useEffect(() => {
-        axios.get(`http://127.0.0.1:8000/api/product/${id}`).then(res => {
-            if(res.data.status === 200) {
-                const prod = res.data.product;
-                setProduct(prod);
-                setMainImage(prod.hinh_anh);
-            }
-            setLoading(false);
-        }).catch(err => setLoading(false));
-    }, [id]);
-const handleAddToCart = (e) => {
-    e.preventDefault();
     
-    // Payload to send
-    const data = {
-        product_id: product.ma_san_pham,
-        product_qty: quantity,
+    useEffect(() => {
+        let isMounted = true;
+        
+        axios.get(`http://127.0.0.1:8000/api/product/${id}`).then(res => {
+            if (isMounted) {
+                if (res.data.status === 200) {
+                    const prod = res.data.product;
+                    setProduct(prod);
+                    setMainImage(prod.hinh_anh);
+                }
+                setLoading(false);
+            }
+        }).catch(err => {
+            if (isMounted) {
+                console.error("Error fetching product:", err);
+                setLoading(false);
+            }
+        });
+
+        return () => { isMounted = false };
+    }, [id]);
+
+    
+    const handleAddToCart = (e) => {
+        e.preventDefault();
+
+      
+        if (!localStorage.getItem('auth_token')) {
+            Swal.fire({
+                title: 'Chưa đăng nhập',
+                text: 'Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Đăng nhập',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) navigate('/loginad');
+            });
+            return;
+        }
+        
+        const data = {
+            product_id: product.ma_san_pham,
+            product_qty: quantity,
+        };
+
+        axios.post(`http://127.0.0.1:8000/api/add-to-cart`, data, {
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}` }
+        }).then(res => {
+            if (res.data.status === 201) {
+                // SUCCESS
+                Swal.fire({
+                    title: 'Thành công',
+                    text: res.data.message,
+                    icon: 'success',
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+
+                
+                window.dispatchEvent(new Event('cart-updated'));
+                
+            } else if (res.data.status === 409) {
+               
+                Swal.fire('Thông báo', res.data.message, 'warning');
+            } else if (res.data.status === 401) {
+               
+                Swal.fire({
+                    title: 'Lỗi',
+                    text: res.data.message,
+                    icon: 'error'
+                });
+                navigate('/loginad');
+            } else if (res.data.status === 404) {
+               
+                Swal.fire('Lỗi', res.data.message, 'error');
+            }
+        }).catch(err => {
+           
+            Swal.fire('Lỗi', 'Có lỗi xảy ra phía server. Vui lòng thử lại sau.', 'error');
+        });
     }
 
-    axios.post(`http://127.0.0.1:8000/api/add-to-cart`, data, {
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}` }
-    }).then(res => {
-        if(res.data.status === 201) {
-            Swal.fire('Thành công', res.data.message, 'success');
-        } else if(res.data.status === 409) {
-            Swal.fire('Thông báo', res.data.message, 'warning'); // Already in cart
-        } else if(res.data.status === 401) {
-            Swal.fire('Lỗi', res.data.message, 'error');
-            navigate('/loginad');
-        } else if(res.data.status === 404) {
-            Swal.fire('Lỗi', res.data.message, 'error');
-        }
-    });
-}
+    
     const getImageUrl = (path) => {
         if (!path) return 'https://placehold.co/500x500?text=No+Image';
         return path.startsWith('http') || path.startsWith('/') ? path : `/${path}`;
@@ -59,10 +112,27 @@ const handleAddToCart = (e) => {
 
     const formatPrice = (price) => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
 
-    if(loading) return <div className="loading-screen"></div>;
-    if(!product) return <div className="container py-5 text-center"><h2>Sản phẩm không tồn tại</h2></div>;
+    // Render Loading / Error states
+    if (loading) return (
+        <div className="d-flex justify-content-center align-items-center" style={{minHeight: '80vh'}}>
+            <div className="spinner-border text-dark" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    );
+    
+    if (!product) return (
+        <>
+            <Header />
+            <div className="container py-5 text-center" style={{minHeight:'60vh'}}>
+                <h2>Sản phẩm không tồn tại</h2>
+                <Link to="/" className="btn btn-dark mt-3">Quay lại trang chủ</Link>
+            </div>
+            <Footer />
+        </>
+    );
 
-    // Parse JSON
+    // Parse JSON fields safely
     const galleryImages = Array.isArray(product.anh_chi_tiet) ? product.anh_chi_tiet : JSON.parse(product.anh_chi_tiet || '[]');
     const specs = typeof product.thong_so_ky_thuat === 'object' ? product.thong_so_ky_thuat : JSON.parse(product.thong_so_ky_thuat || '{}');
 
@@ -75,7 +145,7 @@ const handleAddToCart = (e) => {
                 <div className="container mt-4 mb-5">
                     <nav aria-label="breadcrumb">
                         <ol className="breadcrumb small text-uppercase text-muted">
-                            <li className="breadcrumb-item"><Link to="/">Home</Link></li>
+                            <li className="breadcrumb-item"><Link to="/" className="text-decoration-none text-muted">Home</Link></li>
                             <li className="breadcrumb-item active" aria-current="page">{product.ten_san_pham}</li>
                         </ol>
                     </nav>
@@ -83,7 +153,7 @@ const handleAddToCart = (e) => {
 
                 <div className="container mb-5">
                     <div className="row g-5">
-                        {/* LEFT: Clean Image Gallery */}
+                        {/* LEFT: Image Gallery */}
                         <div className="col-lg-7">
                             <div className="main-image-minimal mb-4">
                                 <img src={getImageUrl(mainImage)} alt={product.ten_san_pham} />
@@ -110,16 +180,18 @@ const handleAddToCart = (e) => {
                             )}
                         </div>
 
-                        {/* RIGHT: Minimal Info */}
+                        {/* RIGHT: Product Info */}
                         <div className="col-lg-5">
                             <div className="product-info-minimal sticky-top" style={{top: '100px'}}>
                                 <h6 className="text-muted text-uppercase small ls-2 mb-2">{product.thuong_hieu}</h6>
                                 <h1 className="display-6 fw-bold mb-3">{product.ten_san_pham}</h1>
                                 
                                 <div className="d-flex align-items-center gap-2 mb-4">
-                                    <span className="fw-bold">{product.diem_danh_gia}</span>
+                                    <span className="fw-bold">{product.diem_danh_gia || 5.0}</span>
                                     <Star size={16} fill="#000" strokeWidth={0} />
-                                    <span className="text-muted ms-2 small text-decoration-underline">{product.so_luot_danh_gia} reviews</span>
+                                    <span className="text-muted ms-2 small text-decoration-underline">
+                                        {product.so_luot_danh_gia || 0} reviews
+                                    </span>
                                 </div>
 
                                 <div className="price-minimal mb-4">
@@ -131,12 +203,12 @@ const handleAddToCart = (e) => {
 
                                 <p className="desc-text mb-4">{product.mo_ta}</p>
 
-                                {/* Simple Specs Grid */}
+                                {/* Specs Preview */}
                                 {specs && Object.keys(specs).length > 0 && (
                                     <div className="specs-minimal mb-5">
                                         {Object.entries(specs).slice(0, 4).map(([key, value]) => (
                                             <div className="spec-item" key={key}>
-                                                <span className="label">{key.replace(/_/g, ' ')}</span>
+                                                <span className="label text-capitalize">{key.replace(/_/g, ' ')}</span>
                                                 <span className="value">{value}</span>
                                             </div>
                                         ))}
@@ -146,9 +218,13 @@ const handleAddToCart = (e) => {
                                 {/* Action Buttons */}
                                 <div className="actions-minimal">
                                     <div className="qty-minimal">
-                                        <button onClick={() => setQuantity(q => Math.max(1, q - 1))}><Minus size={16}/></button>
+                                        <button onClick={() => setQuantity(q => Math.max(1, q - 1))} type="button">
+                                            <Minus size={16}/>
+                                        </button>
                                         <span>{quantity}</span>
-                                        <button onClick={() => setQuantity(q => q + 1)}><Plus size={16}/></button>
+                                        <button onClick={() => setQuantity(q => q + 1)} type="button">
+                                            <Plus size={16}/>
+                                        </button>
                                     </div>
                                    <button className="btn-add-minimal" onClick={handleAddToCart}>
                                         Thêm vào giỏ - {formatPrice(product.gia * quantity)}
@@ -164,20 +240,24 @@ const handleAddToCart = (e) => {
                         </div>
                     </div>
 
-                    {/* BOTTOM: Clean Table */}
+                    {/* BOTTOM: Full Specs Table */}
                     <div className="row mt-5 pt-5">
                         <div className="col-lg-8 mx-auto">
                             <h4 className="mb-4 fw-bold">Thông số kỹ thuật</h4>
-                            <table className="table table-borderless table-minimal">
-                                <tbody>
-                                    {specs && Object.entries(specs).map(([key, value]) => (
-                                        <tr key={key}>
-                                            <td className="text-muted" style={{width: '35%'}}>{key.replace(/_/g, ' ')}</td>
-                                            <td className="fw-medium">{value}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                            <div className="table-responsive">
+                                <table className="table table-borderless table-minimal">
+                                    <tbody>
+                                        {specs && Object.entries(specs).map(([key, value]) => (
+                                            <tr key={key}>
+                                                <td className="text-muted text-capitalize" style={{width: '35%'}}>
+                                                    {key.replace(/_/g, ' ')}
+                                                </td>
+                                                <td className="fw-medium">{value}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
