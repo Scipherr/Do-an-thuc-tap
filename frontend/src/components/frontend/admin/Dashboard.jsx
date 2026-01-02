@@ -15,7 +15,10 @@ const Dashboard = () => {
         recent_orders: []
     });
 
-    
+    // Filter and Sort States
+    const [filterStatus, setFilterStatus] = useState('all');
+    const [sortOrder, setSortOrder] = useState('newest');
+
     useEffect(() => {
         const token = localStorage.getItem('auth_token');
         if (!token) {
@@ -33,7 +36,6 @@ const Dashboard = () => {
         })
         .catch(err => {
             console.error("Dashboard Error:", err);
-            // Handle unauthorized or forbidden access
             if (err.response) {
                 if (err.response.status === 401 || err.response.status === 403) {
                     navigate('/loginad');
@@ -41,13 +43,11 @@ const Dashboard = () => {
             }
         })
         .finally(() => {
-            
             setLoading(false);
         });
 
     }, [navigate]);
 
-    
     const renderStatus = (status) => {
         switch (parseInt(status)) {
             case 0: return "Chờ xử lý";
@@ -59,21 +59,40 @@ const Dashboard = () => {
         }
     };
 
+    // Filter and Sort Logic
+    const getFilteredAndSortedOrders = () => {
+        let result = [...stats.recent_orders];
+
+        // Filter by Status
+        if (filterStatus !== 'all') {
+            result = result.filter(item => parseInt(item.trang_thai) === parseInt(filterStatus));
+        }
+
+        // Sort by Date
+        result.sort((a, b) => {
+            const dateA = new Date(a.ngay_tao);
+            const dateB = new Date(b.ngay_tao);
+            return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
+        });
+
+        return result;
+    };
+
+    const filteredOrders = getFilteredAndSortedOrders();
+
     if (loading) {
         return <div className="d-flex justify-content-center align-items-center vh-100 text-secondary">Loading...</div>;
     }
 
     return (
         <div className="admin-wrapper d-flex" style={{ minHeight: '100vh', backgroundColor: '#f8f9fa' }}>
-            
-          <AdminSidebar />
-
+            <AdminSidebar />
            
             <div className="flex-grow-1 p-5">
                 <div className="container-fluid p-0">
                     <h3 className="fw-light mb-4">Tổng quan</h3>
 
-                    
+                    {/* Stats Cards */}
                     <div className="row g-4 mb-5">
                         <div className="col-md-3">
                             <div className="p-4 bg-white border rounded-0 h-100">
@@ -109,11 +128,38 @@ const Dashboard = () => {
                         </div>
                     </div>
 
-                    {/* Recent Orders Table */}
+                    {/* Recent Orders Section */}
                     <div className="bg-white border p-4">
-                        <div className="d-flex justify-content-between align-items-center mb-3">
+                        <div className="d-flex justify-content-between align-items-center mb-4">
                             <h5 className="mb-0 fw-normal">Đơn hàng gần đây</h5>
                             <Link to="/admin/orders" className="text-decoration-none text-muted small">Xem tất cả &rarr;</Link>
+                        </div>
+
+                        {/* Filter & Sort Bar */}
+                        <div className="d-flex gap-3 mb-3">
+                            <select 
+                                className="form-select form-select-sm" 
+                                style={{ width: '150px' }}
+                                value={filterStatus}
+                                onChange={(e) => setFilterStatus(e.target.value)}
+                            >
+                                <option value="all">Tất cả trạng thái</option>
+                                <option value="0">Chờ xử lý</option>
+                                <option value="1">Đã xác nhận</option>
+                                <option value="2">Đang giao</option>
+                                <option value="3">Hoàn thành</option>
+                                <option value="4">Đã hủy</option>
+                            </select>
+
+                            <select 
+                                className="form-select form-select-sm" 
+                                style={{ width: '150px' }}
+                                value={sortOrder}
+                                onChange={(e) => setSortOrder(e.target.value)}
+                            >
+                                <option value="newest">Mới nhất</option>
+                                <option value="oldest">Cũ nhất</option>
+                            </select>
                         </div>
                         
                         <div className="table-responsive">
@@ -128,20 +174,17 @@ const Dashboard = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {stats.recent_orders.length > 0 ? (
-                                        stats.recent_orders.map((item, index) => (
+                                    {filteredOrders.length > 0 ? (
+                                        filteredOrders.map((item, index) => (
                                             <tr key={item.ma_don_hang} className="border-bottom">
                                                 <td className="py-3 text-muted">{index + 1}</td>
                                                 <td className="py-3 text-dark fw-bold">#{item.ma_don_hang}</td>
                                                 <td className="py-3 text-muted">
                                                     {new Date(item.ngay_tao).toLocaleDateString('vi-VN')}
                                                 </td>
-                                                
-                                                {/* Status (Plain Text) */}
                                                 <td className="py-3">
                                                     {renderStatus(item.trang_thai)}
                                                 </td>
-
                                                 <td className="py-3 text-end">
                                                     <Link to={`/admin/order/${item.ma_don_hang}`} className="btn btn-sm btn-primary text-white">
                                                         Xem chi tiết
@@ -151,7 +194,7 @@ const Dashboard = () => {
                                         ))
                                     ) : (
                                         <tr>
-                                            <td colSpan="5" className="text-center py-5 text-muted">Chưa có đơn hàng nào trong 2 tuần qua</td>
+                                            <td colSpan="5" className="text-center py-5 text-muted">Không tìm thấy đơn hàng nào</td>
                                         </tr>
                                     )}
                                 </tbody>

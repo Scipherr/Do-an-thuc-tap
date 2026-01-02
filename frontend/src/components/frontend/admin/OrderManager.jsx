@@ -9,6 +9,10 @@ const OrderManager = () => {
     const [orders, setOrders] = useState([]);
     const navigate = useNavigate();
 
+    // Filter and Sort States
+    const [filterStatus, setFilterStatus] = useState('all');
+    const [sortOrder, setSortOrder] = useState('date_desc');
+
     useEffect(() => {
         document.title = "Quản Lý Đơn Hàng";
 
@@ -47,6 +51,36 @@ const OrderManager = () => {
         }
     };
 
+    // Filter & Sort Logic
+    const getFilteredOrders = () => {
+        let result = [...orders];
+
+        // Filter
+        if (filterStatus !== 'all') {
+            result = result.filter(order => parseInt(order.trang_thai) === parseInt(filterStatus));
+        }
+
+        // Sort
+        result.sort((a, b) => {
+            const dateA = new Date(a.ngay_tao);
+            const dateB = new Date(b.ngay_tao);
+            const priceA = parseFloat(a.tong_tien);
+            const priceB = parseFloat(b.tong_tien);
+
+            switch (sortOrder) {
+                case 'date_desc': return dateB - dateA;
+                case 'date_asc': return dateA - dateB;
+                case 'price_desc': return priceB - priceA;
+                case 'price_asc': return priceA - priceB;
+                default: return 0;
+            }
+        });
+
+        return result;
+    };
+
+    const filteredOrders = getFilteredOrders();
+
     if (loading) {
         return (
             <div className="d-flex justify-content-center align-items-center vh-100 bg-white">
@@ -63,11 +97,46 @@ const OrderManager = () => {
             
             <div className="flex-grow-1 p-5">
                 {/* Title Section */}
-                <div className="mb-4 pb-3 border-bottom">
+                <div className="mb-4 pb-3 border-bottom d-flex justify-content-between align-items-center">
                     <h5 className="mb-0 fw-light text-uppercase tracking-wide">Quản Lý Đơn Hàng</h5>
+                    <span className="badge bg-light text-dark fw-normal border">
+                        Tổng: {filteredOrders.length} đơn
+                    </span>
                 </div>
 
-                {/* Table Section - No Card Wrapper */}
+                {/* Filter & Sort Bar */}
+                <div className="row g-2 mb-4">
+                    <div className="col-md-3">
+                        <label className="form-label small text-muted text-uppercase mb-1">Lọc theo trạng thái</label>
+                        <select 
+                            className="form-select form-select-sm" 
+                            value={filterStatus}
+                            onChange={(e) => setFilterStatus(e.target.value)}
+                        >
+                            <option value="all">Tất cả đơn hàng</option>
+                            <option value="0">Chờ xử lý</option>
+                            <option value="1">Đã xác nhận</option>
+                            <option value="2">Đang giao</option>
+                            <option value="3">Hoàn thành</option>
+                            <option value="4">Đã hủy</option>
+                        </select>
+                    </div>
+                    <div className="col-md-3">
+                        <label className="form-label small text-muted text-uppercase mb-1">Sắp xếp theo</label>
+                        <select 
+                            className="form-select form-select-sm"
+                            value={sortOrder}
+                            onChange={(e) => setSortOrder(e.target.value)}
+                        >
+                            <option value="date_desc">Mới nhất</option>
+                            <option value="date_asc">Cũ nhất</option>
+                            <option value="price_desc">Tổng tiền (Cao - Thấp)</option>
+                            <option value="price_asc">Tổng tiền (Thấp - Cao)</option>
+                        </select>
+                    </div>
+                </div>
+
+                {/* Table Section */}
                 <div className="table-responsive">
                     <table className="table align-middle mb-0">
                         <thead className="text-secondary" style={{ fontSize: '0.85rem', letterSpacing: '0.5px' }}>
@@ -81,8 +150,8 @@ const OrderManager = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {orders.length > 0 ? (
-                                orders.map((item) => (
+                            {filteredOrders.length > 0 ? (
+                                filteredOrders.map((item) => (
                                     <tr key={item.ma_don_hang} style={{ fontSize: '0.95rem' }}>
                                         <td className="py-3 text-muted">#{item.ma_don_hang}</td>
                                         <td className="py-3">{item.user_name || 'Khách vãng lai'}</td>
@@ -98,26 +167,28 @@ const OrderManager = () => {
                                         <td className="py-3 text-end">
                                             <Link 
                                                 to={`/admin/order/${item.ma_don_hang}`} 
-                                                className="btn btn-sm btn-primary text-white"
+                                                className="btn btn-sm btn-primary text-white me-2"
                                                 style={{ fontSize: '0.85rem' }}
                                             >
                                                 Xem chi tiết
                                             </Link>
                                             <Link 
                                                 to={`/admin/order/${item.ma_don_hang}`} 
-                                                className="btn btn-primary text-white"
+                                                className="btn btn-sm btn-danger text-white"
                                                 style={{ fontSize: '0.85rem' }}
+                                                onClick={(e) => {
+                                                    if(!window.confirm('Bạn có chắc muốn xóa đơn này?')) e.preventDefault();
+                                                }}
                                             >
                                                 Xóa
                                             </Link>
-                                            
                                         </td>
                                     </tr>
                                 ))
                             ) : (
                                 <tr>
                                     <td colSpan="6" className="text-center py-5 text-muted fw-light">
-                                        Chưa có đơn hàng nào.
+                                        Không tìm thấy đơn hàng nào phù hợp.
                                     </td>
                                 </tr>
                             )}
