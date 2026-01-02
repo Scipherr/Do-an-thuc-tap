@@ -205,7 +205,7 @@ const Dashboard = () => {
                                         <th className="fw-normal py-3">Mã đơn hàng</th>
                                         <th className="fw-normal py-3">Ngày tạo</th>
                                         <th className="fw-normal py-3">Trạng thái</th>
-                                        <th className="fw-normal py-3 text-end">Hành động</th>
+                                        <th className="fw-normal py-3 text-end"></th>
                                     </tr>
                                 </thead>
                                 <tbody>

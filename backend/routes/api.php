@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthenticateController;
 use App\Http\Controllers\admin\OrderController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\admin\UserController;
 
 // ROUT CHO PUBLIC 
 Route::post('/authenticate', [AuthenticateController::class, 'authenticate']);
@@ -16,15 +17,11 @@ Route::post('/register', [AuthenticateController::class, 'register']);
 Route::get('products/top-rated', [ProductController::class, 'getTopRated']);
 Route::get('products/new-arrivals', [ProductController::class, 'getNewArrivals']);
 Route::get('product/{id}', [ProductController::class, 'getDetail']);
-Route::group(['middleware' => ['auth:sanctum']], function(){
-    Route::get('dashboard', [DasboardController::class,'index']);
-    Route::get('logout', [AuthenticateController::class, 'logout']);
-});
+
+
 //DASH
 Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('dashboard', [DasboardController::class,'index']);
-    
-    
     Route::get('logout', [AuthenticateController::class, 'logout']);
     Route::get('admin/orders', [OrderController::class, 'index']);
     Route::get('admin/order/{id}', [OrderController::class, 'viewOrder']);
@@ -40,5 +37,8 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::delete('delete-product/{id}', [ProductController::class, 'destroy']);
     Route::get('view-product', [ProductController::class, 'index']);
     Route::put('update-product/{id}', [ProductController::class, 'update']);
+    //USER
+    Route::get('admin/users', [UserController::class, 'index']);
+    Route::delete('admin/delete-user/{id}', [UserController::class, 'destroy']);
 });
 

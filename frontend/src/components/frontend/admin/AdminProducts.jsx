@@ -160,14 +160,14 @@ const ViewProduct = () => {
                                         </td>
                                         <td className="py-3 ps-4">{item.so_luong_ton}</td>
                                         <td className="py-3 text-end">
-                                            <Link to={`/admin/detail-product/${item.ma_san_pham}`} className="btn btn-sm btn-outline-info me-2" style={{ fontSize: '0.85rem' }}>Xem chi tiet</Link>
-                                            <Link to={`/admin/edit-product/${item.ma_san_pham}`} className="btn btn-sm btn-outline-success me-2" style={{ fontSize: '0.85rem' }}>Sửa</Link>
+                                            <Link to={`/admin/detail-product/${item.ma_san_pham}`} className="btn btn-sm btn-primary text-white me-2" style={{ fontSize: '0.85rem' }}>Xem chi tiet</Link>
+                                            <Link to={`/admin/edit-product/${item.ma_san_pham}`} className="btn btn-sm btn-success text-white me-2" style={{ fontSize: '0.85rem' }}>Sửa</Link>
                                             
                                             
                                             <button 
                                                 type="button" 
                                                 onClick={(e) => deleteProduct(e, item.ma_san_pham)}
-                                                className="btn btn-sm btn-outline-danger" 
+                                                className="btn btn-sm btn-danger text-white" 
                                                 style={{ fontSize: '0.85rem' }}
                                             >
                                                 Xóa
