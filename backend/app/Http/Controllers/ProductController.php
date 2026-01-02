@@ -64,18 +64,16 @@ class ProductController extends Controller
             ]);
         }
     }
-    public function getAllCategories()
-    {
-        $category = Category::where('trang_thai', '1')->get(); // Assuming you have a status field, or just all()
-        // If Category model doesn't have 'trang_thai', just use Category::all();
-        // Based on your file, Category only has 'ten_danh_muc' and 'mo_ta', so:
-        $category = Category::all();
-        
-        return response()->json([
-            'status' => 200,
-            'category' => $category,
-        ]);
-    }
+   public function getAllCategories()
+{
+    
+    $category = Category::all();
+    
+    return response()->json([
+        'status' => 200,
+        'category' => $category,
+    ]);
+}
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
