@@ -8,11 +8,11 @@ use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
+
 class ProductController extends Controller
 {
     public function index()
     {
-        
         $products = Product::orderBy('ma_san_pham', 'desc')->get();
 
         return response()->json([
@@ -20,6 +20,7 @@ class ProductController extends Controller
             'products' => $products
         ]);
     }
+
     public function getTopRated()
     {
         $products = DB::table('sanpham')
@@ -33,7 +34,6 @@ class ProductController extends Controller
         ]);
     }
 
-   
     public function getNewArrivals()
     {
         $products = DB::table('sanpham')
@@ -46,7 +46,6 @@ class ProductController extends Controller
             'products' => $products
         ]);
     }
-
 
     public function getDetail($id)
     {
@@ -64,16 +63,17 @@ class ProductController extends Controller
             ]);
         }
     }
-   public function getAllCategories()
-{
-    
-    $category = Category::all();
-    
-    return response()->json([
-        'status' => 200,
-        'category' => $category,
-    ]);
-}
+
+    public function getAllCategories()
+    {
+        $category = Category::all();
+        
+        return response()->json([
+            'status' => 200,
+            'category' => $category,
+        ]);
+    }
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -101,8 +101,14 @@ class ProductController extends Controller
             $product->gia_goc = $request->input('gia_goc');
             $product->gia = $request->input('gia');
             $product->so_luong_ton = $request->input('so_luong_ton');
-            $product->trang_thai = $request->input('trang_thai') == true ? '1' : '0';
-            $product->noi_bat = $request->input('noi_bat') == true ? '1' : '0';
+
+           
+            $product->diem_danh_gia = 0;
+            $product->so_luot_danh_gia = 0;
+            
+
+            
+            $product->thong_so_ky_thuat = $request->input('thong_so_ky_thuat');
 
             if ($request->hasFile('hinh_anh')) {
                 $file = $request->file('hinh_anh');

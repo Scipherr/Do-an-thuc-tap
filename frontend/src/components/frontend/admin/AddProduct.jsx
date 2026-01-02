@@ -122,7 +122,7 @@ const AddProduct = () => {
             if (res.data.status === 200) {
                 alert(res.data.message);
                 setErrorList({});
-                navigate('/admin/view-product');
+                navigate('/admin/dashboard');
             } else if (res.data.status === 422) {
                 setErrorList(res.data.errors);
             } else {
