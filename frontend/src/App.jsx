@@ -13,6 +13,8 @@ import OrderManager from './components/frontend/admin/OrderManager.jsx';
 import Cart from './components/frontend/Cart.jsx';
 import XemChiTietDonHang from './components/frontend/admin/XemChiTietDonHang.jsx';
 import AddProduct from './components/frontend/admin/AddProduct.jsx';
+import EditProduct from './components/frontend/admin/EditProduct.jsx';
+import DetailProduct from './components/frontend/admin/DetailProduct';
 function App() {
   return (
     <>
@@ -32,6 +34,8 @@ function App() {
         <Route path='/admin/orders' element={<OrderManager/>} />
         <Route path="/admin/order/:id" element={<XemChiTietDonHang />} />
         <Route path="/admin/add-product" element={<AddProduct />} />
+        <Route path="/admin/edit-product/:id" element={<EditProduct />} />
+        <Route path="/admin/detail-product/:id" element={<DetailProduct />} />
      </Routes>
      </BrowserRouter>
     </>

@@ -151,5 +151,63 @@ class ProductController extends Controller
             'message' => 'Không tìm thấy sản phẩm',
         ]);
     }
-}
+    }
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'ma_danh_muc' => 'required|max:191',
+            'slug' => 'required|max:191',
+            'ten_san_pham' => 'required|max:191',
+            'gia' => 'required|numeric',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 422,
+                'errors' => $validator->errors(),
+            ]);
+        } else {
+            // Find product by ma_san_pham (assuming that is what you are passing as ID)
+            $product = Product::where('ma_san_pham', $id)->first();
+
+            if ($product) {
+                $product->ma_danh_muc = $request->input('ma_danh_muc');
+                $product->ten_san_pham = $request->input('ten_san_pham');
+                $product->slug = $request->input('slug');
+                $product->mo_ta = $request->input('mo_ta');
+                $product->thuong_hieu = $request->input('thuong_hieu');
+                $product->gia_goc = $request->input('gia_goc');
+                $product->gia = $request->input('gia');
+                $product->so_luong_ton = $request->input('so_luong_ton');
+                
+                // Handle specs (array or json)
+                $product->thong_so_ky_thuat = $request->input('thong_so_ky_thuat');
+
+                // Handle Image Update
+                if ($request->hasFile('hinh_anh')) {
+                    $path = $product->hinh_anh;
+                    if(File::exists($path)) {
+                        File::delete($path);
+                    }
+                    $file = $request->file('hinh_anh');
+                    $extension = $file->getClientOriginalExtension();
+                    $filename = time() . '.' . $extension;
+                    $file->move('uploads/product/', $filename);
+                    $product->hinh_anh = 'uploads/product/' . $filename;
+                }
+
+                $product->update(); // or $product->save();
+
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Cập nhật sản phẩm thành công',
+                ]);
+            } else {
+                 return response()->json([
+                    'status' => 404,
+                    'message' => 'Không tìm thấy sản phẩm',
+                ]);
+            }
+        }
+    }
 }

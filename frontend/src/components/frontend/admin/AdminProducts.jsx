@@ -160,6 +160,7 @@ const ViewProduct = () => {
                                         </td>
                                         <td className="py-3 ps-4">{item.so_luong_ton}</td>
                                         <td className="py-3 text-end">
+                                            <Link to={`/admin/detail-product/${item.ma_san_pham}`} className="btn btn-sm btn-outline-info me-2" style={{ fontSize: '0.85rem' }}>Xem chi tiet</Link>
                                             <Link to={`/admin/edit-product/${item.ma_san_pham}`} className="btn btn-sm btn-outline-success me-2" style={{ fontSize: '0.85rem' }}>Sửa</Link>
                                             
                                             
