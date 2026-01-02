@@ -30,7 +30,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     
     Route::get('logout', [AuthenticateController::class, 'logout']);
     Route::get('admin/orders', [OrderController::class, 'index']);
-
+    Route::get('admin/order/{id}', [OrderController::class, 'viewOrder']);
     // CART ROUTES
     Route::post('add-to-cart', [CartController::class, 'addToCart']);
     Route::get('cart', [CartController::class, 'viewCart']);
