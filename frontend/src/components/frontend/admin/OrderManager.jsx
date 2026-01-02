@@ -96,15 +96,13 @@ const OrderManager = () => {
             <AdminSidebar />
             
             <div className="flex-grow-1 p-5">
-                {/* Title Section */}
+               
                 <div className="mb-4 pb-3 border-bottom d-flex justify-content-between align-items-center">
                     <h5 className="mb-0 fw-light text-uppercase tracking-wide">Quản Lý Đơn Hàng</h5>
-                    <span className="badge bg-light text-dark fw-normal border">
-                        Tổng: {filteredOrders.length} đơn
-                    </span>
+                    
                 </div>
 
-                {/* Filter & Sort Bar */}
+                
                 <div className="row g-2 mb-4">
                     <div className="col-md-3">
                         <label className="form-label small text-muted text-uppercase mb-1">Lọc theo trạng thái</label>

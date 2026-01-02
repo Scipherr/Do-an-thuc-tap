@@ -12,6 +12,7 @@ import AdminProducts from './components/frontend/admin/AdminProducts.jsx';
 import OrderManager from './components/frontend/admin/OrderManager.jsx';
 import Cart from './components/frontend/Cart.jsx';
 import XemChiTietDonHang from './components/frontend/admin/XemChiTietDonHang.jsx';
+import AddProduct from './components/frontend/admin/AddProduct.jsx';
 function App() {
   return (
     <>
@@ -30,6 +31,7 @@ function App() {
         <Route path='/admin/products' element={<AdminProducts/>} />
         <Route path='/admin/orders' element={<OrderManager/>} />
         <Route path="/admin/order/:id" element={<XemChiTietDonHang />} />
+        <Route path="/admin/add-product" element={<AddProduct />} />
      </Routes>
      </BrowserRouter>
     </>

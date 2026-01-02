@@ -59,16 +59,16 @@ const Dashboard = () => {
         }
     };
 
-    // Filter and Sort Logic
+   
     const getFilteredAndSortedOrders = () => {
         let result = [...stats.recent_orders];
 
-        // Filter by Status
+        
         if (filterStatus !== 'all') {
             result = result.filter(item => parseInt(item.trang_thai) === parseInt(filterStatus));
         }
 
-        // Sort by Date
+        
         result.sort((a, b) => {
             const dateA = new Date(a.ngay_tao);
             const dateB = new Date(b.ngay_tao);
@@ -128,14 +128,14 @@ const Dashboard = () => {
                         </div>
                     </div>
 
-                    {/* Recent Orders Section */}
+                   
                     <div className="bg-white border p-4">
                         <div className="d-flex justify-content-between align-items-center mb-4">
                             <h5 className="mb-0 fw-normal">Đơn hàng gần đây</h5>
                             <Link to="/admin/orders" className="text-decoration-none text-muted small">Xem tất cả &rarr;</Link>
                         </div>
 
-                        {/* Filter & Sort Bar */}
+                     
                         <div className="d-flex gap-3 mb-3">
                             <select 
                                 className="form-select form-select-sm" 

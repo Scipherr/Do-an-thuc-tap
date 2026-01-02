@@ -48,7 +48,7 @@ const ViewProduct = () => {
 
     return (
         <div className="admin-wrapper">
-             {/* Sidebar (You should probably move this to a separate component to avoid repeating code) */}
+             
             <AdminSidebar />
 
             <div className="admin-content">

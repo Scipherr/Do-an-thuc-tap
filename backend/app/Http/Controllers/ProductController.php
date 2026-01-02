@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Product;
+use App\Models\Category;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\File;
 class ProductController extends Controller
 {
     public function index()
     {
-        // Fetch all products, sorted by latest
-        // You can add pagination using ->paginate(10) instead of ->get() if you have many products
+        
         $products = Product::orderBy('ma_san_pham', 'desc')->get();
 
         return response()->json([
@@ -59,6 +61,64 @@ class ProductController extends Controller
              return response()->json([
                 'status' => 404,
                 'message' => 'Product Not Found'
+            ]);
+        }
+    }
+    public function getAllCategories()
+    {
+        $category = Category::where('trang_thai', '1')->get(); // Assuming you have a status field, or just all()
+        // If Category model doesn't have 'trang_thai', just use Category::all();
+        // Based on your file, Category only has 'ten_danh_muc' and 'mo_ta', so:
+        $category = Category::all();
+        
+        return response()->json([
+            'status' => 200,
+            'category' => $category,
+        ]);
+    }
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'ma_san_pham' => 'required|unique:sanpham,ma_san_pham|max:191',
+            'ma_danh_muc' => 'required|max:191',
+            'slug' => 'required|max:191',
+            'ten_san_pham' => 'required|max:191',
+            'gia' => 'required|numeric',
+            'hinh_anh' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 422,
+                'errors' => $validator->errors(),
+            ]);
+        } else {
+            $product = new Product;
+            $product->ma_san_pham = $request->input('ma_san_pham');
+            $product->ma_danh_muc = $request->input('ma_danh_muc');
+            $product->ten_san_pham = $request->input('ten_san_pham');
+            $product->slug = $request->input('slug');
+            $product->mo_ta = $request->input('mo_ta');
+            $product->thuong_hieu = $request->input('thuong_hieu');
+            $product->gia_goc = $request->input('gia_goc');
+            $product->gia = $request->input('gia');
+            $product->so_luong_ton = $request->input('so_luong_ton');
+            $product->trang_thai = $request->input('trang_thai') == true ? '1' : '0';
+            $product->noi_bat = $request->input('noi_bat') == true ? '1' : '0';
+
+            if ($request->hasFile('hinh_anh')) {
+                $file = $request->file('hinh_anh');
+                $extension = $file->getClientOriginalExtension();
+                $filename = time() . '.' . $extension;
+                $file->move('uploads/product/', $filename);
+                $product->hinh_anh = 'uploads/product/' . $filename;
+            }
+
+            $product->save();
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Product Added Successfully',
             ]);
         }
     }

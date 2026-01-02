@@ -22,10 +22,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
 });
 //DASH
 Route::group(['middleware' => ['auth:sanctum']], function(){
-    
     Route::get('dashboard', [DasboardController::class,'index']);
-    
-    
     Route::get('view-product', [ProductController::class, 'index']);
     
     Route::get('logout', [AuthenticateController::class, 'logout']);
@@ -36,5 +33,9 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('cart', [CartController::class, 'viewCart']);
     Route::put('cart-updatequantity/{cart_id}/{scope}', [CartController::class, 'updateQuantity']);
     Route::delete('delete-cartitem/{cart_id}', [CartController::class, 'deleteCartItem']);
+
+    //ADD PRODUCT
+    Route::post('add-product', [ProductController::class, 'store']);
+    Route::get('all-categories', [ProductController::class, 'getAllCategories']);
 });
 
