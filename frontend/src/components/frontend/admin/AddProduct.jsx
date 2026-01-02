@@ -151,18 +151,8 @@ const AddProduct = () => {
                             <input type="file" name="hinh_anh" onChange={handleImage} className="form-control" />
                             <small className="text-danger">{errorList.hinh_anh}</small>
                         </div>
-                        <div className="col-md-3 form-group mb-3">
-                            <div className="form-check mt-4">
-                                <input type="checkbox" name="trang_thai" onChange={handleCheckbox} defaultChecked={productInput.trang_thai === 1 ? true : false} className="form-check-input" id="statusCheckbox" />
-                                <label className="form-check-label text-muted" htmlFor="statusCheckbox">Trạng Thái (Hiện/Ẩn)</label>
-                            </div>
-                        </div>
-                        <div className="col-md-3 form-group mb-3">
-                            <div className="form-check mt-4">
-                                <input type="checkbox" name="noi_bat" onChange={handleCheckbox} defaultChecked={productInput.noi_bat === 1 ? true : false} className="form-check-input" id="featuredCheckbox" />
-                                <label className="form-check-label text-muted" htmlFor="featuredCheckbox">Sản Phẩm Nổi Bật</label>
-                            </div>
-                        </div>
+                        
+                        
                         <div className="col-md-12 form-group mb-3">
                             <button type="submit" className="btn btn-primary px-4 mt-2" disabled={loading}>
                                 {loading ? 'Đang xử lý...' : 'Thêm Sản Phẩm'}
