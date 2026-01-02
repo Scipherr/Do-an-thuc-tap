@@ -126,4 +126,30 @@ class ProductController extends Controller
             ]);
         }
     }
+    public function destroy($id)
+{
+    $product = Product::find($id);
+    
+    if($product) 
+    {
+        // Optional: Delete the image file from public folder
+        $path = $product->hinh_anh;
+        if(File::exists($path)) {
+            File::delete($path);
+        }
+
+        $product->delete();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Xóa sản phẩm thành công',
+        ]);
+    }
+    else 
+    {
+        return response()->json([
+            'status' => 404,
+            'message' => 'Không tìm thấy sản phẩm',
+        ]);
+    }
+}
 }

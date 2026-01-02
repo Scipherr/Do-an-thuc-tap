@@ -23,7 +23,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
 //DASH
 Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('dashboard', [DasboardController::class,'index']);
-    Route::get('view-product', [ProductController::class, 'index']);
+    
     
     Route::get('logout', [AuthenticateController::class, 'logout']);
     Route::get('admin/orders', [OrderController::class, 'index']);
@@ -37,5 +37,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     //ADD PRODUCT
     Route::post('add-product', [ProductController::class, 'store']);
     Route::get('all-categories', [ProductController::class, 'getAllCategories']);
+    Route::delete('delete-product/{id}', [ProductController::class, 'destroy']);
+    Route::get('view-product', [ProductController::class, 'index']);
 });
 
