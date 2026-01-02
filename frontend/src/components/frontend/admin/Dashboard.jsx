@@ -4,6 +4,8 @@ import { useNavigate, Link } from 'react-router-dom';
 import '../../../assets/css/admin.css';
 import AdminSidebar from './admin components/AdminSidebar';
 
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+
 const Dashboard = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
@@ -12,10 +14,11 @@ const Dashboard = () => {
         total_products: 0,
         total_orders: 0,
         total_categories: 0,
-        recent_orders: []
+        recent_orders: [],
+        revenue_stats: [] 
     });
 
-    // Filter and Sort States
+ 
     const [filterStatus, setFilterStatus] = useState('all');
     const [sortOrder, setSortOrder] = useState('newest');
 
@@ -59,15 +62,12 @@ const Dashboard = () => {
         }
     };
 
-   
     const getFilteredAndSortedOrders = () => {
         let result = [...stats.recent_orders];
-
         
         if (filterStatus !== 'all') {
             result = result.filter(item => parseInt(item.trang_thai) === parseInt(filterStatus));
         }
-
         
         result.sort((a, b) => {
             const dateA = new Date(a.ngay_tao);
@@ -76,6 +76,10 @@ const Dashboard = () => {
         });
 
         return result;
+    };
+
+    const formatCurrency = (value) => {
+        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
     };
 
     const filteredOrders = getFilteredAndSortedOrders();
@@ -92,7 +96,7 @@ const Dashboard = () => {
                 <div className="container-fluid p-0">
                     <h3 className="fw-light mb-4">Tổng quan</h3>
 
-                    {/* Stats Cards */}
+                 
                     <div className="row g-4 mb-5">
                         <div className="col-md-3">
                             <div className="p-4 bg-white border rounded-0 h-100">
@@ -128,14 +132,45 @@ const Dashboard = () => {
                         </div>
                     </div>
 
-                   
+                 
+                    <div className="row mb-5">
+                        <div className="col-12">
+                            <div className="p-4 bg-white border rounded-0">
+                                <h5 className="mb-4 fw-normal">Doanh thu 7 ngày qua (Đơn hoàn thành)</h5>
+                                <div style={{ width: '100%', height: 350 }}>
+                                    <ResponsiveContainer>
+                                        <BarChart data={stats.revenue_stats}>
+                                            <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                                            <XAxis 
+                                                dataKey="date" 
+                                                tickFormatter={(str) => new Date(str).toLocaleDateString('vi-VN', {day: '2-digit', month: '2-digit'})}
+                                            />
+                                            <YAxis 
+                                                tickFormatter={(value) => new Intl.NumberFormat('vi-VN', { notation: "compact" }).format(value)}
+                                            />
+                                            <Tooltip 
+                                                formatter={(value) => formatCurrency(value)}
+                                               
+                                                labelFormatter={(label) => `Ngày thanh toán: ${new Date(label).toLocaleDateString('vi-VN')}`}
+                                            />
+                                            <Bar dataKey="total_revenue" name="Doanh thu" fill="#0d6efd" barSize={50} radius={[4, 4, 0, 0]} />
+                                        </BarChart>
+                                    </ResponsiveContainer>
+                                    {stats.revenue_stats && stats.revenue_stats.length === 0 && (
+                                        <div className="text-center text-muted mt-2">Chưa có dữ liệu doanh thu trong tuần này.</div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                  
                     <div className="bg-white border p-4">
                         <div className="d-flex justify-content-between align-items-center mb-4">
                             <h5 className="mb-0 fw-normal">Đơn hàng gần đây</h5>
                             <Link to="/admin/orders" className="text-decoration-none text-muted small">Xem tất cả &rarr;</Link>
                         </div>
-
-                     
+                   
                         <div className="d-flex gap-3 mb-3">
                             <select 
                                 className="form-select form-select-sm" 
