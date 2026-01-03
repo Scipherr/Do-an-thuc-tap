@@ -136,7 +136,7 @@ const Home = () => {
                 </ul>
             </div>
 
-            {/* === 1. HERO SLIDER === */}
+          
             <section className="hero-slider">
                 {slides.map((slide, index) => (
                     <div className={`slide ${index === currentSlide ? 'active' : ''}`} key={slide.id}>
@@ -186,7 +186,7 @@ const Home = () => {
                             <div className="card product-card-hover" key={item.ma_san_pham}>
                                 <div className="card-image-wrapper">
                                     <span className="badge-new">New</span>
-                                    <Link to={`/collections/all/product/${item.ma_san_pham}`}>
+                                    <Link to={`/product/${item.ma_san_pham}`}>
                                         <img 
                                             src={getImageUrl(item.hinh_anh)} 
                                             alt={item.ten_san_pham} 
@@ -195,7 +195,7 @@ const Home = () => {
                                     </Link>
                                 </div>
                                 <div className="card-info">
-                                    <h3><Link to={`/collections/all/product/${item.ma_san_pham}`}>{item.ten_san_pham}</Link></h3>
+                                   <h3><Link to={`/product/${item.ma_san_pham}`}>{item.ten_san_pham}</Link></h3>
                                     <p className="price">{formatPrice(item.gia)}</p>
                                     <button className="btn-add-cart">Thêm vào giỏ</button>
                                 </div>

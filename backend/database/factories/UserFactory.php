@@ -31,6 +31,7 @@ class UserFactory extends Factory
         'remember_token' => Str::random(10),
         'ngay_tao' => now(),
         'ngay_cap_nhat' => now(),
+        
     ];
 }
 }

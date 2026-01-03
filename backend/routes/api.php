@@ -27,6 +27,8 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('user-profile', [AuthenticateController::class, 'userProfile']);
     Route::get('my-orders', [OrderController::class, 'myOrders']);
     Route::get('my-order/{id}', [OrderController::class, 'viewOrder']);
+    Route::post('update-user', [AuthenticateController::class, 'updateUser']);
+    Route::post('change-password', [AuthenticateController::class, 'changePassword']);
 
 
     Route::get('admin/orders', [OrderController::class, 'index']);

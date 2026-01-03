@@ -45,14 +45,18 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'ho_ten',
-        'email',
-        'mat_khau',
-        'vai_tro',
-        'duong',
-        'thanh_pho',
-        'tinh_thanh',
-    ];
+    'ho_ten',
+    'email',
+    'mat_khau',
+    'vai_tro',
+    'so_dien_thoai',
+    'duong',
+    'thanh_pho',
+    'tinh_thanh',
+    'hinh_anh',
+    'ngay_sinh',     
+    'gioi_tinh',     
+];
 
     /**
      * The attributes that should be hidden for arrays.

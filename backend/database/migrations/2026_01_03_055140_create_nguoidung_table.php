@@ -25,6 +25,10 @@ return new class extends Migration
             $table->string('thanh_pho', 100)->nullable();
             $table->string('tinh_thanh', 100)->nullable();
             $table->string('hinh_anh')->nullable();
+            $table->string('so_dien_thoai', 20)->nullable()->after('email');
+            $table->date('ngay_sinh')->nullable()->after('hinh_anh');
+            $table->string('gioi_tinh', 10)->nullable()->after('ngay_sinh');
+            
             
             // Fixed: Added this because Laravel Auth expects it for "remember me" functionality
             $table->rememberToken(); 
