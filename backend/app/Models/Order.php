@@ -9,28 +9,21 @@ class Order extends Model
 {
     use HasFactory;
 
-    // Map to the 'donhang' table
     protected $table = 'donhang';
-
-    // Define the primary key
     protected $primaryKey = 'ma_don_hang';
-
-    // Map created_at to 'ngay_tao'
     const CREATED_AT = 'ngay_tao';
-    
-    // Disable updated_at since the column doesn't exist in the 'donhang' table
     const UPDATED_AT = null;
 
     protected $fillable = [
         'ma_nguoi_dung',
-        'trang_thai',       // e.g., 'Pending', 'Completed'
+        'trang_thai',
         'tien_hang',
         'thue',
         'phi_van_chuyen',
         'tien_giam',
         'tong_tien',
-        'phuong_thuc_tt',   // Payment method
-        'da_thanh_toan',    // Boolean (tinyint)
+        'phuong_thuc_tt',
+        'da_thanh_toan',
         'ngay_thanh_toan',
         'da_giao_hang',
         'ngay_giao_hang',
@@ -40,14 +33,18 @@ class Order extends Model
         'ma_khuyen_mai',
     ];
 
-    // Relationship: An order belongs to a User (NguoiDung)
+    
+    protected $casts = [
+        'trang_thai' => 'integer',
+        'da_thanh_toan' => 'boolean', 
+        'da_giao_hang' => 'boolean',  
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'ma_nguoi_dung', 'ma_nguoi_dung');
     }
 
-    // Relationship: An order has many Order Details (ChiTietDonHang)
-    // You will need a OrderDetail model for this to work fully
     public function orderDetails()
     {
         return $this->hasMany(OrderDetail::class, 'ma_don_hang', 'ma_don_hang');

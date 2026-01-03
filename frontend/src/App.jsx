@@ -17,6 +17,7 @@ import EditProduct from './components/frontend/admin/EditProduct.jsx';
 import DetailProduct from './components/frontend/admin/DetailProduct';
 import AdminUsers from './components/frontend/admin/AdminUsers.jsx';
 import MyAccount from './components/frontend/user/MyAccount.jsx';
+import MyOrder from './components/frontend/user/DetailOrder.jsx'; 
 function App() {
   return (
     <>
@@ -40,6 +41,7 @@ function App() {
         <Route path="/admin/detail-product/:id" element={<DetailProduct />} />
         <Route path='/admin/users' element={<AdminUsers/>} />
         <Route path="/my-account" element={<MyAccount />} />
+        <Route path="/my-order/:id" element={<MyOrder />} />
      </Routes>
      </BrowserRouter>
     </>

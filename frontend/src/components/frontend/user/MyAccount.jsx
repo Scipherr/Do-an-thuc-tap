@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
-import { Nav, Row, Col, Button, Form, Spinner, Table, Badge, Image } from 'react-bootstrap';
+import { Nav, Row, Col, Button, Form, Spinner, Table, Image } from 'react-bootstrap';
 
 const MyAccount = () => {
     const navigate = useNavigate();
@@ -34,11 +34,7 @@ const MyAccount = () => {
                 const token = localStorage.getItem('auth_token');
                 const config = { headers: { "Authorization": `Bearer ${token}` } };
 
-                // 1. Fetch User Profile (Optional: if you have a user-profile endpoint)
-                // const userRes = await axios.get('http://127.0.0.1:8000/api/user-profile', config);
-                // if(userRes.data.status === 200) setUser(userRes.data.user);
-                
-                // Fallback to localStorage for now if API isn't ready
+                // Get User Info from LocalStorage
                 const userName = localStorage.getItem('auth_name');
                 const userImage = localStorage.getItem('auth_image');
                 setUser(prev => ({ 
@@ -47,7 +43,7 @@ const MyAccount = () => {
                     avatar: userImage !== 'null' && userImage ? `http://127.0.0.1:8000/${userImage}` : null 
                 }));
 
-                // 2. Fetch User Orders
+                // Fetch User Orders
                 const orderRes = await axios.get('http://127.0.0.1:8000/api/my-orders', config);
                 if (orderRes.data.status === 200) {
                     setOrders(orderRes.data.orders);
@@ -77,21 +73,20 @@ const MyAccount = () => {
         });
     };
 
-    // Helper to format currency
     const formatCurrency = (amount) => {
         return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
     };
 
-    // Helper to map status codes to text/colors
-    // 0:Pending, 1:Processing, 2:Shipping, 3:Delivered, 4:Cancelled
-    const getStatusBadge = (status) => {
+    // SIMPLIFIED: Return plain text instead of Badges
+    const getStatusText = (status) => {
+        // Force conversion to integer to handle both "1" and 1
         switch (parseInt(status)) {
-            case 0: return <Badge bg="secondary">Chờ xử lý</Badge>;
-            case 1: return <Badge bg="info" text="dark">Đã xác nhận</Badge>;
-            case 2: return <Badge bg="warning" text="dark">Đang giao</Badge>;
-            case 3: return <Badge bg="success">Đã giao</Badge>;
-            case 4: return <Badge bg="danger">Đã hủy</Badge>;
-            default: return <Badge bg="secondary">Không rõ</Badge>;
+            case 0: return 'Chờ xử lý';
+            case 1: return 'Đã xác nhận';
+            case 2: return 'Đang giao';
+            case 3: return 'Đã giao';
+            case 4: return 'Đã hủy';
+            default: return 'Chờ xử lý'; // Default fallback
         }
     };
 
@@ -148,10 +143,10 @@ const MyAccount = () => {
                             </Nav>
                         </Col>
 
-                        {/* Content Area */}
+                      
                         <Col md={9}>
                             <div className="ps-md-5">
-                                {/* TAB: ORDERS */}
+                                
                                 {activeTab === 'orders' && (
                                     <div className="fade show">
                                         <h3 className="mb-4 fw-light">Đơn hàng của tôi</h3>
@@ -159,11 +154,11 @@ const MyAccount = () => {
                                             <Table hover responsive className="align-middle">
                                                 <thead className="table-light">
                                                     <tr>
-                                                        <th className="border-0">Mã đơn</th>
-                                                        <th className="border-0">Ngày đặt</th>
-                                                        <th className="border-0">Tổng tiền</th>
-                                                        <th className="border-0">Trạng thái</th>
-                                                        <th className="border-0 text-end">Thao tác</th>
+                                                        <th className="border-1">Mã đơn</th>
+                                                        <th className="border-1">Ngày đặt</th>
+                                                        <th className="border-1">Tổng tiền</th>
+                                                        <th className="border-1">Trạng thái</th>
+                                                        <th className="border-1 text-end">Thao tác</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -172,9 +167,10 @@ const MyAccount = () => {
                                                             <td className="fw-bold">#{order.ma_don_hang}</td>
                                                             <td>{new Date(order.ngay_tao).toLocaleDateString('vi-VN')}</td>
                                                             <td>{formatCurrency(order.tong_tien)}</td>
-                                                            <td>{getStatusBadge(order.trang_thai)}</td>
+                                                         
+                                                            <td>{getStatusText(order.trang_thai)}</td>
                                                             <td className="text-end">
-                                                                <Button variant="link" className="text-dark text-decoration-none p-0">Chi tiết &rarr;</Button>
+                                                                <a href={`/my-order/${order.ma_don_hang}`} className="border-1">Chi tiết &rarr;</a>
                                                             </td>
                                                         </tr>
                                                     ))}
@@ -190,7 +186,7 @@ const MyAccount = () => {
                                     </div>
                                 )}
 
-                                {/* TAB: PROFILE */}
+                               
                                 {activeTab === 'profile' && (
                                     <div className="fade show">
                                         <h3 className="mb-4 fw-light">Hồ sơ cá nhân</h3>
@@ -233,7 +229,7 @@ const MyAccount = () => {
                                     </div>
                                 )}
 
-                                {/* OTHER TABS (Same as before) ... */}
+                               
                                 {activeTab === 'payment' && (
                                     <div className="fade show">
                                         <h3 className="mb-4 fw-light">Ngân hàng & Thanh toán</h3>
@@ -253,6 +249,7 @@ const MyAccount = () => {
                                     </div>
                                 )}
 
+                                
                                 {activeTab === 'address' && (
                                     <div className="fade show">
                                         <h3 className="mb-4 fw-light">Sổ địa chỉ</h3>
@@ -282,6 +279,7 @@ const MyAccount = () => {
                                     </div>
                                 )}
 
+                               
                                 {activeTab === 'password' && (
                                     <div className="fade show">
                                         <h3 className="mb-4 fw-light">Đổi mật khẩu</h3>
@@ -300,6 +298,7 @@ const MyAccount = () => {
                                     </div>
                                 )}
 
+                                
                                 {activeTab === 'settings' && (
                                     <div className="fade show">
                                         <h3 className="mb-4 fw-light">Thiết lập riêng tư</h3>
@@ -323,6 +322,7 @@ const MyAccount = () => {
                                     </div>
                                 )}
 
+                                
                                 {activeTab === 'personal_info' && (
                                     <div className="fade show">
                                         <h3 className="mb-4 fw-light">Thông tin bổ sung</h3>
