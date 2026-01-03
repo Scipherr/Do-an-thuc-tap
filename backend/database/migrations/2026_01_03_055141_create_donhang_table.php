@@ -21,11 +21,11 @@ return new class extends Migration
         // ... rest of your columns ...
         $table->integer('ma_khuyen_mai')->nullable();
         $table->tinyInteger('trang_thai')->default(0);
-        $table->decimal('tien_hang', 10, 2);
-        $table->decimal('thue', 10, 2);
-        $table->decimal('phi_van_chuyen', 10, 2);
-        $table->decimal('tien_giam', 10, 2)->default(0);
-        $table->decimal('tong_tien', 10, 2);
+        $table->decimal('tien_hang', 20, 2);      
+        $table->decimal('thue', 20, 2);           
+        $table->decimal('phi_van_chuyen', 20, 2);
+        $table->decimal('tien_giam', 20, 2)->default(0); 
+        $table->decimal('tong_tien', 20, 2);
         $table->string('phuong_thuc_tt', 50)->nullable();
         $table->boolean('da_thanh_toan')->default(false);
         $table->dateTime('ngay_thanh_toan')->nullable();

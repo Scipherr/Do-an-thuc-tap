@@ -88,7 +88,6 @@ const Checkout = () => {
         const data = {
             ...checkoutInput,
             payment_mode: paymentMode,
-            // Include bank info if needed by backend
             ...(paymentMode === 'Bank Transfer' && { bank_info: bankInfo }) 
         };
 
@@ -104,6 +103,21 @@ const Checkout = () => {
                 Swal.fire('Error', 'Vui lòng điền đầy đủ thông tin bắt buộc', 'error');
             } else if (res.data.status === 400) {
                  Swal.fire('Error', res.data.message, 'error');
+            } else if (res.data.status === 500) {
+              
+                Swal.fire('Error', res.data.message, 'error');
+            } else {
+               
+                Swal.fire('Error', 'Unknown error occurred.', 'error');
+            }
+        }).catch(err => {
+            
+            console.error(err);
+            if (err.response && err.response.status === 401) {
+                Swal.fire('Error', 'Session expired. Please login again.', 'error');
+                navigate('/loginad');
+            } else {
+                Swal.fire('Error', 'Something went wrong. Please check your connection.', 'error');
             }
         });
     };
@@ -125,52 +139,52 @@ const Checkout = () => {
             <Header />
             <div className="container py-5" style={{ minHeight: '80vh' }}>
                 <div className="row g-5">
-                    {/* Page Title */}
+                   
                     <div className="col-12">
-                         <h2 className="fw-bold mb-4 display-6">Checkout</h2>
+                         <h2 className="fw-bold mb-4 display-6">Thanh toán</h2>
                     </div>
 
-                    {/* Left Column: Shipping Info */}
+                    
                     <div className="col-lg-7">
                         <div className="mb-5">
                             <h4 className="fw-bold mb-4 d-flex align-items-center gap-2">
-                                <MapPin size={24} /> Shipping Information
+                                <MapPin size={24} /> Thông tin đơn hàng
                             </h4>
                             
                             <div className="row g-4">
                                 <div className="col-md-6">
-                                    <label className="form-label text-muted small fw-bold">FULL NAME</label>
+                                    <label className="form-label text-muted small fw-bold">Tên khách hàng</label>
                                     <div className="input-group">
                                         <input type="text" name="ho_ten" onChange={handleInput} value={checkoutInput.ho_ten} className={`form-control border-top-0 border-start-0 border-end-0 rounded-0 px-0 bg-transparent ${errors.ho_ten ? 'is-invalid' : ''}`} placeholder="Enter full name" />
                                     </div>
                                     <small className="text-danger">{errors.ho_ten}</small>
                                 </div>
                                 <div className="col-md-6">
-                                    <label className="form-label text-muted small fw-bold">PHONE NUMBER</label>
+                                    <label className="form-label text-muted small fw-bold">Số điện thoại</label>
                                     <div className="input-group">
                                         <input type="text" name="so_dien_thoai" onChange={handleInput} value={checkoutInput.so_dien_thoai} className={`form-control border-top-0 border-start-0 border-end-0 rounded-0 px-0 bg-transparent ${errors.so_dien_thoai ? 'is-invalid' : ''}`} placeholder="Enter phone number" />
                                     </div>
                                     <small className="text-danger">{errors.so_dien_thoai}</small>
                                 </div>
                                 <div className="col-md-12">
-                                    <label className="form-label text-muted small fw-bold">EMAIL ADDRESS</label>
+                                    <label className="form-label text-muted small fw-bold">Email</label>
                                     <div className="input-group">
                                         <input type="email" name="email" onChange={handleInput} value={checkoutInput.email} className={`form-control border-top-0 border-start-0 border-end-0 rounded-0 px-0 bg-transparent ${errors.email ? 'is-invalid' : ''}`} placeholder="Enter email" />
                                     </div>
                                     <small className="text-danger">{errors.email}</small>
                                 </div>
                                 <div className="col-md-12">
-                                    <label className="form-label text-muted small fw-bold">STREET ADDRESS</label>
+                                    <label className="form-label text-muted small fw-bold">Địa chỉ: Số nhà,Tên đường</label>
                                     <input type="text" name="duong" onChange={handleInput} value={checkoutInput.duong} className={`form-control border-top-0 border-start-0 border-end-0 rounded-0 px-0 bg-transparent ${errors.duong ? 'is-invalid' : ''}`} placeholder="House number and street name" />
                                     <small className="text-danger">{errors.duong}</small>
                                 </div>
                                 <div className="col-md-6">
-                                    <label className="form-label text-muted small fw-bold">DISTRICT</label>
+                                    <label className="form-label text-muted small fw-bold">QUẬN/HUYỆN</label>
                                     <input type="text" name="thanh_pho" onChange={handleInput} value={checkoutInput.thanh_pho} className={`form-control border-top-0 border-start-0 border-end-0 rounded-0 px-0 bg-transparent ${errors.thanh_pho ? 'is-invalid' : ''}`} placeholder="District" />
                                     <small className="text-danger">{errors.thanh_pho}</small>
                                 </div>
                                 <div className="col-md-6">
-                                    <label className="form-label text-muted small fw-bold">CITY / PROVINCE</label>
+                                    <label className="form-label text-muted small fw-bold">THÀNH PHỐ / TỈNH</label>
                                     <input type="text" name="tinh_thanh" onChange={handleInput} value={checkoutInput.tinh_thanh} className={`form-control border-top-0 border-start-0 border-end-0 rounded-0 px-0 bg-transparent ${errors.tinh_thanh ? 'is-invalid' : ''}`} placeholder="City" />
                                     <small className="text-danger">{errors.tinh_thanh}</small>
                                 </div>
@@ -178,11 +192,11 @@ const Checkout = () => {
                         </div>
                     </div>
 
-                    {/* Right Column: Order Summary & Payment */}
+                    
                     <div className="col-lg-5">
                         <div className="bg-light bg-opacity-50 p-4 rounded-4 sticky-top" style={{top: '20px'}}>
                              
-                             {/* Order Items */}
+                            
                             <h4 className="fw-bold mb-4">Order Summary</h4>
                             <div className="mb-4" style={{maxHeight: '300px', overflowY: 'auto'}}>
                                 {cart.map((item, idx) => {
@@ -207,14 +221,14 @@ const Checkout = () => {
                                 })}
                             </div>
 
-                            {/* Totals */}
+                          
                             <div className="border-top border-bottom py-3 mb-4">
                                 <div className="d-flex justify-content-between mb-2">
-                                    <span className="text-muted">Subtotal</span>
+                                    <span className="text-muted">Tạm tính</span>
                                     <span className="fw-bold">{formatPrice(totalPrice)}</span>
                                 </div>
                                 <div className="d-flex justify-content-between mb-2">
-                                    <span className="text-muted">Shipping</span>
+                                    <span className="text-muted">Phí vận chuyển</span>
                                     <span className="fw-bold">{formatPrice(30000)}</span>
                                 </div>
                                 <div className="d-flex justify-content-between fs-4 fw-bold mt-3">
@@ -223,10 +237,10 @@ const Checkout = () => {
                                 </div>
                             </div>
 
-                            {/* Payment Methods */}
-                            <h5 className="fw-bold mb-3">Payment Method</h5>
+                          
+                            <h5 className="fw-bold mb-3">Phương thức thanh toán</h5>
                             <div className="d-flex flex-column gap-2">
-                                {/* COD Option */}
+                               
                                 <div 
                                     className={`p-3 rounded-3 border cursor-pointer transition-all ${paymentMode === 'COD' ? 'border-dark bg-white shadow-sm' : 'border-transparent bg-transparent text-muted'}`}
                                     onClick={() => setPaymentMode('COD')}
@@ -237,13 +251,13 @@ const Checkout = () => {
                                             {paymentMode === 'COD' && <div className="bg-dark rounded-circle" style={{width: '10px', height: '10px'}}></div>}
                                         </div>
                                         <div>
-                                            <div className="fw-bold small">Cash on Delivery (COD)</div>
-                                            {paymentMode === 'COD' && <div className="small text-muted mt-1">Pay with cash upon delivery.</div>}
+                                            <div className="fw-bold small">Trả khi nhận hàng(COD)</div>
+                                            {paymentMode === 'COD' && <div className="small text-muted mt-1">Trả tiền mặt khi nhận hàng.</div>}
                                         </div>
                                     </div>
                                 </div>
 
-                                {/* Bank Transfer Option */}
+                               
                                 <div 
                                     className={`p-3 rounded-3 border cursor-pointer transition-all ${paymentMode === 'Bank Transfer' ? 'border-dark bg-white shadow-sm' : 'border-transparent bg-transparent text-muted'}`}
                                     onClick={() => setPaymentMode('Bank Transfer')}
@@ -255,11 +269,11 @@ const Checkout = () => {
                                         </div>
                                         <div className="w-100">
                                             <div className="fw-bold small d-flex justify-content-between align-items-center">
-                                                Bank Transfer / Card
+                                                Thanh toán bằng thẻ tín dụng, thẻ ghi nợ
                                                 <CreditCard size={16} />
                                             </div>
                                             
-                                            {/* Bank Information Input Form - Pops up when active */}
+                                          
                                             {paymentMode === 'Bank Transfer' && (
                                                 <div className="mt-3 pt-3 border-top animate-fade-in">
                                                     <div className="mb-2">
@@ -282,12 +296,12 @@ const Checkout = () => {
                                     </div>
                                 </div>
 
-                                {/* Momo Option (Disabled) */}
+                              
                                 <div className="p-3 rounded-3 border border-transparent text-muted opacity-50">
                                     <div className="d-flex align-items-center gap-3">
                                         <div className="rounded-circle border" style={{width: '20px', height: '20px'}}></div>
                                         <div>
-                                            <div className="fw-bold small">Momo Wallet</div>
+                                            <div className="fw-bold small">Thanh toán bằng ví điện tử momo</div>
                                             <div className="small">Under maintenance</div>
                                         </div>
                                     </div>
@@ -295,7 +309,7 @@ const Checkout = () => {
                             </div>
 
                             <button onClick={submitOrder} className="btn btn-dark w-100 py-3 rounded-pill fw-bold mt-4 shadow-sm text-uppercase letter-spacing-1">
-                                Place Order
+                               Đặt hàng 
                             </button>
                         </div>
                     </div>
