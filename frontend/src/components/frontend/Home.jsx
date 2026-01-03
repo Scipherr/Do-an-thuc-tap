@@ -197,7 +197,9 @@ const Home = () => {
                                 <div className="card-info">
                                    <h3><Link to={`/product/${item.ma_san_pham}`}>{item.ten_san_pham}</Link></h3>
                                     <p className="price">{formatPrice(item.gia)}</p>
-                                    <button className="btn-add-cart">Thêm vào giỏ</button>
+                                    <button className="btn-add-cart">
+                                        <Link to={`/product/${item.ma_san_pham}`} className="text-white text-decoration-none">Thêm vào giỏ</Link>
+                                        </button>
                                 </div>
                             </div>
                         ))

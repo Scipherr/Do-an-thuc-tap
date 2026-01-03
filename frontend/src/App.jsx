@@ -32,8 +32,6 @@ function App() {
         <Route path='/register' element ={<RegisterPage/>}/>
         <Route path='/product/:id' element={<ProductDetail/>} />
         <Route path='/cart' element={<Cart/>} />
-        
-        {/* NEW CATEGORY ROUTE */}
         <Route path='/category/:id' element={<CategoryPage/>} />
 
         {/* Admin  */}

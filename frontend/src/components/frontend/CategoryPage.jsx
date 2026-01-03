@@ -3,16 +3,17 @@ import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import Header from './common/Header';
 import Footer from './common/Footer';
-import { Search, Filter, ArrowUpDown } from 'lucide-react';
+import { Search, Filter } from 'lucide-react';
 
 const CategoryPage = () => {
+   
+    const { id } = useParams(); 
     
-    const { slug: id } = useParams();
     const [products, setProducts] = useState([]);
     const [category, setCategory] = useState(null);
     const [loading, setLoading] = useState(true);
     
-  
+ 
     const [searchTerm, setSearchTerm] = useState('');
     const [sortOption, setSortOption] = useState('default');
     const [priceRange, setPriceRange] = useState({ min: 0, max: 100000000 });
@@ -23,7 +24,9 @@ const CategoryPage = () => {
         const fetchProducts = async () => {
             setLoading(true);
             try {
+               
                 const res = await axios.get(`${BACKEND_URL}/api/products/category/${id}`);
+                
                 if (res.data.status === 200) {
                     setProducts(res.data.products);
                     setCategory(res.data.category);
@@ -37,7 +40,7 @@ const CategoryPage = () => {
         };
 
         fetchProducts();
-    }, [slug]);
+    }, [id]); 
 
     
     const getFilteredProducts = () => {
@@ -50,12 +53,12 @@ const CategoryPage = () => {
             );
         }
 
-        // 2. Price Filter
+      
         filtered = filtered.filter(item => 
             item.gia >= priceRange.min && item.gia <= priceRange.max
         );
 
-        // 3. Sorting
+      
         if (sortOption === 'price-asc') {
             filtered.sort((a, b) => a.gia - b.gia);
         } else if (sortOption === 'price-desc') {
@@ -83,13 +86,13 @@ const CategoryPage = () => {
             <div className="container-fluid py-5 bg-light">
                 <div className="container">
                     <div className="row">
-                        {/* --- LEFT SIDEBAR (Filters) --- */}
+                       
                         <div className="col-md-3 mb-4">
                             <div className="card shadow-sm border-0 rounded-4">
                                 <div className="card-body p-4">
                                     <h4 className="mb-4 fw-bold"><Filter size={20}/> Bộ lọc</h4>
                                     
-                                    {/* Search */}
+                                   
                                     <div className="mb-4">
                                         <label className="form-label fw-semibold">Tìm kiếm</label>
                                         <div className="input-group">
@@ -104,7 +107,7 @@ const CategoryPage = () => {
                                         </div>
                                     </div>
 
-                                    {/* Sort */}
+                                    
                                     <div className="mb-4">
                                         <label className="form-label fw-semibold">Sắp xếp</label>
                                         <select className="form-select" onChange={(e) => setSortOption(e.target.value)}>
@@ -115,7 +118,7 @@ const CategoryPage = () => {
                                         </select>
                                     </div>
 
-                                    {/* Price Range */}
+                                  
                                     <div className="mb-3">
                                         <label className="form-label fw-semibold">Khoảng giá</label>
                                         <div className="d-flex align-items-center gap-2">
@@ -138,7 +141,6 @@ const CategoryPage = () => {
                             </div>
                         </div>
 
-                        {/* --- RIGHT CONTENT (Products) --- */}
                         <div className="col-md-9">
                             <div className="d-flex justify-content-between align-items-center mb-4">
                                 <h2 className="fw-bold text-dark">
@@ -175,7 +177,11 @@ const CategoryPage = () => {
                                                             </Link>
                                                         </h5>
                                                         <p className="fw-bold text-primary fs-5 mb-2">{formatPrice(item.gia)}</p>
-                                                        <button className="btn btn-dark w-100 rounded-pill">Thêm vào giỏ</button>
+                                                        <button className="btn btn-dark w-100 rounded-pill">
+                                                            <Link to={`/product/${item.ma_san_pham}`} className="text-white text-decoration-none">
+                                                                Xem chi tiết
+                                                            </Link>
+                                                            </button>
                                                     </div>
                                                 </div>
                                             </div>
