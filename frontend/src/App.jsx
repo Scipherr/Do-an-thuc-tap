@@ -18,7 +18,8 @@ import DetailProduct from './components/frontend/admin/DetailProduct';
 import AdminUsers from './components/frontend/admin/AdminUsers.jsx';
 import MyAccount from './components/frontend/user/MyAccount.jsx';
 import MyOrder from './components/frontend/user/DetailOrder.jsx'; 
-import CategoryPage from './components/frontend/CategoryPage.jsx';
+import CategoryPage from './components/frontend/CategoryPage.jsx'; 
+
 function App() {
   return (
     <>
@@ -30,8 +31,10 @@ function App() {
         <Route path='/loginad' element ={<LoginPage/>}/>
         <Route path='/register' element ={<RegisterPage/>}/>
         <Route path='/product/:id' element={<ProductDetail/>} />
-        <Route path='/category/:slug' element={<CategoryPage/>} />
         <Route path='/cart' element={<Cart/>} />
+        
+        {/* NEW CATEGORY ROUTE */}
+        <Route path='/category/:id' element={<CategoryPage/>} />
 
         {/* Admin  */}
         <Route path='/admin/dashboard' element={<AdminDashboard/>} /> 

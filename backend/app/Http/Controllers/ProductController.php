@@ -210,28 +210,25 @@ class ProductController extends Controller
             }
         }
     }
-    public function getProductsByCategory($slug)
-{
-    
-    $category = DB::table('danhmuc')->where('slug', $slug)->first();
+  public function getProductsByCategory($id)
+    {
+        
+        $category = DB::table('danhmuc')->where('ma_danh_muc', $id)->first();
 
-   
-    if (!$category) {
-        $category = DB::table('danhmuc')->where('ten_danh_muc', 'like', '%' . str_replace('-', ' ', $slug) . '%')->first();
+        if ($category) {
+           
+            $products = Product::where('ma_danh_muc', $id)->get();
+            
+            return response()->json([
+                'status' => 200,
+                'products' => $products,
+                'category' => $category
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Category not found',
+            ]);
+        }
     }
-
-    if ($category) {
-        $products = Product::where('ma_danh_muc', $category->ma_danh_muc)->get();
-        return response()->json([
-            'status' => 200,
-            'products' => $products,
-            'category' => $category
-        ]);
-    } else {
-        return response()->json([
-            'status' => 404,
-            'message' => 'Danh mục không tồn tại'
-        ]);
-    }
-}
 }

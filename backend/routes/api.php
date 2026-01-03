@@ -9,7 +9,7 @@ use App\Http\Controllers\admin\OrderController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\admin\UserController;
 
-// ROUT CHO PUBLIC 
+// ROUTE CHO PUBLIC 
 Route::post('/authenticate', [AuthenticateController::class, 'authenticate']);
 Route::post('/register', [AuthenticateController::class, 'register']);
 
@@ -18,18 +18,21 @@ Route::get('products/top-rated', [ProductController::class, 'getTopRated']);
 Route::get('products/new-arrivals', [ProductController::class, 'getNewArrivals']);
 Route::get('product/{id}', [ProductController::class, 'getDetail']);
 
+// NEW CATEGORY ROUTE (By ID)
+Route::get('products/category/{id}', [ProductController::class, 'getProductsByCategory']);
+
 
 //DASH
 Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('dashboard', [DasboardController::class,'index']);
     Route::get('logout', [AuthenticateController::class, 'logout']);
+    // ... rest of your routes ...
     //USER
     Route::get('user-profile', [AuthenticateController::class, 'userProfile']);
     Route::get('my-orders', [OrderController::class, 'myOrders']);
     Route::get('my-order/{id}', [OrderController::class, 'viewOrder']);
     Route::post('update-user', [AuthenticateController::class, 'updateUser']);
     Route::post('change-password', [AuthenticateController::class, 'changePassword']);
-   
 
 
     Route::get('admin/orders', [OrderController::class, 'index']);
@@ -40,15 +43,13 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::put('cart-updatequantity/{cart_id}/{scope}', [CartController::class, 'updateQuantity']);
     Route::delete('delete-cartitem/{cart_id}', [CartController::class, 'deleteCartItem']);
 
-    //PRODUCT
+    //ADD PRODUCT
     Route::post('add-product', [ProductController::class, 'store']);
     Route::get('all-categories', [ProductController::class, 'getAllCategories']);
     Route::delete('delete-product/{id}', [ProductController::class, 'destroy']);
     Route::get('view-product', [ProductController::class, 'index']);
     Route::put('update-product/{id}', [ProductController::class, 'update']);
-    Route::get('products/category/{slug}', [ProductController::class, 'getProductsByCategory']);
     //AD_USER
     Route::get('admin/users', [UserController::class, 'index']);
     Route::delete('admin/delete-user/{id}', [UserController::class, 'destroy']);
 });
-

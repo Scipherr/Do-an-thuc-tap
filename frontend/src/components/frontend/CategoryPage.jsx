@@ -6,12 +6,13 @@ import Footer from './common/Footer';
 import { Search, Filter, ArrowUpDown } from 'lucide-react';
 
 const CategoryPage = () => {
-    const { slug } = useParams(); // Gets 'dien-thoai', 'tv', etc. from URL
+    
+    const { slug: id } = useParams();
     const [products, setProducts] = useState([]);
     const [category, setCategory] = useState(null);
     const [loading, setLoading] = useState(true);
     
-    // Filter & Sort States
+  
     const [searchTerm, setSearchTerm] = useState('');
     const [sortOption, setSortOption] = useState('default');
     const [priceRange, setPriceRange] = useState({ min: 0, max: 100000000 });
@@ -22,7 +23,7 @@ const CategoryPage = () => {
         const fetchProducts = async () => {
             setLoading(true);
             try {
-                const res = await axios.get(`${BACKEND_URL}/api/products/category/${slug}`);
+                const res = await axios.get(`${BACKEND_URL}/api/products/category/${id}`);
                 if (res.data.status === 200) {
                     setProducts(res.data.products);
                     setCategory(res.data.category);
@@ -38,7 +39,7 @@ const CategoryPage = () => {
         fetchProducts();
     }, [slug]);
 
-    // Handle Filtering and Sorting
+    
     const getFilteredProducts = () => {
         let filtered = [...products];
 

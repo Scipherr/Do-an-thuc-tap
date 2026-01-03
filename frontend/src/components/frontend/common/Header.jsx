@@ -81,7 +81,7 @@ export const Header = () => {
    
    
     <div className="nav-item-group">
-        <Nav.Link as={NavLink} to="/category/dien-thoai" className="nav-item">Di động</Nav.Link>
+        <Nav.Link as={NavLink} to="/category/1" className="nav-item">Di động</Nav.Link>
         <div className="mega-menu">
            
         </div>
@@ -89,7 +89,7 @@ export const Header = () => {
 
     
     <div className="nav-item-group">
-        <Nav.Link as={NavLink} to="/category/tv" className="nav-item">TV & AV</Nav.Link>
+        <Nav.Link as={NavLink} to="/category/2" className="nav-item">TV & AV</Nav.Link>
         <div className="mega-menu">
             
         </div>
@@ -97,7 +97,7 @@ export const Header = () => {
 
  
     <div className="nav-item-group">
-        <Nav.Link as={NavLink} to="/category/gia-dung" className="nav-item">Gia dụng</Nav.Link>
+       <Nav.Link as={NavLink} to="/category/3" className="nav-item">Gia dụng</Nav.Link>
         <div className="mega-menu">
              
         </div>
