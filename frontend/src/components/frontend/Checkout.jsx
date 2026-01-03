@@ -54,19 +54,20 @@ const Checkout = () => {
                 setLoading(false);
             });
 
-            // Fetch User Profile
+            // Fetch User Profile - FIXED DATA MAPPING HERE
             axios.get(`http://127.0.0.1:8000/api/user-profile`, {
                 headers: { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}` }
             }).then(res => {
                 if (res.data.status === 200) {
                     setCheckoutInput(prev => ({
                         ...prev,
-                        ho_ten: res.data.user.name || '',
+                        // Correctly map Vietnamese DB columns to state
+                        ho_ten: res.data.user.ho_ten || '',
                         email: res.data.user.email || '',
-                        so_dien_thoai: res.data.user.phone || '',
-                        duong: res.data.user.address || '',
-                        thanh_pho: res.data.user.city || '',
-                        tinh_thanh: res.data.user.state || '',
+                        so_dien_thoai: res.data.user.so_dien_thoai || '',
+                        duong: res.data.user.duong || '',
+                        thanh_pho: res.data.user.thanh_pho || '',
+                        tinh_thanh: res.data.user.tinh_thanh || '',
                     }));
                 }
             });
@@ -87,7 +88,7 @@ const Checkout = () => {
         const data = {
             ...checkoutInput,
             payment_mode: paymentMode,
-            // Include bank info if needed by backend, strictly strictly dependent on your backend logic
+            // Include bank info if needed by backend
             ...(paymentMode === 'Bank Transfer' && { bank_info: bankInfo }) 
         };
 
