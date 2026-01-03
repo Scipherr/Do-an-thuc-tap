@@ -21,13 +21,16 @@ class UserFactory extends Factory
      * @return array
      */
     public function definition()
-    {
-        return [
-            'name' => $this->faker->name,
-            'email' => $this->faker->unique()->safeEmail,
-            'email_verified_at' => now(),
-            'password' => '123', // password
-            'remember_token' => Str::random(10),
-        ];
-    }
+{
+    return [
+        'ho_ten' => $this->faker->name, // Changed 'name'
+        'email' => $this->faker->unique()->safeEmail,
+        'email_verified_at' => now(),
+        'mat_khau' => '123', // Changed 'password', kept plain text as per your controller logic
+        'vai_tro' => 'customer',
+        'remember_token' => Str::random(10),
+        'ngay_tao' => now(),
+        'ngay_cap_nhat' => now(),
+    ];
+}
 }
