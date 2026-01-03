@@ -10,7 +10,7 @@ const MyAccount = () => {
     const [activeTab, setActiveTab] = useState('orders');
     const [loading, setLoading] = useState(true);
     
-    // User State
+    
     const [user, setUser] = useState({
         name: '',
         email: '',
@@ -34,7 +34,7 @@ const MyAccount = () => {
                 const token = localStorage.getItem('auth_token');
                 const config = { headers: { "Authorization": `Bearer ${token}` } };
 
-                // Get User Info from LocalStorage
+                
                 const userName = localStorage.getItem('auth_name');
                 const userImage = localStorage.getItem('auth_image');
                 setUser(prev => ({ 
@@ -77,16 +77,16 @@ const MyAccount = () => {
         return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
     };
 
-    // SIMPLIFIED: Return plain text instead of Badges
+    
     const getStatusText = (status) => {
-        // Force conversion to integer to handle both "1" and 1
+      
         switch (parseInt(status)) {
             case 0: return 'Chờ xử lý';
             case 1: return 'Đã xác nhận';
             case 2: return 'Đang giao';
             case 3: return 'Đã giao';
             case 4: return 'Đã hủy';
-            default: return 'Chờ xử lý'; // Default fallback
+            default: return 'Chờ xử lý'; 
         }
     };
 

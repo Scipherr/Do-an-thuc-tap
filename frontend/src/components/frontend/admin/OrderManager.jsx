@@ -9,7 +9,7 @@ const OrderManager = () => {
     const [orders, setOrders] = useState([]);
     const navigate = useNavigate();
 
-    // Filter and Sort States
+    
     const [filterStatus, setFilterStatus] = useState('all');
     const [sortOrder, setSortOrder] = useState('date_desc');
 
@@ -51,16 +51,16 @@ const OrderManager = () => {
         }
     };
 
-    // Filter & Sort Logic
+    
     const getFilteredOrders = () => {
         let result = [...orders];
 
-        // Filter
+       
         if (filterStatus !== 'all') {
             result = result.filter(order => parseInt(order.trang_thai) === parseInt(filterStatus));
         }
 
-        // Sort
+       
         result.sort((a, b) => {
             const dateA = new Date(a.ngay_tao);
             const dateB = new Date(b.ngay_tao);
@@ -134,7 +134,7 @@ const OrderManager = () => {
                     </div>
                 </div>
 
-                {/* Table Section */}
+                
                 <div className="table-responsive">
                     <table className="table align-middle mb-0">
                         <thead className="text-secondary" style={{ fontSize: '0.85rem', letterSpacing: '0.5px' }}>

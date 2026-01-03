@@ -37,20 +37,20 @@ public function myOrders()
     }
 public function viewOrder($id)
     {
-        // Fetch order ONLY if it belongs to the authenticated user
+        
         $order = Order::where('ma_don_hang', $id)
             ->where('ma_nguoi_dung', Auth::id())
             ->first();
 
         if ($order) {
-            // Fetch order items
+            
             $orderItems = DB::table('chitietdonhang')
                 ->join('sanpham', 'chitietdonhang.ma_san_pham', '=', 'sanpham.ma_san_pham')
                 ->where('ma_don_hang', $id)
                 ->select(
                     'chitietdonhang.*',
                     'sanpham.hinh_anh',
-                    'sanpham.ten_san_pham as product_name' // Alias to match frontend expectation
+                    'sanpham.ten_san_pham as product_name' 
                 )
                 ->get();
 

@@ -120,9 +120,9 @@ class AuthenticateController extends Controller
             'user' => [
                 'name' => $user->ho_ten,
                 'email' => $user->email,
-                // Combine address fields if they exist
+               
                 'address' => $user->duong ? ($user->duong . ', ' . $user->thanh_pho . ', ' . $user->tinh_thanh) : 'Chưa cập nhật',
-                'phone' => '', // Add phone column to DB if needed
+                'phone' => '', 
             ],
             'orders' => $orders
         ]);

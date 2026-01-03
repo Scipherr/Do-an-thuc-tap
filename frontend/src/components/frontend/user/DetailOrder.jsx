@@ -19,7 +19,7 @@ const DetailOrder = () => {
             return;
         }
 
-        // Call the USER API endpoint, not the admin one
+        
         axios.get(`http://127.0.0.1:8000/api/my-order/${id}`, {
             headers: { 'Authorization': `Bearer ${token}` }
         }).then(res => {
@@ -30,7 +30,7 @@ const DetailOrder = () => {
                 });
                 setLoading(false);
             } else {
-                // If not found or not owned by user, go back to list
+               
                 navigate('/my-account');
             }
         }).catch(err => {
@@ -39,12 +39,12 @@ const DetailOrder = () => {
         });
     }, [id, navigate]);
 
-    // Format Currency Helper
+   
     const formatCurrency = (amount) => {
         return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
     };
 
-    // Status Text Helper
+    
     const getStatusText = (status) => {
         switch (parseInt(status)) {
             case 0: return 'Chờ xử lý';
@@ -59,9 +59,9 @@ const DetailOrder = () => {
     // Status Color Helper
     const getStatusColor = (status) => {
         switch (parseInt(status)) {
-            case 3: return 'text-success bg-success bg-opacity-10'; // Completed
-            case 4: return 'text-danger bg-danger bg-opacity-10';   // Cancelled
-            default: return 'text-warning bg-warning bg-opacity-10'; // Pending/Processing
+            case 3: return 'text-success bg-success bg-opacity-10'; 
+            case 4: return 'text-danger bg-danger bg-opacity-10';   
+            default: return 'text-warning bg-warning bg-opacity-10'; 
         }
     };
 
@@ -80,7 +80,7 @@ const DetailOrder = () => {
             <Header />
             <div className="bg-white py-5" style={{ minHeight: '80vh' }}>
                 <div className="container">
-                    {/* Page Header */}
+                    
                     <div className="d-flex justify-content-between align-items-center mb-5 pb-3 border-bottom">
                         <div>
                             <small className="text-uppercase text-muted fw-bold" style={{ fontSize: '0.75rem', letterSpacing: '1px' }}>
@@ -94,7 +94,7 @@ const DetailOrder = () => {
                     </div>
 
                     <div className="row g-5">
-                        {/* LEFT COLUMN: Order Items */}
+                      
                         <div className="col-lg-8">
                             <h6 className="text-uppercase text-muted mb-4" style={{ fontSize: '0.8rem', letterSpacing: '0.5px' }}>Sản phẩm đã đặt</h6>
                             
@@ -124,7 +124,7 @@ const DetailOrder = () => {
                                                 </td>
                                                 <td className="py-3 text-end fw-medium" style={{ minWidth: '120px' }}>
                                                     {formatCurrency(item.don_gia || item.gia)} 
-                                                    {/* Note: Ensure backend sends 'gia' or 'don_gia' */}
+                                                    
                                                 </td>
                                             </tr>
                                         ))}
@@ -133,10 +133,10 @@ const DetailOrder = () => {
                             </div>
                         </div>
 
-                        {/* RIGHT COLUMN: Summary Info */}
+                        
                         <div className="col-lg-4">
                             <div className="bg-light p-4 rounded-3">
-                                {/* Status */}
+                                
                                 <div className="mb-4">
                                     <h6 className="text-uppercase text-muted mb-2" style={{ fontSize: '0.75rem' }}>Trạng thái đơn hàng</h6>
                                     <span className={`d-inline-block px-3 py-1 rounded-pill small fw-bold ${getStatusColor(order.trang_thai)}`}>
@@ -144,13 +144,13 @@ const DetailOrder = () => {
                                     </span>
                                 </div>
 
-                                {/* Date */}
+                                
                                 <div className="mb-4">
                                     <h6 className="text-uppercase text-muted mb-2" style={{ fontSize: '0.75rem' }}>Ngày đặt hàng</h6>
                                     <div className="small">{new Date(order.ngay_tao).toLocaleString('vi-VN')}</div>
                                 </div>
 
-                                {/* Shipping Address */}
+                                
                                 <div className="mb-4">
                                     <h6 className="text-uppercase text-muted mb-2" style={{ fontSize: '0.75rem' }}>Địa chỉ nhận hàng</h6>
                                     <div className="small lh-base">
@@ -161,7 +161,7 @@ const DetailOrder = () => {
                                     </div>
                                 </div>
 
-                                {/* Financials */}
+                               
                                 <div className="border-top pt-3 mt-3">
                                     <div className="d-flex justify-content-between mb-2 small text-muted">
                                         <span>Tạm tính</span>
