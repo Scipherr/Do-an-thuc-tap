@@ -7,7 +7,7 @@ export const Header = () => {
   const navigate = useNavigate();
   const [cartCount, setCartCount] = useState(0);
 
-  // Auth Check
+
   const isLoggedIn = !!localStorage.getItem('auth_token'); 
   const userImage = localStorage.getItem('auth_image');
   const userRole = localStorage.getItem('auth_role');
@@ -16,7 +16,7 @@ export const Header = () => {
       ? `http://127.0.0.1:8000/${userImage}` 
       : 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
 
-  // --- CART FETCH LOGIC (Fixed & Simplified) ---
+ 
   const fetchCartData = () => {
       if (!isLoggedIn) {
           setCartCount(0);
@@ -28,10 +28,10 @@ export const Header = () => {
           headers: { "Authorization": `Bearer ${token}` }
       }).then(res => {
           if (res.data.status === 200) {
-              // 1. Filter valid items (CRASH FIX)
+              
               const validItems = res.data.cart.filter(item => item.product != null);
               
-              // 2. Calculate Count Only (We don't need price/items list for a static header)
+              
               const count = validItems.reduce((acc, item) => acc + item.product_qty, 0); 
               setCartCount(count);
           }
@@ -75,7 +75,7 @@ export const Header = () => {
                  </Nav.Link>
             </div>
             
-            {/* --- ORIGINAL MEGA MENUS RESTORED --- */}
+           
             <nav className="main-nav">
                 <Nav.Link as={NavLink} to="/" className="nav-item">Cửa Hàng</Nav.Link>
                
@@ -155,7 +155,7 @@ export const Header = () => {
                     <i className="fa-solid fa-magnifying-glass"></i>
                 </a>
                 
-                {/* --- STATIC CART LINK (No Hover/Dropdown) --- */}
+               
                 <NavLink to="/cart" className="icon-link position-relative text-dark p-0 border-0 text-decoration-none">
                     <i className="fa-solid fa-cart-shopping"></i>
                     {cartCount > 0 && (
@@ -165,7 +165,7 @@ export const Header = () => {
                     )}
                 </NavLink>
 
-                {/* --- USER DROPDOWN (Kept Standard) --- */}
+                
                 {isLoggedIn ? (
                     <Dropdown>
                         <Dropdown.Toggle variant="link" id="dropdown-basic" className="icon-link p-0 text-decoration-none border-0 after-none">
@@ -191,10 +191,10 @@ export const Header = () => {
                                     <Dropdown.Divider />
                                 </>
                             )}
-                            <Dropdown.Item as={NavLink} to="/my-account">My Account</Dropdown.Item>
-                            <Dropdown.Item as={NavLink} to="/cart">My Cart</Dropdown.Item>
+                            <Dropdown.Item as={NavLink} to="/my-account">Tài khoản của tôi</Dropdown.Item>
+                            <Dropdown.Item as={NavLink} to="/cart">Giỏ hàng</Dropdown.Item>
                             <Dropdown.Divider />
-                            <Dropdown.Item onClick={logoutSubmit} className="text-danger">Log out</Dropdown.Item>
+                            <Dropdown.Item onClick={logoutSubmit} className="text-danger">Đăng xuất</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                 ) : (

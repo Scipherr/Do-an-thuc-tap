@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use App\Models\Order;
 
 class AuthenticateController extends Controller
 {
@@ -102,6 +103,28 @@ class AuthenticateController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Logged out successfully'
+        ]);
+    }
+
+    public function userProfile(Request $request)
+    {
+        $user = $request->user();
+        
+        // Fetch orders for this user
+        $orders = Order::where('ma_nguoi_dung', $user->ma_nguoi_dung)
+                       ->orderBy('ngay_tao', 'desc')
+                       ->get();
+
+        return response()->json([
+            'status' => 200,
+            'user' => [
+                'name' => $user->ho_ten,
+                'email' => $user->email,
+                // Combine address fields if they exist
+                'address' => $user->duong ? ($user->duong . ', ' . $user->thanh_pho . ', ' . $user->tinh_thanh) : 'Chưa cập nhật',
+                'phone' => '', // Add phone column to DB if needed
+            ],
+            'orders' => $orders
         ]);
     }
 }

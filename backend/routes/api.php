@@ -23,6 +23,10 @@ Route::get('product/{id}', [ProductController::class, 'getDetail']);
 Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('dashboard', [DasboardController::class,'index']);
     Route::get('logout', [AuthenticateController::class, 'logout']);
+    //USER
+    Route::get('user-profile', [AuthenticateController::class, 'userProfile']);
+
+
     Route::get('admin/orders', [OrderController::class, 'index']);
     Route::get('admin/order/{id}', [OrderController::class, 'viewOrder']);
     // CART ROUTES
@@ -37,7 +41,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::delete('delete-product/{id}', [ProductController::class, 'destroy']);
     Route::get('view-product', [ProductController::class, 'index']);
     Route::put('update-product/{id}', [ProductController::class, 'update']);
-    //USER
+    //AD_USER
     Route::get('admin/users', [UserController::class, 'index']);
     Route::delete('admin/delete-user/{id}', [UserController::class, 'destroy']);
 });
