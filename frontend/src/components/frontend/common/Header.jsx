@@ -76,79 +76,33 @@ export const Header = () => {
             </div>
             
            
-            <nav className="main-nav">
-                <Nav.Link as={NavLink} to="/" className="nav-item">Cửa Hàng</Nav.Link>
-               
-                <div className="nav-item-group">
-                    <a href="#" className="nav-item">Di động</a>
-                    <div className="mega-menu">
-                        <div className="mega-content">
-                            <div className="mega-column">
-                                <h4>Nổi bật</h4>
-                                <a href="#">Galaxy Z Fold7</a>
-                                <a href="#">Galaxy Z Flip7</a>
-                                <a href="#">Galaxy S25 Ultra</a>
-                            </div>
-                            <div className="mega-product-list">
-                                <div className="mega-product">
-                                    <img src="/images/s25phone.png" alt="S25"/>
-                                    <p>Galaxy S25 Ultra</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+           <nav className="main-nav">
+    <Nav.Link as={NavLink} to="/" className="nav-item">Cửa Hàng</Nav.Link>
+   
+   
+    <div className="nav-item-group">
+        <Nav.Link as={NavLink} to="/category/dien-thoai" className="nav-item">Di động</Nav.Link>
+        <div className="mega-menu">
+           
+        </div>
+    </div>
 
-                <div className="nav-item-group">
-                    <a href="#" className="nav-item">TV & AV</a>
-                    <div className="mega-menu">
-                        <div className="mega-content">
-                            <div className="mega-column">
-                                <h4>Khám phá TV</h4>
-                                <a href="#">Neo QLED 8K</a>
-                                <a href="#">OLED 2025</a>
-                                <a href="#">The Frame</a>
-                                <a href="#">Loa thanh (Soundbar)</a>
-                            </div>
-                            <div className="mega-product-list">
-                                <div className="mega-product">
-                                    <img src="/images/TVUHD.avif" alt="TV"/>
-                                    <p>Crystal UHD 4K</p>
-                                </div>
-                                <div className="mega-product">
-                                    <img src="/images/loaQseries.jpg" alt="Loa"/>
-                                    <p>Loa Q-Series</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    
+    <div className="nav-item-group">
+        <Nav.Link as={NavLink} to="/category/tv" className="nav-item">TV & AV</Nav.Link>
+        <div className="mega-menu">
+            
+        </div>
+    </div>
 
-                <div className="nav-item-group">
-                    <a href="#" className="nav-item">Gia dụng</a>
-                    <div className="mega-menu">
-                        <div className="mega-content">
-                            <div className="mega-column">
-                                <h4>Thiết bị bếp</h4>
-                                <a href="#">Tủ lạnh Bespoke</a>
-                                <a href="#">Máy giặt thông minh</a>
-                                <a href="#">Máy hút bụi</a>
-                                <a href="#">Điều hòa không khí</a>
-                            </div>
-                            <div className="mega-product-list">
-                                <div className="mega-product">
-                                    <img src="/images/tulanh.jpg" alt="Fridge"/>
-                                    <p>Tủ lạnh Bespoke</p>
-                                </div>
-                                <div className="mega-product">
-                                    <img src="/images/maygiac.png" alt="Washer"/>
-                                    <p>Máy giặt AI EcoBubble</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </nav>
+ 
+    <div className="nav-item-group">
+        <Nav.Link as={NavLink} to="/category/gia-dung" className="nav-item">Gia dụng</Nav.Link>
+        <div className="mega-menu">
+             
+        </div>
+    </div>
+</nav>
 
            <div className="header-icons d-flex align-items-center gap-3">
                 <a href="#" className="icon-link text-decoration-none text-dark">

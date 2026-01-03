@@ -167,7 +167,7 @@ class ProductController extends Controller
                 'errors' => $validator->errors(),
             ]);
         } else {
-            // Find product by ma_san_pham (assuming that is what you are passing as ID)
+            
             $product = Product::where('ma_san_pham', $id)->first();
 
             if ($product) {
@@ -180,10 +180,10 @@ class ProductController extends Controller
                 $product->gia = $request->input('gia');
                 $product->so_luong_ton = $request->input('so_luong_ton');
                 
-                // Handle specs (array or json)
+               
                 $product->thong_so_ky_thuat = $request->input('thong_so_ky_thuat');
 
-                // Handle Image Update
+                
                 if ($request->hasFile('hinh_anh')) {
                     $path = $product->hinh_anh;
                     if(File::exists($path)) {
@@ -196,7 +196,7 @@ class ProductController extends Controller
                     $product->hinh_anh = 'uploads/product/' . $filename;
                 }
 
-                $product->update(); // or $product->save();
+                $product->update(); 
 
                 return response()->json([
                     'status' => 200,
@@ -210,4 +210,28 @@ class ProductController extends Controller
             }
         }
     }
+    public function getProductsByCategory($slug)
+{
+    
+    $category = DB::table('danhmuc')->where('slug', $slug)->first();
+
+   
+    if (!$category) {
+        $category = DB::table('danhmuc')->where('ten_danh_muc', 'like', '%' . str_replace('-', ' ', $slug) . '%')->first();
+    }
+
+    if ($category) {
+        $products = Product::where('ma_danh_muc', $category->ma_danh_muc)->get();
+        return response()->json([
+            'status' => 200,
+            'products' => $products,
+            'category' => $category
+        ]);
+    } else {
+        return response()->json([
+            'status' => 404,
+            'message' => 'Danh mục không tồn tại'
+        ]);
+    }
+}
 }
