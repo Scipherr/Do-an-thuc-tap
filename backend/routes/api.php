@@ -53,5 +53,6 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::put('update-product/{id}', [ProductController::class, 'update']);
     //AD_USER
     Route::get('admin/users', [UserController::class, 'index']);
+    Route::get('admin/user/{id}', [UserController::class, 'show']);
     Route::delete('admin/delete-user/{id}', [UserController::class, 'destroy']);
 });

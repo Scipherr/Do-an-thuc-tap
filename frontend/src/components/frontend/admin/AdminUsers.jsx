@@ -113,7 +113,7 @@ const AdminUsers = () => {
                                             {item.ngay_tao ? new Date(item.ngay_tao).toLocaleDateString('vi-VN') : 'N/A'}
                                         </td>
                                         <td className="py-3 text-end">
-                                            <Link to={`/admin/detailuser/${item.ma_nguoi_dung}`} className="btn btn-sm btn-primary text-white me-2">
+                                            <Link to={`/admin/user/${item.ma_nguoi_dung}`} className="btn btn-sm btn-primary text-white me-2">
                                                 Xem chi tiết
                                             </Link>
                                             <Link to={`/admin/edit-user/${item.ma_nguoi_dung}`} className="btn btn-sm btn-success text-white me-2">

@@ -20,6 +20,7 @@ import MyAccount from './components/frontend/user/MyAccount.jsx';
 import MyOrder from './components/frontend/user/DetailOrder.jsx'; 
 import CategoryPage from './components/frontend/CategoryPage.jsx'; 
 import Checkout from './components/frontend/Checkout.jsx';
+import UserDetail from './components/frontend/admin/UserDetail.jsx';
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
         <Route path="/admin/edit-product/:id" element={<EditProduct />} />
         <Route path="/admin/detail-product/:id" element={<DetailProduct />} />
         <Route path='/admin/users' element={<AdminUsers/>} />
+        <Route path="/admin/user/:id" element={<UserDetail />} />
         <Route path="/my-account" element={<MyAccount />} />
         <Route path="/my-order/:id" element={<MyOrder />} />
      </Routes>
