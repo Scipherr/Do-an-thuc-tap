@@ -49,7 +49,7 @@ const Cart = () => {
     };
 
     const deleteCartItem = (cart_id) => {
-        // Minimalist confirmation
+       
         Swal.fire({
             text: "Xóa sản phẩm này?",
             icon: 'warning',
@@ -182,7 +182,9 @@ const Cart = () => {
                                 </div>
 
                                 <button className="btn btn-dark w-100 py-3 rounded-pill fw-bold d-flex align-items-center justify-content-center gap-2">
-                                    Thanh toán <ArrowRight size={18} />
+                                    <Link to="/checkout" className="text-muted text-decoration-none small hover-underline">
+                                        Thanh toán
+                                    </Link>
                                 </button>
                                 
                                 <div className="mt-4 text-center">

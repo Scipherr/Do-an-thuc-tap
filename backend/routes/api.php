@@ -8,6 +8,7 @@ use App\Http\Controllers\AuthenticateController;
 use App\Http\Controllers\admin\OrderController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\CheckoutController;
 
 // ROUTE CHO PUBLIC 
 Route::post('/authenticate', [AuthenticateController::class, 'authenticate']);
@@ -26,7 +27,7 @@ Route::get('products/category/{id}', [ProductController::class, 'getProductsByCa
 Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('dashboard', [DasboardController::class,'index']);
     Route::get('logout', [AuthenticateController::class, 'logout']);
-    // ... rest of your routes ...
+    
     //USER
     Route::get('user-profile', [AuthenticateController::class, 'userProfile']);
     Route::get('my-orders', [OrderController::class, 'myOrders']);
@@ -42,6 +43,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('cart', [CartController::class, 'viewCart']);
     Route::put('cart-updatequantity/{cart_id}/{scope}', [CartController::class, 'updateQuantity']);
     Route::delete('delete-cartitem/{cart_id}', [CartController::class, 'deleteCartItem']);
+    Route::post('place-order', [CheckoutController::class, 'placeOrder']);
 
     //ADD PRODUCT
     Route::post('add-product', [ProductController::class, 'store']);
